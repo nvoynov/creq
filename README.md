@@ -132,7 +132,7 @@ Try creq commands on Promo project:
 
 #### Extend it yourself!
 
-You can and should extend standard CLI interface by your own commands. Just see example `creq.thor` file in the created project and add the necessary tasks. It is all Ruby code.
+You can and should extend standard CLI interface by your own commands. Just see example `<project>.thor` file in the created project and add the necessary tasks. It is all Ruby code.
 
 ## Development
 

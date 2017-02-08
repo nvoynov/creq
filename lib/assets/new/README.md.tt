@@ -1,0 +1,34 @@
+# <%=config[:project].capitalize%>
+
+TODO: Delete this paragraph body, and describe the <%=config[:project].capitalize%> project (stakeholders and users contacts, project servers, databases, etc.)
+
+Welcome to your new Creq project "<%=config[:project]%>"!
+
+Typical Creq project has the following directory structure:
+* doc/ - output documents folder;
+* doc/assets/ - output documents assets folder;
+* req/ - requirements folder;
+* lib/ - library folder;
+* tt/ - templates folder;
+* <%=config[:project]%>.thor - file with custom Thor tasks for your special needs;
+* README.md - this file.
+
+# Promo
+
+Creq is supplied by a promo project. This project contains software requirements to Creq itself, and You can copy it the current project directory by `Creq promo` command.
+
+When promo project is copied you can play with it through CLI. Just type few commands and see result.
+
+    $ creq chk
+    $ creq doc
+    $ creq req
+
+You can see all standard Creq commands list by `Creq help`.
+
+# Extend it yourself!
+
+Creq CLI s based on the Thor library and you can extend it according to your project specific needs. For this purpose the project provide file `<%=config[:project]%>.thor`.
+
+You can see all available thor commands by `thor list`; the specific commands to <%=config[:project]%> project by `thor list <%=config[:project]%>`; and help by specific command by `thor help <%=config[:project]%>:<command>`.
+
+Writing custom CLI for requirements repository is a work that simple enough. Creq provide one simple way to obtain the requirements repository tree by `requirements_repository` function. The function returns requirement tree through root Requirement object that provides Enumerable interface.

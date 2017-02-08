@@ -1,0 +1,31 @@
+The System shall provide the next functions of @@title entity management:
+* [[@@id.select]];
+* [[@@id.select.id]];
+* [[@@id.update]];
+* [[@@id.delete]].
+
+## [@@id.data] @@title data
+
+The System shall provide the following @@title entity structure.
+
+Name    | Type      | M | Default | Description
+:------ | --------- | - | ------- | :------------------------
+id      | Reference | Y |         | Unique @@title identifier (PK)
+title   | String    | Y |         | @@title tile
+field 1 | String    | N |         |
+
+## [@@id.select] @@title select list
+
+The system shall provide a function to select list of @title entities.
+
+## [@@id.select.id] @@title select entity
+
+The system shall provide a function to select single @title entity.
+
+## [@@id.update] @@title update
+
+The system shall provide a function to update @title entity.
+
+## [@@id.delete] @@title delete
+
+The system shall provide a function to delete @title entity.

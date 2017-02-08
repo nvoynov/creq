@@ -1,0 +1,32 @@
+The System shall provide the next functions of @@title entity management:
+* [[@@id.select]];
+* [[@@id.select.id]];
+* [[@@id.update]];
+* [[@@id.delete]].
+
+## [@@id.data] @@title data
+
+The System shall provide the following @@title entity structure.
+
+Name    | Type      | M | Default | Description
+:------ | --------- | - | ------- | :------------------------
+id      | Reference | Y |         | Unique @@title identifier (PK)
+title   | String    | Y |         | @@title tile
+field 1 | String    | N |         |
+field 2 | String    | N |         |
+
+## [@@id.select] @@title select list
+
+The system shall provide a function to select list of @title entities. The function shall accept the next input parameters __TBD__, and return list of @title entities from data storage according to structure described in [[@@id.data]].
+
+## [@@id.select.id] @@title select entity
+
+The system shall provide a function to select single @title entity. The function shall accept @@title.id as the single input parameter, and return @@title entity from data storage according to structure described in [[@@id.data]].
+
+## [@@id.update] @@title update
+
+The system shall provide a function to update @title entity. The function shall accept structure described in [[@@id.data]] as input parameter, update entity in data storage and return the result of update.
+
+## [@@id.delete] @@title delete
+
+The system shall provide a function to delete @title entity. The function shall accept @@title.id as the single input parameter, delete entity in data storage and return the result of delete.

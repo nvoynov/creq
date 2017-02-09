@@ -3,7 +3,7 @@
 parent: cli
 }}
 
-The System shall provide CLI command `req`. When `req` command received, the System shall create a well-formed Markdown file which represents `requirement entity` (see [[i.req.data]] and [[i.req.file]] for details).
+The System shall provide CLI command `req`. When `req` command received, the System shall create a well-formed Markdown file which represents `requirement entity` (see [[f.req.data]] and [[f.req.file]] for details).
 
 ## [cli.req.param] Parameters
 

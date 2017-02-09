@@ -13,7 +13,7 @@ Name       | Type   | M | Default | Description
 :--------- | ------ | - | ------- | :------------------------------
 project    | String | Y |         | a folder for create project
 
-## [cli.req.file.name.exist] Requirement file exists
+## [cli.new.dir.exist] Requirement file exists
 
 When directory with name input parameter `project` exist, the command `new` shall indicate the error message `Directory <project> already exists. Operation aborted.` and abort the command execution.
 

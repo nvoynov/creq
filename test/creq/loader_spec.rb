@@ -63,6 +63,16 @@ describe Loader do
         :r5 => [:file2, :file3]
       })
     end
+
+    it 'must find idents in requirements hierarhy' do
+      @repo[:file3].last << Requirement.new(id: :r1)
+      loader = Loader.load(@repo)
+      loader.nonuniq_ids.must_equal({
+        :r1 => [:file1, :file3],
+        :r3 => [:file1, :file2],
+        :r5 => [:file2, :file3]
+      })
+    end
   end
 
   describe '#wrong_parents' do

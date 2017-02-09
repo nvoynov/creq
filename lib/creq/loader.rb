@@ -89,7 +89,12 @@ module Creq
     # @param repo[Hash<FileName, Array<Requirement>>]
     # @return [Array<RequirementId>]
     def idents_array
-      @repo.values.inject([], :<<).flatten.map(&:id)
+      @repo.each_with_object([]) do |(k, v), h|
+        v.inject([]){|a, r| a << r.inject([], :<<)}
+          .flatten
+          .map(&:id)
+          .each{|id| h << id}
+      end
     end
 
     def fix_subordination!

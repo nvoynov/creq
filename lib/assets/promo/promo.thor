@@ -3,17 +3,15 @@ require 'creq'
 
 class Promo < Thor
   include Thor::Actions
+  include Creq
 
-  desc "priority", "Create priority.csv file"
-  def priority
-    doc = get_document
-    File.open('priority.csv', 'w') do |f|
-      f.write "id;title;risk;effort;priority\n"
-      doc.visit do |r|
-        f.write "#{r.id};#{r.title};low;low;low\n"
-      end
-    end
-    say "File 'priority.csv' created!"
+  desc "toc", "Table of contents"
+  def toc
+    say "-= #{Dir.pwd}: Contents =-"
+    requirements_repository
+      .inject([], :<<)
+      .tap {|a| a.delete_at(0)}
+      .each{|r| puts "#{'  ' * (r.level - 2)}[#{r.id}] #{r.title}"}
   end
 
 end

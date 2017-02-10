@@ -1,7 +1,7 @@
 # [r] CReq Requirements Specification
 {{suppress_id: true}}
 
-![Creq Promo Image](assets/creq.png)
+![Creq Promo Image](assets/promo.png)
 
 # [u] User requirements
 {{suppress_id: true}}

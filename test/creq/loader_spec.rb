@@ -3,6 +3,7 @@ require_relative '../test_helper'
 
 describe Loader do
 
+  # REWRITE before do to lel(:repo)?
   describe 'self#load' do
     before do
       @repo = {

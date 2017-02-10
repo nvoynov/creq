@@ -4,6 +4,8 @@ The CReq is a simple and customizable tool for requirements management. It provi
 
 The CReq is simple enough in itself, but when you combine it with Ruby, a modern text editor and Git, this combination will bring you unprecedented power and flexibility in requirements management.
 
+![Promo](lib/assets/promo/doc/assets/promo.png)
+
 ## Purpose
 
 Develop a simple and efficient approach for requirements management practice (gathering and writing; prioritizing and efforts estimation; tracing to other project artifacts) through exploring:

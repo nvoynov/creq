@@ -11,7 +11,6 @@ module Creq
       items
     end
 
-    # FIXME this approach crashes reading requirements with links
     def read_file(file_name)
       transform(extract(File.foreach(file_name)))
     end
@@ -64,7 +63,7 @@ module Creq
         pair = /\s?(\w*):\s*(.*)/.match(i)
         h.merge({pair[1].to_sym => pair[2]})
       end
-    rescue Exception => e
+    rescue StandardError => e
       puts "parse_attributes error during parse attributes text(#{e.message}):\n#{text}"
     end
 

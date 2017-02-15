@@ -4,5 +4,5 @@ rvm:
   - 2.2.4
 before_install:
   - gem install bundler -v 1.13.6
-  - git config user.email "nvoynov@gmail.com"
-  - git config user.name "Nikolay Voynov"
+  - git config --global user.email "nvoynov@gmail.com"
+  - git config --global user.name "Nikolay Voynov"

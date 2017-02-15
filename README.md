@@ -1,5 +1,7 @@
 # Creq
 
+[![Build Status](https://travis-ci.org/nvoynov/creq.svg?branch=master)](https://travis-ci.org/nvoynov/creq)
+
 The CReq is a simple and customizable tool for requirements management. It provides ability of writing requirements in isolated markdown files and combining those files into a single and consistent requirements specification document.
 
 The CReq is simple enough in itself, but when you combine it with Ruby, a modern text editor and Git, this combination will bring you unprecedented power and flexibility in requirements management.

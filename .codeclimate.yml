@@ -1,8 +1,20 @@
-JavaScript: false
-Ruby: true
-Python: false
-PHP: false
-
+engines:
+  rubocop:
+    enabled: true
+    #checks:
+    #	Rubocop/Metrics/ClassLength:
+    #  	enabled: false
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - ruby:
+          mass_threshold: 30
+ratings:
+  paths:
+  - lib/**
+  - "**.rb"
 exclude_paths:
-  - lib/assets/**/*
-  - test/**/*
+exclude_paths:
+- lib/assets/**/*
+- test/**/*

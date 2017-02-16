@@ -37,7 +37,7 @@ module Creq
           when 4 then reqs.last.items.last.items.last << r
           else puts "transform: cannot transform deeper than 4th level for #{r.id}."
           end
-        rescue StandardError => e
+        rescue StandardError
           puts "transform: cannot find parent for #{r.id}"
         end
       end

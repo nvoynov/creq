@@ -25,7 +25,7 @@ module Creq
     # FIXME erros with deeper than 2 levels hierarhy
     def wrong_links
       @link_repo
-        .select{|k, v| !@reqs_repo.keys.include?(k)}
+        .select{|k, _| !@reqs_repo.keys.include?(k)}
         .inject({}){|h, (l, ids)|
            src = ids.inject([], :<<).flatten
              .map{|r| @reqs_repo[r]}.flatten
@@ -89,7 +89,7 @@ module Creq
     # @param repo[Hash<FileName, Array<Requirement>>]
     # @return [Array<RequirementId>]
     def idents_array
-      @repo.each_with_object([]) do |(k, v), h|
+      @repo.values.each_with_object([]) do |v, h|
         v.inject([]){|a, r| a << r.inject([], :<<)}
           .flatten
           .map(&:id)

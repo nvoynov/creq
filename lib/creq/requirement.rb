@@ -23,15 +23,15 @@ module Creq
       @title = options[:title] || ''
       @body  = options[:body]  || ''
       @attributes = options
-        .select{|k, v| ![:id, :title, :body].include?(k)}
+        .select{|k, _| ![:id, :title, :body].include?(k)}
     end
 
     def system_attributes
-      @attributes.select{|k, v| SYSTEM_ATTRS.include?(k)}
+      @attributes.select{|k, _| SYSTEM_ATTRS.include?(k)}
     end
 
     def user_attributes
-      @attributes.select{|k, v| !SYSTEM_ATTRS.include?(k)}
+      @attributes.select{|k, _| !SYSTEM_ATTRS.include?(k)}
     end
 
     def parent_id

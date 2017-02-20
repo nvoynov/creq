@@ -1,8 +1,8 @@
 require 'thor'
 require 'creq'
-require 'ruby-graphviz'
+require_relative 'lib\ruby\graphviz_builder'
 
-class Promo < Thor
+class Trace_promo < Thor
   include Thor::Actions
   include Creq
 
@@ -15,36 +15,21 @@ class Promo < Thor
       .each{|r| puts "#{'  ' * (r.level - 2)}[#{r.id}] #{r.title}"}
   end
 
-  desc "viz", "Draw a graph"
-  def viz
-    say "Draw requirements graph..."
-    repo = requirements_repository
-    GraphViz.new(:G) do |g|
-      repo.each do |r|
-        next if r.root?
-        g.add_node(r.id)
-        g.add_edge(r.id, r.parent.id) unless r.parent.root?
-      end
-    end.output(png: 'graph.png')
+  desc "graph [ID]", "Draw a requirements graph"
+  def graph(id = '')
+    g = GraphVizBuilder.build(id)
+    unless g
+      say "Nothing to draw!"
+      say "Requirement [#{id}] not found." unless id.empty?
+      return
+    end
+    g.output(png: id.empty? ? 'graph.png' : "#{id}.graph.png")
   end
 
-  desc "cviz", "Draw a clustered attribute `clustered` "
-  def cviz
-    repo = requirements_repository
-    GraphViz.new( :G ) { |g|
-      index = 0
-      repo.select{|r| r[:cluster]}.each{|cls|
-        g.public_send("cluster_#{index.to_s}") {|c|
-          index += 1;
-          c[:rank => "same", style: :dashed, label: cls.title]
-          c[:color => :white] if index.odd?
-          cls.each{|n|
-            c.add_node(n.id);
-            c.add_edge(n.id, n.parent.id) unless n == cls
-          }
-        }
-      }
-    }.output(png: "graph_cluster.png")
+  desc "graphc", "Draw a clustered graph"
+  def graphc
+    g = GraphVizBuilder.build_clustered
+    g.output(png: 'graph_clustered.png')
   end
 
 end

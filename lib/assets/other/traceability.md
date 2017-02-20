@@ -1,11 +1,8 @@
 basen on BABOK?
 
-# Requiements attributes
+# Requirements attributes
 
-While eliciting requirements, business analysts elicit requirement attributes. Information such as
-* the requirement’s source,
-* priority,
-* and complexity aid in managing each requirement throughout the life cycle.
+While eliciting requirements, business analysts elicit requirement attributes. Information such as `the requirement’s source`, `priority`, and `complexity` aid in managing each requirement throughout the life cycle.
 
 Some attributes change as the business analyst uncovers more information and conducts further analysis. An attribute may change even though the requirement does not.
 

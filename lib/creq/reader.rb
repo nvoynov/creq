@@ -3,6 +3,10 @@ require_relative 'requirement'
 
 module Creq
   # TODO transform to class
+  # TODO split to?:
+  # * parsing requirement text,
+  # * translating into requirements,
+  # * buiding hierarhy.
   module Reader
 
     def read_directory
@@ -38,7 +42,8 @@ module Creq
           else puts "transform: cannot transform deeper than 4th level for #{r.id}."
           end
         rescue StandardError
-          puts "transform: cannot find parent for #{r.id}"
+          puts "transform: cannot find parent for #{r.id}; it placed to root."
+          reqs << r
         end
       end
       reqs

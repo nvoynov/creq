@@ -1,6 +1,8 @@
 require_relative "creq/version"
 require_relative "creq/tree_node"
 require_relative "creq/requirement"
+require_relative "creq/parser"
+require_relative "creq/file_reader"
 require_relative "creq/loader"
 require_relative "helper"
 require_relative "cli"

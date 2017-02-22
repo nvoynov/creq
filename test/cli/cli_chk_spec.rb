@@ -15,8 +15,7 @@ describe "creq chk" do
         Cli.start [cmd]
       }.tap{|o|
         o.must_output /\[\[req.x\]\]/
-        o.must_output /in requirements \[req.1\], \[req.2\], \[req.3\]/
-        o.must_output /in files: 'req.1.md', 'req.2.md', 'req.3.md'/
+        o.must_output /in \[req.1\], \[req.2\], \[req.3\]/
       }
     end
   end
@@ -31,7 +30,7 @@ describe "creq chk" do
       proc {
         Cli.start [cmd]
       }.tap{|o|
-        o.must_output /\[req.3\] \{\{parent: ur\}\}/
+        o.must_output /\[ur\] for \[req.3\] in req.3.md/
       }
     end
   end
@@ -46,7 +45,7 @@ describe "creq chk" do
       proc {
         Cli.start [cmd]
       }.tap{|o|
-        o.must_output /\[req.2\] in files 'req.2.md', 'req.3.md'/
+        o.must_output /\[req.2\] in req.2.md, req.3.md/
       }
     end
   end

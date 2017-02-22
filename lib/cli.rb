@@ -87,7 +87,7 @@ module Creq
       end
       result.each do |k, v|
         case k
-        when :nonuniq_id
+        when :duplicate_id
           puts "\nFound non-unique requirements identifiers:"
         when :wrong_links
           puts "\nFound requirements links that does not exist in repository:"

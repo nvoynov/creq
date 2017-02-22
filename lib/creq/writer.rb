@@ -33,7 +33,7 @@ module Creq
     def title(r)
       t = []
       t << '#' * r.level
-      t << "[#{r.id}]" unless r[:suppress_id] || r.level.eql?(0)
+      t << "[#{r.id}]" unless r[:suppress_id]
       t << r.title
       t.join(' ')
     end
@@ -107,8 +107,8 @@ module Creq
 
       def title(r)
         t = []
-        t << '#' * (r.level - 1)
-        t << "[#{r.id}]" unless r[:suppress_id] || r.level.eql?(0)
+        t << '#' * r.level
+        t << "[#{r.id}]" unless r[:suppress_id]
         t << r.title
         t.join(' ')
       end

@@ -1,94 +1,79 @@
 # encoding: UTF-8
-require_relative 'requirement'
+
+require_relative 'parser'
 
 module Creq
-  # TODO transform to class
-  # TODO split to?:
-  # * parsing requirement text,
-  # * translating into requirements,
-  # * buiding hierarhy.
-  module Reader
 
-    def read_directory
-      items = {}
-      Dir.glob('**/*.md') {|f| items[f] = read_file(f)}
-      items
+  class Reader
+
+    def self.read(file_name)
+      reader = new(file_name)
+      reader.read
     end
 
-    def read_file(file_name)
-      transform(extract(File.foreach(file_name)))
-    end
-
-    # TODO: retrive Requirement instead of Array?
-    def transform(text_items)
-      reqs = []
-      text_items.each do |text|
-        r = nil
-        l = 0
-        begin
-          r = parse_requirement(text)
-          l = md_header_level(text)
-        rescue StandardError => e
-          puts "parse_requirement: parsing error for #{text}.\n" + e.message
-          raise e
-        end
-
-        begin
-          case l
-          when 1 then reqs << r
-          when 2 then reqs.last << r
-          when 3 then reqs.last.items.last << r
-          when 4 then reqs.last.items.last.items.last << r
-          else puts "transform: cannot transform deeper than 4th level for #{r.id}."
-          end
-        rescue StandardError
-          puts "transform: cannot find parent for #{r.id}; it placed to root."
-          reqs << r
+    # @return [Hash<file_name, Hash<Array<Req>, Array<Errors>>]
+    def self.read_repo(repository = '**/*.md')
+      reader = new('repo')
+      {}.tap do |repo|
+        Dir.glob(repository) do |f|
+          reqs, errs = reader.read(File.foreach(f))
+          # TODO write errors to console and forget?
+          repo[f] = { reqary: reqs, errary: errs }
         end
       end
-      reqs
     end
 
-    def md_header_level(text)
-      9.downto(1){|l| return l if text.start_with?('#' * l)}
-      return 0
-    end
+    # @return [Array<Requirement>, Array<String>] array of requirements and array of errors
+    def read(enumerator = File.foreach(@file_name))
+      reqary, errors = [], []
+      each_req_text(enumerator) do |txt|
+        req, lev, err = Parser.parse(txt)
+        unless req
+          errors << err
+          next
+        end
 
-    def parse_requirement(text)
-      regxp = /^\#+ \[([^\[\]\s]*)\] ([\s\S]*?)\n({{([\s\S]*?)}})?(.*)$/m
-      parts = regxp.match(text)
-      id, title, body = parts[1], parts[2], parts[5]
-      attrs = parse_attributes(parts[4]) if parts[4]
-      attrs ||= {}
-      Requirement.new(attrs.merge({id: id, title: title, body: body.strip}))
-    end
+        if lev == 1
+          reqary << req
+          next
+        end
 
-    def parse_attributes(text)
-      text.strip.split(/[,\n]/).inject({}) do |h, i|
-        pair = /\s?(\w*):\s*(.*)/.match(i)
-        h.merge({pair[1].to_sym => pair[2]})
+        parent = reqary.last
+        parent = parent.last while parent.last && (parent.level < (lev - 1))
+
+        if parent.level == (lev - 1)
+          parent << req
+        else
+          reqary << req
+          errors << "Hierarhy error:\n#{req.id}"
+        end
       end
-    rescue StandardError => e
-      puts "parse_attributes error during parse attributes text(#{e.message}):\n#{text}"
+
+      [reqary, errors]
     end
 
-    def extract(enumerator)
+    protected
+
+    def initialize(file_name)
+      @file_name = file_name
+    end
+
+    def each_req_text(enumerator, &block)
       quote = false
-      reqs = []
       body = ''
       enumerator.each do |line|
         if line.start_with?('#') && !quote
           unless body.empty?
-            reqs << body
+            block.call(body)
             body = ''
           end
         end
         body << line
         quote = !quote if line.start_with?('```')
       end
-      reqs << body
-      reqs
+      block.call(body)
     end
 
   end
+
 end

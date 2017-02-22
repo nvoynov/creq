@@ -3,10 +3,10 @@
 require_relative 'creq/reader'
 require_relative 'creq/writer'
 require_relative 'creq/requirement'
+require_relative 'creq/repository'
 
 module Creq
   module Helper
-    include Reader
 
     def initialize_project(dir = Dir.pwd)
       Dir.chdir(dir){
@@ -25,7 +25,7 @@ module Creq
     end
 
     def requirements_repository
-      inside_req { Loader.load.root }
+      inside_req { Repository.load }
     end
 
     def create_req(params)
@@ -54,7 +54,7 @@ module Creq
     end
 
     def create_doc(file_name = 'requirements.md')
-      req = inside_req { Loader.load.root }
+      req = inside_req { Repository.load }
       inside_doc {
         open(file_name, 'w') {|f|
           FinalDocWriter.write(req, f)
@@ -64,38 +64,17 @@ module Creq
 
     def check_repo
       errors = {}
-      repo = inside_req { Loader.load }
-      nonuniq_ids = repo.nonuniq_ids
-      wrong_links = repo.wrong_links
-      wrong_parents = repo.wrong_parents
+      repo = inside_req { Repository.load }
+      {}.tap do |err|
+        repo.duplicate_ids.tap {|dup|
+          err.merge!({duplicate_ids: dup}) unless dup.empty? }
 
-      unless nonuniq_ids.empty?
-        # id, [file]
-        errors[:nonuniq_id] = []
-        nonuniq_ids.each{|k, v|
-          fa = v.map{|f| "'" + f + "'"}
-          errors[:nonuniq_id] << "- [#{k}] in files #{fa.join(', ')}"
-        }
+        repo.wrong_parents.tap {|wrp|
+          err.merge!({wrong_parents: wrp}) unless wrp.empty? }
+
+        repo.wrong_links.tap {|wrl|
+          err.merge!({wrong_links: wrl}) unless wrl.empty? }
       end
-
-      unless wrong_links.empty?
-        errors[:wrong_links] = []
-        wrong_links.each {|k, v|
-          reqs = v[:requirements].map{|i| "[#{i}]"}.join(", ")
-          files = v[:files].map{|i| "'#{i}'"}.join(", ")
-          errors[:wrong_links] << "- [[#{k}]] in requirements #{reqs} (in files: #{files})"
-        }
-      end
-
-      unless wrong_parents.empty?
-        # puts "Found 'parent' attribute values pointing to requirement that does not exist in repository:"
-        errors[:wrong_parents] = []
-        wrong_parents
-          .inject({}){|h, r| h.merge!(r.id => r[:parent])}
-          .each{|k, v| errors[:wrong_parents] << "- [#{k}] {{parent: #{v}}}"}
-      end
-
-      errors
     end
 
     DOC = 'doc'

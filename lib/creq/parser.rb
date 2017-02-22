@@ -1,6 +1,5 @@
 # encoding: UTF-8
 
-require 'pp'
 require_relative 'requirement'
 
 module Creq

@@ -63,7 +63,6 @@ module Creq
     end
 
     def check_repo
-      errors = {}
       repo = inside_req { Repository.load }
       {}.tap do |err|
         repo.duplicate_ids.tap {|dup|

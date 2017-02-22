@@ -76,9 +76,7 @@ module Creq
       items.each { |node| node.each(&block) }
     end
 
-    protected
-
-      SYSTEM_ATTRS = [:parent, :suppress_id, :child_order]
+    SYSTEM_ATTRS = [:parent, :suppress_id, :child_order]
 
   end
 

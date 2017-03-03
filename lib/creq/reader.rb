@@ -16,8 +16,10 @@ module Creq
       reader = new('repo')
       {}.tap do |repo|
         Dir.glob(repository) do |f|
+          print "Reading #{f}..."
           reqs, errs = reader.read(File.foreach(f))
-          # TODO write errors to console and forget?
+          msg = errs.empty? ? "OK!" : "#{errs.size} errors found\n#{errs.join("\n")}"
+          puts msg
           repo[f] = { reqary: reqs, errary: errs }
         end
       end

@@ -49,4 +49,26 @@ There is another requirement body
     errs.must_include "Hierarhy error:\nid.1.3"
   end
 
+  describe 'self#read_repo' do
+    it 'must print progress information' do
+      inside_sandbox do
+        inside_req do
+          File.write('req.1.md', "# [req.1] req 1")
+          File.write('req.2.md', "# [req.2] req 2")
+          File.write('req.e.md', "# [req.e] req err\n{{source}}\n")
+          # Reader.read_repo
+          proc {
+            Reader.read_repo
+          }.tap{|o|
+            o.must_output /Reading req.1.md...OK!/
+            o.must_output /Reading req.2.md...OK!/
+            o.must_output /Reading req.e.md...1 errors found/
+            o.must_output /\[req.e\] attributes format error:/
+            o.must_output /{{source}}/
+          }
+        end
+      end
+    end
+  end
+
 end

@@ -13,6 +13,7 @@ module Creq
       level, id, title, body = parts[1], parts[2], parts[3], parts[6] || ""
       attrs, error = parse_attributes(parts[5]) if parts[5]
       attrs ||= {}
+      error = "[#{id}] " + error if error && !error.empty?
       attrs.merge!({id: id, title: title.strip, body: body.strip})
       [Requirement.new(attrs), level.size, error || ""]
     end
@@ -20,12 +21,12 @@ module Creq
     def self.parse_attributes(text)
       attrs = text.strip.split(/[,\n]/).inject({}) do |h, i|
         pair = /\s?(\w*):\s*(.*)/.match(i)
-        return [{}, "Attributes format error:\n{{#{text}}}"] unless pair
+        return [{}, "attributes format error:\n{{#{text}}}"] unless pair
         h.merge({pair[1].to_sym => pair[2]})
       end
       [attrs, ""]
     rescue StandardError => e
-      [{}, "Attributes parsing error #{e.message}\n#{text}"]
+      [{}, "attributes parsing error #{e.message}\n#{text}"]
     end
   end
 end

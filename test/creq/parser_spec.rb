@@ -28,7 +28,7 @@ describe Parser do
 
     it 'must return format error' do
       Parser.parse_attributes("a").must_equal(
-        [{}, "Attributes format error:\n{{a}}"])
+        [{}, "attributes format error:\n{{a}}"])
     end
   end
 
@@ -96,7 +96,7 @@ describe Parser do
       req.title.must_equal "wrong attrs"
       req.attributes.must_equal({})
       lev.must_equal 1
-      err.must_equal "Attributes format error:\n{{valid}}"
+      err.must_equal "[id] attributes format error:\n{{valid}}"
     end
 
   end

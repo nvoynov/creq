@@ -30,10 +30,8 @@ module Creq
       reqary, errors = [], []
       each_req_text(enumerator) do |txt|
         req, lev, err = Parser.parse(txt)
-        unless req
-          errors << err
-          next
-        end
+        errors << err unless err.empty?
+        next unless req        
 
         if lev == 1
           reqary << req

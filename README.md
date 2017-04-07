@@ -19,7 +19,7 @@ Develop a simple and efficient approach for requirements management practice (ga
 
 ## Installation
 
-Install the minireq gem:
+Install the creq gem:
 
     $ gem install creq
 
@@ -106,12 +106,12 @@ The Creq will parse two files displayed above and build the next requirements tr
 
 Creq can check requirements repository for duplicate requirement ids and wrong links. To demonstrate these features, run the next commands (I hope you already have `content.md` and `feature.md` files) and see the output.
 
-    $ cp reqs/feature1.md reqs/feature2.md
+    $ cp req/feature1.md req/feature2.md
     $ creq chk
 
 #### Create requirements document
 
-Fix the errors by providing unique ids in `reqs/feature.2md`, then run `minireq doc`...
+Fix the errors by providing unique ids in `req/feature.2md`, then run `creq doc`...
 
 ### CLI
 
@@ -122,19 +122,19 @@ Creq provide five essential commands:
 * chk - check requirement repository consistence;
 * doc - combine all requirements into single document.
 
-You can see all available commands through `minireq help` command, and you can get help by certain command by `minireq help <command>` command.
+You can see all available commands through `creq help` command, and you can get help by certain command by `creq help <command>` command.
 
-To start using Minireq just create a new project:
+To start using creq just create a new project:
 
     $ creq new myproject
     $ cd myproject
 
 Try creq commands on Promo project:
 
-    $ minireq promo
-    $ minireq req
-    $ minireq chk
-    $ minireq doc
+    $ creq promo
+    $ creq req
+    $ creq chk
+    $ creq doc
 
 #### Extend it yourself!
 

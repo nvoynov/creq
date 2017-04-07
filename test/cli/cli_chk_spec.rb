@@ -14,6 +14,7 @@ describe "creq chk" do
       proc {
         Cli.start [cmd]
       }.tap{|o|
+        o.must_output /Found requirements links that does not exist/
         o.must_output /\[\[req.x\]\]/
         o.must_output /in \[req.1\], \[req.2\], \[req.3\]/
       }
@@ -30,7 +31,19 @@ describe "creq chk" do
       proc {
         Cli.start [cmd]
       }.tap{|o|
+        o.must_output /Found 'parent' attribute values pointing to/
         o.must_output /\[ur\] for \[req.3\] in req.3.md/
+      }
+    end
+  end
+
+  it 'must check wrong first file header level' do
+    inside_sandbox do
+      inside_req { File.write('req.1.md', "## [req.1] req 1\n") }
+      proc {
+        Cli.start [cmd]
+      }.tap{|o|
+        o.must_output /Wrong first header level found \[req.1\]/
       }
     end
   end
@@ -45,6 +58,7 @@ describe "creq chk" do
       proc {
         Cli.start [cmd]
       }.tap{|o|
+        o.must_output /Found non-unique requirements identifiers:/
         o.must_output /\[req.2\] in req.2.md, req.3.md/
       }
     end

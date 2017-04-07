@@ -31,10 +31,16 @@ module Creq
       each_req_text(enumerator) do |txt|
         req, lev, err = Parser.parse(txt)
         errors << err unless err.empty?
-        next unless req        
+        next unless req
 
         if lev == 1
           reqary << req
+          next
+        end
+
+        if reqary.empty?
+          reqary << req
+          errors << "Wrong first header level found [#{req.id}]"
           next
         end
 
@@ -45,7 +51,7 @@ module Creq
           parent << req
         else
           reqary << req
-          errors << "Hierarhy error:\n#{req.id}"
+          errors << "Hierarhy error: [#{req.id}]"
         end
       end
 

@@ -45,8 +45,8 @@ There is another requirement body
 ### [id.1.3] title 1 3)
     reqs, errs = SpecReader.read_enumerator(content.each_line)
     reqs.size.must_equal 3
-    errs.must_include "Hierarhy error:\nid.wrong.5"
-    errs.must_include "Hierarhy error:\nid.1.3"
+    errs.must_include "Hierarhy error: [id.wrong.5]"
+    errs.must_include "Hierarhy error: [id.1.3]"
   end
 
   describe 'self#read_repo' do

@@ -73,6 +73,9 @@ module Creq
 
         repo.wrong_links.tap {|wrl|
           err.merge!({wrong_links: wrl}) unless wrl.empty? }
+
+        repo.wrong_child_order.tap {|wrc|
+          err.merge!({wrong_childs: wrc}) unless wrc.empty? }
       end
     end
 

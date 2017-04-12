@@ -135,4 +135,41 @@ I also have a [[fa]] - wrong link
     end
   end
 
+  # TODO refactor test by get_repo_from
+  def get_repo_from(txt)
+    reqs, errs = SpecFileReader.read_enumerator(StringIO.new(txt).each_line)
+    Repository.load({ 'get_repo_from.md' => {reqary: reqs, errary: errs}})
+  end
+
+  describe '#wrong_child_order' do
+
+    it 'must return [] if errors does not found' do
+      content = %(# [w] Func W
+{{child_order: w1 w2}}
+I have right child_order
+## [w1] w1
+## [w2] w2
+)
+      repo = get_repo_from(content)
+      repo.wrong_child_order.must_equal []
+    end
+
+    it 'must return [errors] if errors are found' do
+      content = %(# [w] Func W
+{{child_order: w1 w2}}
+I have wrong child_order attribute with w1 and w2
+)
+      repo = get_repo_from(content)
+      repo.wrong_child_order.must_equal ["[w1, w2] for [w] don't exist"]
+
+      content = %(# [w] Func W
+{{child_order: w1 w2}}
+I have wrong child_order attribute with w1
+## [w2] w2
+)
+      repo = get_repo_from(content)
+      repo.wrong_child_order.must_equal ["[w1] for [w] don't exist"]
+    end
+  end
+
 end

@@ -87,6 +87,12 @@ The next three attributes are **system attributes** and they influence to Creq b
 
 All other attributes (`status`, `source`) are **user attributes** and do not influence to Creq behavior. These attributes are just held in requirements attributes hash.
 
+#### Link macro
+
+You can place link to another requirement in requirements body by writing macros `[[requirement.id]]`. This macro will produce full-fledged markdown link `[[<id>] <title>](#<id>)` in output document produced by `doc` command. If requirement with `id` does not exist, Creq will produce something like `[id](#unknown)`.
+
+There is a "feature" in current release than Creq will make a replacement for all occurrences of macro `[[id]]`, even if the occurrence is in markdown quotes.
+
 #### Requirements tree
 
 The Creq will parse two files displayed above and build the next requirements tree:
@@ -104,7 +110,7 @@ The Creq will parse two files displayed above and build the next requirements tr
 
 #### Check errors
 
-Creq can check requirements repository for duplicate requirement ids and wrong links. To demonstrate these features, run the next commands (I hope you already have `content.md` and `feature.md` files) and see the output.
+Creq can check requirements repository for duplicate requirement ids; wrong links, parents and child_order attribute. To quickly see this feature in action, run the next commands (I hope you already have `content.md` and `feature.md` files) and see the output.
 
     $ cp req/feature1.md req/feature2.md
     $ creq chk

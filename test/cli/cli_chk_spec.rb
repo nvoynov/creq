@@ -64,4 +64,18 @@ describe "creq chk" do
     end
   end
 
+  it 'must check repo for wrong child_order attribute' do
+    inside_sandbox do
+      inside_req do
+        File.write('req.1.md', "# [r] r\n{{child_order: r1 r2}}")
+      end
+      proc {
+        Cli.start [cmd]
+      }.tap{|o|
+        o.must_output /Found wrong 'child_order' attributes:/
+        o.must_output /\[r1, r2\] for \[r\] don't exist/
+      }
+    end
+  end
+
 end

@@ -82,6 +82,18 @@ module Creq
       end
     end
 
+    # TODO separated Checker class?
+    def wrong_child_order
+      msg = "[%s] for [%s] don't exist"
+      err = []
+      @items.select{|r| r[:child_order] }.each do |r|
+        childs = r[:child_order].split(/ /)
+        wrongs = childs.select{|c| r.item(c).nil? }
+        err << msg % [wrongs.join(', '), r.id] unless wrongs.empty?
+      end
+      err
+    end
+
   end
 
 end

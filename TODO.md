@@ -1,7 +1,3 @@
-# Fixme
-
-* Print duplicate requirement errors during `chk` and `doc` commands.
-
 # Promo based Tracing
 
 * functional requirements attribute `derived_by` and reference to user story;
@@ -14,15 +10,14 @@
 
 ## Sources
 
-* Add new check to `chk` command; check `child_order` attribute for wrong order (items that does not exist, items count more or less than `child_order` value).
-* Fix errors with links macro in markdown quotes... or say about this "feature" in README.md
+* Fix errors with links macro in markdown quotes
 * Add graphviz macros for drawing
 
 # Promo
 
 ## Content
 
-* Add readme section with few examples with adding requirements with errors (duplicate id, wrong links, wrong sort order, wrong parents).
+* Add readme section with few examples with adding requirements with errors (duplicate id, wrong links, wrong child order and wrong parents).
 
 ## Library
 

@@ -93,6 +93,8 @@ module Creq
           puts "\nFound requirements links that does not exist in repository:"
         when :wrong_parents
           puts "\nFound 'parent' attribute values pointing to requirement that does not exist in repository:"
+        when :wrong_childs
+          puts "\nFound wrong 'child_order' attributes:"
         end
         puts v.join("\n")
       end

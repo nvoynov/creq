@@ -3,14 +3,13 @@
 * functional requirements attribute `derived_by` and reference to user story;
 * GraphViz of two subgraph - user stories and functional requirements with traces by `derived_by` attribute;
 * think about other [trace types](lib/assets/other/taceability.md):
-  * Creq source file *statisfy* functional requirement;
+  * Creq source file *satisfy* functional requirement;
   * Creq spec file *validate* functional requirement.
 
 # Creq
 
 ## Sources
 
-* Fix errors with links macro in markdown quotes
 * Add graphviz macros for drawing
 
 # Promo

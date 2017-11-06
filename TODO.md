@@ -11,7 +11,7 @@
 ## Sources
 
 * Handle headers without identifiers and auto-generated identifiers
-* Handle leading dots in identifiers, [.end.of.id]
+* Introduced! Handle leading dots in identifiers, [.end.of.id]
 * Provide custom DocWriter class for documents generation
 * Adding `id-to-attributes` document generation options, when title will be generated without id and id will be added to attributes table.
 * `creq serve` command

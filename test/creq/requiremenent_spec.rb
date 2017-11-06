@@ -24,6 +24,25 @@ describe Requirement do
 
   end
 
+  describe '#id' do
+
+    let(:requirement_tree) {
+      r = Requirement.new(id: "r")
+      r << Requirement.new(id: "r.1")
+      r << Requirement.new(id: ".2")
+      r
+    }
+
+    it 'must return #id when it does not start wiht dot' do
+      requirement_tree.items.first.id.must_equal 'r.1'
+    end
+
+    it 'must return #parent.id + #id when it starts from dot' do
+      requirement_tree.items.last.id.must_equal 'r.2'
+    end
+
+  end
+
   describe '#attributes' do
 
     before do

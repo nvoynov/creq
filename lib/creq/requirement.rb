@@ -34,6 +34,10 @@ module Creq
       @attributes.select{|k, _| !SYSTEM_ATTRS.include?(k)}
     end
 
+    def id
+      @id.to_s.start_with?('.') ? @parent.id + @id : @id
+    end
+
     def parent_id
       return @parent.id if @parent
       @attributes[:parent]

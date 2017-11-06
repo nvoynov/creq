@@ -33,6 +33,12 @@ describe Requirement do
       r
     }
 
+    let(:first_with_dot) { Requirement.new(id: ".r") }
+
+    it 'must ignore dot in root requirement' do
+      first_with_dot.id.must_equal ".r"
+    end
+
     it 'must return #id when it does not start wiht dot' do
       requirement_tree.items.first.id.must_equal 'r.1'
     end

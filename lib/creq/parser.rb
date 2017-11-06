@@ -7,11 +7,11 @@ module Creq
 
     def self.parse(text)
       text += "\n" unless text.end_with?("\n")
-      regxp = /^(\#+)[ ]*\[([^\[\]\s]*)\][ ]*([\s\S]*?)\n({{([\s\S]*?)}})?(.*)$/m
+      regxp = /^(\#+)[ ]*(\[([^\[\]\s]*)\][ ]*)?([\s\S]*?)\n({{([\s\S]*?)}})?(.*)$/m
       parts = regxp.match(text)
       return nil, nil, "Requirement format error:\n#{text}" unless parts
-      level, id, title, body = parts[1], parts[2], parts[3], parts[6] || ""
-      attrs, error = parse_attributes(parts[5]) if parts[5]
+      level, id, title, body = parts[1], parts[3], parts[4], parts[7] || ""
+      attrs, error = parse_attributes(parts[6]) if parts[6]
       attrs ||= {}
       error = "[#{id}] " + error if error && !error.empty?
       attrs.merge!({id: id, title: title.strip, body: body.strip})

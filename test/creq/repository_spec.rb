@@ -45,8 +45,33 @@ describe Repository do
     end
   end
 
+  def build_stringIO_repo(strings)
+    reqs, errs = SpecFileReader.read_enumerator(strings.each_line)
+    {'stringIO' => {reqary: reqs, errary: errs}}
+  end
+
   def debug_print(repo)
     repo.each{|r| puts "#{' '*r.level} [#{r.id}] #{r.title}"}
+  end
+
+  describe '#generate_missing_ids' do
+    let(:contents) {
+      StringIO.new %(# [h1] first header
+## [h1.1] first sub header
+## [h1.2] second sub header
+## third sub header
+### third level header
+# second header
+)
+    }
+
+    it 'must aute generate ids when it not provided' do
+      repo = Repository.load(build_stringIO_repo(contents))
+      repo.first.id.must_equal 'h1'
+      repo.first.last.id.must_equal 'h1.01'
+      repo.first.last.title.must_equal 'third sub header'
+      repo.last.id.must_equal '01'
+    end
   end
 
   describe 'self#load' do

@@ -35,7 +35,7 @@ module Creq
     end
 
     def id
-      @id.to_s.start_with?('.') ? @parent.id + @id : @id
+      @id.to_s.start_with?('.') && @parent ? @parent.id + @id : @id
     end
 
     def parent_id
@@ -81,6 +81,12 @@ module Creq
     end
 
     SYSTEM_ATTRS = [:parent, :suppress_id, :child_order]
+
+    protected
+
+      def id=(id)
+        @id = id
+      end
 
   end
 

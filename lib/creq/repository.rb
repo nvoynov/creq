@@ -28,6 +28,19 @@ module Creq
         end
       end
       subordinate!
+      generate_missing_ids
+    end
+
+    def generate_missing_ids
+      # if some requirements have no id they must be generated XX, XX.YY, XX.YY.ZZZ
+      counter = {}
+      select{|r| r.id.nil?}.each do |r|
+        index = counter[r.parent_id] || 1
+        counter[r.parent_id] = index + 1
+        id = index.to_s.rjust(2, "0")
+        id = '.' + id if r.parent
+        r.id = id
+      end
     end
 
     def subordinate!

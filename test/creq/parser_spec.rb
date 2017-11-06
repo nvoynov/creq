@@ -81,13 +81,15 @@ describe Parser do
       err.must_equal "Requirement format error:\n" + txt
     end
 
-    it 'must return format error if id does not exist' do
-      txt = "# wrong title\n{{valid: true}}\ncorrect body\n"
-      req, lev, err = Parser.parse(txt)
-      req.must_be_nil
-      lev.must_be_nil
-      err.must_equal "Requirement format error:\n" + txt
-    end
+    # empty IDs are allowed now 2017-06-11
+    # 
+    # it 'must return format error if id does not exist' do
+    #   txt = "# wrong title\n{{valid: true}}\ncorrect body\n"
+    #   req, lev, err = Parser.parse(txt)
+    #   req.must_be_nil
+    #   lev.must_be_nil
+    #   err.must_equal "Requirement format error:\n" + txt
+    # end
 
     it 'must parse req and return attributes error' do
       txt = "# [id] wrong attrs\n{{valid}}\ncorrect body"

@@ -1,3 +1,7 @@
+# v0.1.X
+* Added auto-generated requirements ids if it missing by the author.
+* Added handling of leading dots in requirement ids `[.subid] -> [parent_id.subid]`
+
 # v0.1.5
 * Added error checking for wrong child_order attribute for `chk` command.
 * Added section about link macro to README.md.

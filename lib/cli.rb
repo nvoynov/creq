@@ -77,6 +77,12 @@ module Creq
       puts "'#{DOC}/requirements.md' created!"
     end
 
+    desc "pandoc FORMAT [OPTIONS]", "Buid the final document by pandoc"
+    def pandoc(format = 'html', options = '')
+      create_pandoc(format, options)
+      puts "'#{DOC}/requirements.#{format}' created!"
+    end
+
     desc "chk", "Check the current requirments repository for errors."
     def chk
       say "Checking repository for error..."

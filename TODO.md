@@ -8,12 +8,9 @@
 
 # Creq
 
-## Sources
-
-* Provide custom DocWriter class for documents generation
-* Adding `id-to-attributes` document generation options, when title will be generated without id and id will be added to attributes table.
-* `creq serve` command
-* Add graphviz macros for drawing?
+* Add tests for `pandoc`.
+* Describe new features in README.
+* `creq serve` command or an example for Promo?
 
 # Promo
 
@@ -27,5 +24,4 @@
 
 ## promo.thor
 
-* command `serve` as web site by Sinatra with Markdown / Kramdown options.
 * traces, pert, fpa, graphviz

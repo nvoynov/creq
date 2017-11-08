@@ -68,6 +68,7 @@ describe Parser do
     it 'must parse req withot title' do
       txt = "# [id]\n{{valid: true}}\ncorrect body"
       req, lev, err = Parser.parse(txt)
+      lev.must_equal 1
       req.id.must_equal "id"
       req.title.must_equal ""
       err.must_equal ""
@@ -82,7 +83,7 @@ describe Parser do
     end
 
     # empty IDs are allowed now 2017-06-11
-    # 
+    #
     # it 'must return format error if id does not exist' do
     #   txt = "# wrong title\n{{valid: true}}\ncorrect body\n"
     #   req, lev, err = Parser.parse(txt)

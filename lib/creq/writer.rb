@@ -114,4 +114,30 @@ module Creq
       end
   end
 
+  class PandocWriter < Creq::FinalDocWriter
+
+    def write(req, stream)
+      req.collect {|x| x.attributes[:id] = x.id unless x[:suppress_id] }
+      super(req, stream)
+    end
+
+    protected
+
+      def attributes(r)
+        return "" if r[:requirement] && r[:requirement].strip == 'false'
+        super(r)
+      end
+
+      def link(id)
+        r = @root.find(id)
+        return "[#{id}](unknown)" unless r
+        "[#{r.title}](##{url(id)})"
+      end
+
+      def title(r)
+        "#{'#' * r.level} #{r.title} {##{url(r.id)}}"
+      end
+
+  end
+
 end

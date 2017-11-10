@@ -9,7 +9,6 @@
 # Creq
 
 * Add tests for `pandoc`.
-* Describe new features in README.
 * `creq serve` command or an example for Promo?
 
 # Promo

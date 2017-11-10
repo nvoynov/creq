@@ -1,3 +1,7 @@
+# v0.1.7
+* Fixed `pandoc` CLI command with empty document body.
+* Fixed appearance of `requirement` attribute in attributes table.
+
 # v0.1.6
 * Added auto-generated requirements ids if it missing by the author.
 * Added handling of leading dots in requirement ids `[.subid] -> [parent_id.subid]`.

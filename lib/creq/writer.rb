@@ -3,11 +3,6 @@ require_relative 'requirement'
 
 module Creq
 
-  # TODO
-  # 1. print root requirement as document title which presents document
-  #    VS. printing requirement source
-  # 2. print array.join(\n)
-
   class Writer
 
     def self.write(req, stream = $stdout)

@@ -76,12 +76,32 @@ The System shall provide `Command 2`. When `Command 2` is received, the System s
 
 Every requirement starts with markdown header. All the text between headers is a requirement body. The body can contain an excerpt with requirement attributes.
 
+#### Identifiers
+
+Each requirement must have its unique identifier so that you can reference to this requirement in any part of the requirements document and in any further work related to the requirement. That's why a recommended way is to put requirement_id straight into requirements header like this `# [requirement_id] requirement title`.
+
+Requirements identifier can start with dot like `[.suffix]`. In that case Creq will be create full identifier by adding parent requirements identifier before the dot. For the followed example, for `[.featre1]` Creq will generate full identifier as `[req.id.feature1]`.
+
+```markdown
+# [req.id] Parent requirement
+## [.feature1] Feature requirement
+```
+
+Creq also provide requirements author with ability of auto generated IDs and you can mix requirements with id and requirements without id. For the followed example, `First feature` will become `[req.id.01] First feature` and `Second feature` will become `[req.id.02] Second feature`.
+
+```markdown
+# [req.id] Parent requirement
+## First feature
+## Second feature
+```
+
 #### Attributes
 
 The excerpt, the text in brackets `{{ }}`, contains attributes. You can place here anything you need, like requirement status, source, risk, priority, etc.
 
 The next three attributes are **system attributes** and they influence to Creq behavior. So that:
-* `suppress_id: true` will suppress requirement [id] in header of the target document;
+* `requirement: false` will suppress of output attributes table for items that are not requirements (headers for other parts of requirements document);
+* `suppress_id: true` will suppress requirement [id] in header of the requirements document;
 * `child_order: feature1 feature2` will sort child requirements in provided order;
 * `parent: f` will place `[f1]` requirements subtree as a child requirement into `[f]` requirement.
 
@@ -110,7 +130,7 @@ The Creq will parse two files displayed above and build the next requirements tr
 
 #### Check errors
 
-Creq can check requirements repository for duplicate requirement ids; wrong links, parents and child_order attribute. To quickly see this feature in action, run the next commands (I hope you already have `content.md` and `feature.md` files) and see the output.
+Creq can check requirements repository for duplicate requirement ids; wrong links, parents and child_order attribute errors. To quickly see this feature in action, run the next commands (I hope you already have `content.md` and `feature.md` files) and see the output.
 
     $ cp req/feature1.md req/feature2.md
     $ creq chk
@@ -126,7 +146,8 @@ Creq provide five essential commands:
 * promo - copy promo project content to the current creq project directory;
 * req - create a new requirement file;
 * chk - check requirement repository consistence;
-* doc - combine all requirements into single document.
+* doc - combine all requirements into single document;
+* pandoc - create requirements document in any format supported by pandoc (you must have pandoc installed).
 
 You can see all available commands through `creq help` command, and you can get help by certain command by `creq help <command>` command.
 
@@ -141,6 +162,9 @@ Try creq commands on Promo project:
     $ creq req
     $ creq chk
     $ creq doc
+    $ creq pandoc
+
+If parameters `[FORMAT] [OPTIONS]` is not specified, `pandoc` command will generate requirements document in html format with table of contents.
 
 #### Extend it yourself!
 

@@ -66,11 +66,9 @@ module Creq
       # TODO check is pandoc available
       req = inside_req { Repository.load }
       inside_doc {
-        open("pandoctmp.md", 'w') {|f|
-          PandocWriter.write(req, f)
-          # pandoc -s --reference-doc template.docx --toc -o srs.docx srs.md
-          `pandoc -s --toc #{options} -o requirements.#{format} pandoctmp.md`
-        }
+        open("pandoctmp.md", 'w') {|f| PandocWriter.write(req, f) }
+        # pandoc -s --reference-doc template.docx --toc -o srs.docx srs.md
+        `pandoc -s --toc #{options} -o requirements.#{format} pandoctmp.md`
       }
     end
 

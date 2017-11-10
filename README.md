@@ -147,7 +147,7 @@ Creq provide five essential commands:
 * req - create a new requirement file;
 * chk - check requirement repository consistence;
 * doc - combine all requirements into single document;
-* pandoc - create requirements document in any format supported by pandoc (you must have pandoc installed).
+* pandoc - create requirements document in any format supported by pandoc (you must have [pandoc](https://pandoc.org/) installed).
 
 You can see all available commands through `creq help` command, and you can get help by certain command by `creq help <command>` command.
 

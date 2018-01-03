@@ -30,7 +30,7 @@ describe Parser do
       proc {
         a = Parser.parse_attributes("a")
         a.must_equal({})
-      }.must_output /Attribute format error:\n{{a}}\n/
+      }.must_output /Attributes format error for:\n{{a}}\n/
     end
   end
 
@@ -83,7 +83,6 @@ describe Parser do
 
     it 'must return format error if # does not exist' do
       txt = "wrong title\n{{valid: true}}\ncorrect body\n"
-      req, lev = nil
       proc {
         req, lev = Parser.(txt)
         req.must_be_nil
@@ -99,7 +98,7 @@ describe Parser do
         req.id.must_equal "id"
         req.title.must_equal "wrong attrs"
         req.attributes.must_equal({})
-      }.must_output /Attribute format error:\n{{valid}}\n/
+      }.must_output /Attributes format error for:\n{{valid}}\n/
     end
 
   end

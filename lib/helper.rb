@@ -25,7 +25,7 @@ module Creq
     end
 
     def requirements_repository
-      inside_req { Repository.load }
+      inside_req { Repository.() }
     end
 
     def create_req(params)

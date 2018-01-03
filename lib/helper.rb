@@ -73,19 +73,13 @@ module Creq
     end
 
     def check_repo
-      repo = inside_req { Repository.() }
       {}.tap do |err|
-        repo.duplicate_ids.tap {|dup|
-          err.merge!({duplicate_ids: dup}) unless dup.empty? }
-
-        repo.wrong_parents.tap {|wrp|
-          err.merge!({wrong_parents: wrp}) unless wrp.empty? }
-
-        repo.wrong_links.tap {|wrl|
-          err.merge!({wrong_links: wrl}) unless wrl.empty? }
-
-        repo.wrong_child_order.tap {|wrc|
-          err.merge!({wrong_childs: wrc}) unless wrc.empty? }
+        repo = inside_req { Repository.() }
+        err.merge!({duplicate_ids: repo.duplicate_ids})
+        err.merge!({wrong_parents: repo.wrong_parents})
+        err.merge!({wrong_links: repo.wrong_links})
+        err.merge!({wrong_childs: repo.wrong_child_order})
+        err.delete_if {|k, v| v.empty?}
       end
     end
 

@@ -36,25 +36,23 @@ describe Parser do
 
   describe 'parse' do
 
-    it 'must parse header only' do
-      txt = "# [id] title\n"
+    it 'must parse header in different forms' do
+      forms = [
+        '# [id] title\n',
+        '# [id] title',
+        '# [id]',
+        '# title',
+        '#']
 
-      proc {
-        req, lev = Parser.(txt)
-        lev.must_equal 1
-        req.must_be_kind_of Requirement
-        req.id.must_equal "id"
-        req.title.must_equal "title"
-        req.attributes.must_be_empty
-        req.body.must_be_empty
-      }.must_be_silent
-
-      txt = "# [id] title"
-      proc {
-        req, _ = Parser.(txt)
-        req.wont_be_nil
-      }.must_be_silent
-
+      forms.each do |header|
+        proc {
+          req, _ = Parser.(header)
+          req.wont_be_nil
+          req.must_be_kind_of Requirement
+          req.attributes.must_be_empty
+          req.body.must_be_empty
+        }.must_be_silent
+      end
     end
 
     it 'must parse full requirement' do

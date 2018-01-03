@@ -2,10 +2,10 @@
 
 require_relative '../test_helper'
 
-class SpecFileReader < Reader
-  def self.read_enumerator(enum)
-    reader = new("enumerator")
-    reader.read(enum)
+class SpecReader < Reader
+  def self.call(enum)
+    r = new("SpecReader")
+    r.read(enum)
   end
 end
 
@@ -39,15 +39,15 @@ describe Repository do
   def build_repo
     {}.tap do |repo|
       {contents: contents, stories: stories, funcs: funcs}.each do |k, v|
-        reqs, errs = SpecFileReader.read_enumerator(v.each_line)
-        repo[k.to_s + '.md'] = {reqary: reqs, errary: errs}
+        req = SpecReader.(v.each_line)
+        repo[k.to_s + '.md'] = req
       end
     end
   end
 
   def build_stringIO_repo(strings)
-    reqs, errs = SpecFileReader.read_enumerator(strings.each_line)
-    {'stringIO' => {reqary: reqs, errary: errs}}
+    req = SpecReader.(strings.each_line)
+    { 'stringIO' => req }
   end
 
   def debug_print(repo)
@@ -66,7 +66,7 @@ describe Repository do
     }
 
     it 'must aute generate ids when it not provided' do
-      repo = Repository.load(build_stringIO_repo(contents))
+      repo = Repository.(build_stringIO_repo(contents))
       repo.first.id.must_equal 'h1'
       repo.first.last.id.must_equal 'h1.01'
       repo.first.last.title.must_equal 'third sub header'
@@ -76,7 +76,7 @@ describe Repository do
 
   describe 'self#load' do
     it 'must load all requirements in Repository' do
-      repo = Repository.load(build_repo)
+      repo = Repository.(build_repo)
       repo.must_be_kind_of Repository
       repo.size.must_equal 4
       repo.find('us.actor').size.must_equal 2
@@ -86,7 +86,7 @@ describe Repository do
 
   describe '#duplicate_ids' do
     it 'must return [] if errors does not found' do
-      repo = Repository.load(build_repo)
+      repo = Repository.(build_repo)
       repo.duplicate_ids.must_equal []
     end
 
@@ -97,9 +97,9 @@ describe Repository do
 ## [fr.2.1] Func 2 1
 ## [fr.1.2] Func 2 2
 )
-      reqs, errs = SpecFileReader.read_enumerator(with_errors.each_line)
-      payload['errors.md'] = {reqary: reqs, errary: errs}
-      repo = Repository.load(payload)
+      req = SpecReader.(with_errors.each_line)
+      payload['errors.md'] = req
+      repo = Repository.(payload)
       repo.duplicate_ids.must_equal  ["[fr.1.2] in funcs.md, errors.md"]
     end
   end
@@ -107,7 +107,7 @@ describe Repository do
   describe '#wrong_parents' do
 
     it 'must return [] if errors does not found' do
-      repo = Repository.load(build_repo)
+      repo = Repository.(build_repo)
       repo.wrong_parents.must_equal []
     end
 
@@ -122,9 +122,9 @@ describe Repository do
 # [f4] Func 4
 {{parent: fm}}
 )
-      reqs, errs = SpecFileReader.read_enumerator(with_errors.each_line)
-      payload['errors.md'] = {reqary: reqs, errary: errs}
-      repo = Repository.load(payload)
+      req = SpecReader.(with_errors.each_line)
+      payload['errors.md'] = req
+      repo = Repository.(payload)
       repo.wrong_parents.must_equal  [
         "[ff] for [f3] in errors.md",
         "[fm] for [f4] in errors.md"]
@@ -134,7 +134,7 @@ describe Repository do
   describe '#wrong_links' do
 
     it 'must return [] if errors does not found' do
-      repo = Repository.load(build_repo)
+      repo = Repository.(build_repo)
       repo.wrong_links.must_equal []
     end
 
@@ -150,9 +150,9 @@ I also have a [[fa]] - wrong link
 ## [fr.2.3] Func 2 3
 [[fb]] is also wrong
 )
-      reqs, errs = SpecFileReader.read_enumerator(with_errors.each_line)
-      payload['errors.md'] = {reqary: reqs, errary: errs}
-      repo = Repository.load(payload)
+      req = SpecReader.(with_errors.each_line)
+      payload['errors.md'] = req
+      repo = Repository.(payload)
       repo.wrong_links.must_equal  [
         "[[fm]] in [fr.2.1]",
         "[[fa]] in [fr.2.2]",
@@ -162,8 +162,8 @@ I also have a [[fa]] - wrong link
 
   # TODO refactor test by get_repo_from
   def get_repo_from(txt)
-    reqs, errs = SpecFileReader.read_enumerator(StringIO.new(txt).each_line)
-    Repository.load({ 'get_repo_from.md' => {reqary: reqs, errary: errs}})
+    req = SpecReader.(StringIO.new(txt).each_line)
+    Repository.({ 'get_repo_from.md' => req })
   end
 
   describe '#wrong_child_order' do

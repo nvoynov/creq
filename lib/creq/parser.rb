@@ -5,28 +5,30 @@ require_relative 'requirement'
 module Creq
   class Parser
 
-    def self.parse(text)
+    def self.call(text)
       text += "\n" unless text.end_with?("\n")
       regxp = /^(\#+)[ ]*(\[([^\[\]\s]*)\][ ]*)?([\s\S]*?)\n({{([\s\S]*?)}})?(.*)$/m
       parts = regxp.match(text)
       return nil, nil, "Requirement format error:\n#{text}" unless parts
       level, id, title, body = parts[1], parts[3], parts[4], parts[7] || ""
-      attrs, error = parse_attributes(parts[6]) if parts[6]
+      attrs = parse_attributes(parts[6]) if parts[6]
       attrs ||= {}
-      error = "[#{id}] " + error if error && !error.empty?
       attrs.merge!({id: id, title: title.strip, body: body.strip})
-      [Requirement.new(attrs), level.size, error || ""]
+      [Requirement.new(attrs), level.size]
     end
 
     def self.parse_attributes(text)
-      attrs = text.strip.split(/[,\n]/).inject({}) do |h, i|
+      text.strip.split(/[,\n]/).inject({}) do |h, i|
         pair = /\s?(\w*):\s*(.*)/.match(i)
-        return [{}, "attributes format error:\n{{#{text}}}"] unless pair
-        h.merge({pair[1].to_sym => pair[2]})
-      end
-      [attrs, ""]
+        if pair
+          h.merge({pair[1].to_sym => pair[2]}) if pair
+        else
+          puts "Attribute format error:\n{{#{text}}}" unless pair
+        end
+      end || {}
     rescue StandardError => e
-      [{}, "attributes parsing error #{e.message}\n#{text}"]
+      puts "Attributes parsing error #{e.message}\n#{text}"
+      {}
     end
   end
 end

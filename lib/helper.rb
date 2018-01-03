@@ -54,7 +54,7 @@ module Creq
     end
 
     def create_doc(file_name = 'requirements.md')
-      req = inside_req { Repository.load }
+      req = inside_req { Repository.() }
       inside_doc {
         open(file_name, 'w') {|f|
           FinalDocWriter.write(req, f)
@@ -73,7 +73,7 @@ module Creq
     end
 
     def check_repo
-      repo = inside_req { Repository.load }
+      repo = inside_req { Repository.() }
       {}.tap do |err|
         repo.duplicate_ids.tap {|dup|
           err.merge!({duplicate_ids: dup}) unless dup.empty? }

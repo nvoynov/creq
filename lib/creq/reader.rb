@@ -1,12 +1,13 @@
 # encoding: UTF-8
 
 require_relative 'parser'
+require_relative 'requirement'
 
 module Creq
 
   class Reader
 
-    def self.read(file_name)
+    def self.call(file_name)
       reader = new(file_name)
       reader.read
     end
@@ -25,43 +26,34 @@ module Creq
       end
     end
 
-    # @return [Array<Requirement>, Array<String>] array of requirements and array of errors
+    # @return [Requirement] requirements from file
     def read(enumerator = File.foreach(@file_name))
-      reqary, errors = [], []
       each_req_text(enumerator) do |txt|
-        req, lev, err = Parser.parse(txt)
-        errors << err unless err.empty?
+        req, lev = Parser.(txt)
         next unless req
 
-        if lev == 1
-          reqary << req
-          next
+        parent = @file_reqs
+        parent = parent.last while parent.last && (parent.level < (lev))
+        unless parent.level == lev
+          puts "Wrong header level for [#{req.id}]"
+          parent = @file_reqs
         end
-
-        if reqary.empty?
-          reqary << req
-          errors << "Wrong first header level found [#{req.id}]"
-          next
-        end
-
-        parent = reqary.last
-        parent = parent.last while parent.last && (parent.level < (lev - 1))
-
-        if parent.level == (lev - 1)
-          parent << req
-        else
-          reqary << req
-          errors << "Hierarhy error: [#{req.id}]"
-        end
+        parent << req
       end
-
-      [reqary, errors]
+      @file_reqs
     end
 
     protected
 
     def initialize(file_name)
       @file_name = file_name
+      @file_reqs = Requirement.new(id: file_name)
+    end
+
+    def latest
+      r = @file_reqs
+      r = r.last while r.last
+      r
     end
 
     def each_req_text(enumerator, &block)

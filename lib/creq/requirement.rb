@@ -15,7 +15,7 @@ module Creq
     def_delegators :@attributes, :[]=, :[]
 
     # TODO move this delegators to TreeNode?
-    def_delegators :@items, :size, :first, :last
+    def_delegators :@items, :size, :first, :last, :empty?
 
     def initialize(options = {})
       super()

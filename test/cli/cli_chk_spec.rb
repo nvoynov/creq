@@ -43,7 +43,7 @@ describe "creq chk" do
       proc {
         Cli.start [cmd]
       }.tap{|o|
-        o.must_output /Wrong first header level found \[req.1\]/
+        o.must_output /Wrong header level for \[req.1\]/
       }
     end
   end

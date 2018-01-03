@@ -2,14 +2,37 @@
 require_relative 'requirement'
 require_relative 'reader'
 
+def capture_stdout &block
+  old_stdout = $stdout
+  $stdout = StringIO.new
+  block.call
+  $stdout.string
+ensure
+  $stdout = old_stdout
+end
+
 module Creq
 
   class Repository < Requirement
 
-    def self.load(repo = Reader.read_repo)
-      repository = new
-      repository.load(repo)
-      repository
+    def self.call(repo = read_repo)
+      r = new
+      r.load(repo)
+      r
+    end
+
+    def self.read_repo(repository = '**/*.md')
+      {}.tap do |repo|
+        Dir.glob(repository) do |f|
+          print "Read file '#{f}' ... "
+          reqs = nil
+          output = capture_stdout do
+            reqs = Reader.(f)
+          end
+          puts output.empty? ? "OK!" : "with errors\n#{output}"
+          repo[f] = reqs
+        end
+      end
     end
 
     def initialize
@@ -18,17 +41,34 @@ module Creq
       @links = {} # link requirements map {link, [req_id]}
     end
 
+    # def print_repo(repo)
+    #   puts ">>> print_repo"
+    #   repo.each do |file, req|
+    #     puts file
+    #     req.each{|r| puts "- #{' '*r.level} [#{r.id}] #{r.title}"}
+    #   end
+    #   puts "<<< print_repo"
+    # end
+    #
+    # def print_req_structure
+    #   puts ">>> print_req_structure"
+    #   each{|r| puts "- #{' '*r.level} [#{r.id}] #{r.title}"}
+    #   puts "<<< print_req_structure"
+    # end
+
     def load(repo)
-      repo.each do |file, v|
-        v[:reqary].tap do |reqs|
-          @items.concat(reqs)
-          flat = reqs.inject([]){|a, r| a << r.inject([], :<<)}.flatten
-          store_files(flat, file)
-          store_links(flat)
-        end
+      repo.each do |file, req|
+        req.items.each{|r| self << r}
+        flat = req.inject([], :<<).tap{|r| r.delete_at(0)}.flatten
+        store_files(flat, file)
+        store_links(flat)
       end
       subordinate!
       generate_missing_ids
+    end
+
+    def clear_root_parent
+
     end
 
     def generate_missing_ids
@@ -44,7 +84,10 @@ module Creq
     end
 
     def subordinate!
-      @items.select{|r| r[:parent] && r.parent == nil}.each{|r|
+      # clear parent for root.items
+      @items.each{|r| r.parent = nil}
+
+      @items.select{|r| r[:parent] && r.parent.nil?}.each{|r|
         parent = find(r[:parent])
         next unless parent # TODO or show a error?
         parent << r
@@ -88,7 +131,7 @@ module Creq
 
     def wrong_parents
       reqs = inject([], :<<).tap{|r| r.delete_at(0)}
-          .select{|r| r[:parent] && r.parent == nil}
+          .select{|r| r[:parent] && r.parent.nil?}
 
       reqs.inject([]) do |err, r|
         err << "[#{r[:parent]}] for [#{r.id}] in #{@reqfs[r.id].join(', ')}"

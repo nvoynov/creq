@@ -119,7 +119,7 @@ module Creq
 
     # TODO separated Checker class?
     def wrong_child_order
-      msg = "[%s] for [%s] don't exist"
+      msg = "[%s] for [%s]"
       err = []
       @items.select{|r| r[:child_order] }.each do |r|
         childs = r[:child_order].split(/ /)

@@ -42,14 +42,21 @@ module Creq
         template('new/README.md.tt', File.join(Dir.pwd, 'README.md'), config)
         template('new/creq.thor.tt', File.join(Dir.pwd, "#{project}.thor"), config)
 
+        git_init
+      end
+
+      say "Project '#{project}' successfully created!"
+    end
+
+    no_commands {
+      def git_init
         say "Initializing git repository..."
         `git init`
         `git add .`
         `git commit -m "Initial commit"`
       end
+    }
 
-      say "Project '#{project}' successfully created!"
-    end
 
     desc "promo", "Copy promo project to the current working directory"
     def promo
@@ -86,26 +93,22 @@ module Creq
     desc "chk", "Check the current requirments repository for errors."
     def chk
       say "Checking repository for error..."
+
       result = check_repo
       if result.empty?
         puts "Everything is fine!"
         return
       end
-      result.each do |k, v|
-        case k
-        when :duplicate_ids
-          puts "\nFound non-unique requirements identifiers:"
-        when :wrong_links
-          puts "\nFound requirements links that does not exist in repository:"
-        when :wrong_parents
-          puts "\nFound 'parent' attribute values pointing to requirement that does not exist in repository:"
-        when :wrong_childs
-          puts "\nFound wrong 'child_order' attributes:"
-        end
-        puts v.join("\n")
-      end
-    end
 
+      result.each { |k, v| puts "#{CHK_ERR_MSGS[k]}\n#{v.join("\n")}" }
+    end
   end
+
+  CHK_ERR_MSGS  = {
+    duplicate_ids: "\nNon-unique requirements identifiers are found:",
+    wrong_links:   "\nWrong requirements links are found:",
+    wrong_parents: "\nWrong {{parent}} values are found:",
+    wrong_childs:  "\nWrong {{child_order}} values are found:"
+  }
 
 end

@@ -14,7 +14,7 @@ describe "creq chk" do
       proc {
         Cli.start [cmd]
       }.tap{|o|
-        o.must_output /Found requirements links that does not exist/
+        o.must_output /Wrong requirements links are found/
         o.must_output /\[\[req.x\]\]/
         o.must_output /in \[req.1\], \[req.2\], \[req.3\]/
       }
@@ -31,7 +31,7 @@ describe "creq chk" do
       proc {
         Cli.start [cmd]
       }.tap{|o|
-        o.must_output /Found 'parent' attribute values pointing to/
+        o.must_output /Wrong {{parent}} values are found:/
         o.must_output /\[ur\] for \[req.3\] in req.3.md/
       }
     end
@@ -58,7 +58,7 @@ describe "creq chk" do
       proc {
         Cli.start [cmd]
       }.tap{|o|
-        o.must_output /Found non-unique requirements identifiers:/
+        o.must_output /Non-unique requirements identifiers are found:/
         o.must_output /\[req.2\] in req.2.md, req.3.md/
       }
     end
@@ -72,8 +72,8 @@ describe "creq chk" do
       proc {
         Cli.start [cmd]
       }.tap{|o|
-        o.must_output /Found wrong 'child_order' attributes:/
-        o.must_output /\[r1, r2\] for \[r\] don't exist/
+        o.must_output /Wrong {{child_order}} values are found/
+        o.must_output /\[r1, r2\] for \[r\]/
       }
     end
   end

@@ -28,21 +28,3 @@ def pp_requirement(req)
   req.inject([], :<<)
     .each{|r| puts "#{'  ' * (r.level - 1)}[#{r.id}] #{r.title}"}
 end
-
-def capture_stdout &block
-  old_stdout = $stdout
-  $stdout = StringIO.new
-  block.call
-  $stdout.string
-ensure
-  $stdout = old_stdout
-end
-
-# def with_captured_stdout
-#   old_stdout = $stdout
-#   $stdout = StringIO.new
-#   yield
-#   $stdout.string
-# ensure
-#   $stdout = old_stdout
-# end

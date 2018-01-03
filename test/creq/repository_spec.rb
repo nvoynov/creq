@@ -185,7 +185,7 @@ I have right child_order
 I have wrong child_order attribute with w1 and w2
 )
       repo = get_repo_from(content)
-      repo.wrong_child_order.must_equal ["[w1, w2] for [w] don't exist"]
+      repo.wrong_child_order.must_equal ["[w1, w2] for [w]"]
 
       content = %(# [w] Func W
 {{child_order: w1 w2}}
@@ -193,7 +193,7 @@ I have wrong child_order attribute with w1
 ## [w2] w2
 )
       repo = get_repo_from(content)
-      repo.wrong_child_order.must_equal ["[w1] for [w] don't exist"]
+      repo.wrong_child_order.must_equal ["[w1] for [w]"]
     end
   end
 

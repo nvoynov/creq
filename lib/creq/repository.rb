@@ -26,9 +26,7 @@ module Creq
         Dir.glob(repository) do |f|
           print "Read file '#{f}' ... "
           reqs = nil
-          output = capture_stdout do
-            reqs = Reader.(f)
-          end
+          output = capture_stdout { reqs = Reader.(f) }
           puts output.empty? ? "OK!" : "with errors\n#{output}"
           repo[f] = reqs
         end
@@ -41,21 +39,6 @@ module Creq
       @links = {} # link requirements map {link, [req_id]}
     end
 
-    # def print_repo(repo)
-    #   puts ">>> print_repo"
-    #   repo.each do |file, req|
-    #     puts file
-    #     req.each{|r| puts "- #{' '*r.level} [#{r.id}] #{r.title}"}
-    #   end
-    #   puts "<<< print_repo"
-    # end
-    #
-    # def print_req_structure
-    #   puts ">>> print_req_structure"
-    #   each{|r| puts "- #{' '*r.level} [#{r.id}] #{r.title}"}
-    #   puts "<<< print_req_structure"
-    # end
-
     def load(repo)
       repo.each do |file, req|
         req.items.each{|r| self << r}
@@ -65,10 +48,6 @@ module Creq
       end
       subordinate!
       generate_missing_ids
-    end
-
-    def clear_root_parent
-
     end
 
     def generate_missing_ids

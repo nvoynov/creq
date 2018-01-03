@@ -75,10 +75,10 @@ module Creq
     def check_repo
       {}.tap do |err|
         repo = inside_req { Repository.() }
-        err.merge!({duplicate_ids: repo.duplicate_ids})
-        err.merge!({wrong_parents: repo.wrong_parents})
-        err.merge!({wrong_links: repo.wrong_links})
-        err.merge!({wrong_childs: repo.wrong_child_order})
+        err[:duplicate_ids] = repo.duplicate_ids
+        err[:wrong_parents] = repo.wrong_parents
+        err[:wrong_links] = repo.wrong_links
+        err[:wrong_childs] = repo.wrong_child_order
         err.delete_if {|k, v| v.empty?}
       end
     end

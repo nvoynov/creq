@@ -21,7 +21,7 @@ module Creq
     def self.parse_attributes(text)
       text.strip.split(/[,\n]/).inject({}) do |h, i|
         pair = /\s?(\w*):\s*(.*)/.match(i)
-        h.merge({pair[1].to_sym => pair[2]})
+        h.merge(pair[1].to_sym => pair[2])
       end || {}
     rescue StandardError
       puts "Attributes format error for:\n{{#{text}}}"

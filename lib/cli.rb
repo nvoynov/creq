@@ -70,12 +70,7 @@ module Creq
       desc: "Template file"
     def req(id, title = '')
       title = id if title.empty?
-      result = create_req(options.merge({id: id, title: title}))
-      unless result.empty?
-        puts "#{result.join('\n')}\nOperation aborted."
-      else
-        puts "File '#{REQ}/#{id}.md' created."
-      end
+      create_req(options.merge({id: id, title: title}))
     end
 
     desc "doc", "Create a new requirements document."

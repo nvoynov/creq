@@ -63,16 +63,15 @@ module Creq
     def items
       return @items if @items.empty? || @attributes[:child_order].nil?
 
-      result = @attributes[:child_order]
-        .split(/ /)
-        .inject([]){ |ary, id| ary << item(id) }
-        .delete_if(&:nil?)
-
-      if result.size != @items.size
-        @items.each{ |i| result << i unless result.include?(i)}
+      source = Array.new(@items)
+      order = @attributes[:child_order]
+      [].tap do |ordered|
+        order.split(/ /).each do |o|
+          e = source.delete(item(o))
+          ordered << e if e
+        end
+        ordered.concat(source)
       end
-
-      result
     end
 
     def each(&block)

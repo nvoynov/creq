@@ -59,16 +59,17 @@ module Creq
       @body.scan(/\[\[([\w\.]*)\]\]/).flatten.uniq
     end
 
-    # @return @items according to child_order attribute
+    # @return @items according to order in child_order attribute
     def items
-      return @items if (@items.empty? || @attributes[:child_order].nil?)
+      return @items if @items.empty? || @attributes[:child_order].nil?
 
-      result = @attributes[:child_order].split(/ /)
+      result = @attributes[:child_order]
+        .split(/ /)
         .inject([]){ |ary, id| ary << item(id) }
-        .delete_if{ |i| i.nil? }
+        .delete_if(&:nil?)
 
       if result.size != @items.size
-        @items.each{|i| result << i unless result.include?(i)}
+        @items.each{ |i| result << i unless result.include?(i)}
       end
 
       result
@@ -84,6 +85,7 @@ module Creq
 
     protected
 
+      # protected to prevent assigning outside of Requirement
       def id=(id)
         @id = id
       end

@@ -112,7 +112,6 @@ module Creq
          PandocWriter.write(repo, f)
        }
        `pandoc -s --toc #{options} -o "#{doc}" #{tmp}`
-       puts File.exist?(tmp)
        File.delete(tmp)
      }
      puts "File 'doc/#{doc}' created."

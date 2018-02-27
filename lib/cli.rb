@@ -105,7 +105,7 @@ module Creq
     method_option :format, alias: "-f", type: :string, desc: "Pandoc output format", default: 'html'
     method_option :pandoc, alias: "-o", type: :string, desc: "Pandoc options", default: ''
     def publish(req = '')
-      pandoc(req, options[:format], options[:pandoc])
+      pandoc(req, options[:format], options[:pandoc] || '')
     end
 
     CHK_ERR_MSGS  = {

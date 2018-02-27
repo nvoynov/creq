@@ -104,7 +104,7 @@ module Creq
      end
      title = repo.title
      title = 'requirements' if title == ''
-     tmp = `~tmp.md`
+     tmp = '~tmp.md'
      doc = "#{title}.#{format}"
      inside_doc {
        open(tmp, 'w') {|f|

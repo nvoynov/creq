@@ -1,3 +1,9 @@
+# v0.1.8
+* `doc` CLI command accepts the `req` parameter and now you can build a document from any requirement as the document root.
+* `pandoc` CLI command replaced by `publish` command. It also provides `req` parameter and you can specify root requirement for the publishing.
+* Added `toc` CLI command that outputs `Table of contents` to console
+* Added templates for `Use Case` and `Meeting minutes`.
+
 # v0.1.7
 * Fixed `pandoc` CLI command with empty document body.
 * Fixed appearance of `requirement` attribute in attributes table.

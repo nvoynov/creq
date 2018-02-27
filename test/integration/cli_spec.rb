@@ -50,7 +50,7 @@ describe 'gem cli' do
           `creq doc`.must_match /'doc\/requirements.md' created/
           File.exist?("doc/requirements.md").must_equal true
           `creq chk` # .must_match /Everything is fine!/
-          `creq req new.req.1 "New req 1"`.must_match /'req\/new.req.1.md' is created/
+          `creq req new.req.1 "New req 1"`.must_match /'req\/new.req.1.md' created/
         end
       end
     end

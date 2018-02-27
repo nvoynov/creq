@@ -11,7 +11,7 @@ SANDBOX = "tmp"
 def inside_sandbox
   Dir.mkdir(SANDBOX) unless Dir.exist?(SANDBOX)
   Dir.chdir(SANDBOX) do
-    PROJECT_FOLDERS.each do |fld|
+    Settings::PROJECT_FOLDERS.each do |fld|
       FileUtils.rm_rf(Dir.glob("#{fld}/*")) if Dir.exist?(fld)
       Dir.mkdir(fld) unless Dir.exist?(fld)
     end

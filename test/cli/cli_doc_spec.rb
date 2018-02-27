@@ -3,7 +3,7 @@ require_relative '../test_helper'
 
 describe "creq doc" do
   let(:cmd) { "doc" }
-  let(:doc) { "#{DOC}/requirements.md" }
+  let(:doc) { "#{Settings::DOC}/requirements.md" }
 
   it 'must write doc/requirements.md' do
     inside_sandbox do

@@ -1,16 +1,18 @@
 # encoding: UTF-8
+
 require_relative '../test_helper'
 
 describe "creq req" do
   let(:id) {'id'}
   let(:cmd) {'req'}
-  let(:file) {"#{REQ}/id.md"}
+  let(:file) {"#{Settings::REQ}/id.md"}
   let(:title) {'title'}
   let(:template) {'tt.id'}
+  let(:success_msg) {"File '#{file}' created successfully"}
 
   it 'must create file and notify about success' do
     inside_sandbox do
-      proc { Cli.start([cmd, id]) }.must_output(/File 'req\/id.md' is created/)
+      proc { Cli.start([cmd, id]) }.must_output Regexp.new(success_msg)
       File.exist?(file).must_equal true
     end
   end
@@ -26,66 +28,27 @@ describe "creq req" do
   it 'must execute CREQ REQ ID' do
     inside_sandbox do
       proc { Cli.start [cmd, id] }.must_output(/created/)
-      File.read(file).must_equal %(# [id] id\n)
+      File.exists?(file).must_equal true
     end
   end
 
   it 'must execute CREQ REQ TITLE' do
     inside_sandbox do
       proc { Cli.start [cmd, id, title] }.must_output(/created/)
-      File.read(file).must_equal %(# [id] title\n)
+      File.exists?(file).must_equal true
     end
   end
-
-
-  let(:template_body) {%(System shall provide the next functions:
-* select
-* create
-* update
-* delete
-
-## [@@id.select] Select
-
-## [@@id.create] Create
-
-## [@@id.update] Update
-
-## [@@id.delete] Delete
-
-)}
-
-  let(:final_body) {%(# [id] title
-
-TODO: The contents of this file were generated automatically based on 'tt/tt.id.md.tt'\n
-System shall provide the next functions:
-* select
-* create
-* update
-* delete
-
-## [id.select] Select
-
-## [id.create] Create
-
-## [id.update] Update
-
-## [id.delete] Delete
-
-)}
 
   it 'must execute CREQ REQ -T' do
     inside_sandbox do
-      File.write("#{TT}/tt.id.md.tt", template_body)
+      File.write("#{Settings::TT}/tt.id.md.tt", "template_body")
       proc { Cli.start [cmd, id, title, '-t', template] }.must_output(/created/)
-      File.read(file).must_equal final_body
     end
   end
 
-  it 'must report about wrong template but not fail' do
+  it 'must execute CREQ REQ -T and fail if template was not found' do
     inside_sandbox do
-      proc { Cli.start [cmd, id, title, '-t', template]
-      }.must_output(/Template file 'tt.id' is not found/)
-      File.read(file).must_equal %(# [id] title\n)
+      proc { Cli.start [cmd, id, title, '-t', "abc"] }.must_output(/not found/)
     end
   end
 

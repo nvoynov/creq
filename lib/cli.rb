@@ -39,6 +39,8 @@ module Creq
         copy_file('new/contents.md', File.join(Dir.pwd, 'req/contents.md'))
         copy_file('new/ears.md.tt',  File.join(Dir.pwd, 'tt/ears.md.tt'))
         copy_file('new/story.md.tt', File.join(Dir.pwd, 'tt/story.md.tt'))
+        copy_file('new/ucase.md.tt', File.join(Dir.pwd, 'tt/ucase.md.tt'))
+        copy_file('new/minutes.md.tt', File.join(Dir.pwd, 'tt/minutes.md.tt'))
         template('new/README.md.tt', File.join(Dir.pwd, 'README.md'), config)
         template('new/creq.thor.tt', File.join(Dir.pwd, "#{project}.thor"), config)
 
@@ -57,7 +59,6 @@ module Creq
       end
     }
 
-
     desc "promo", "Copy promo project to the current working directory"
     def promo
       say "Copying promo project..."
@@ -65,24 +66,15 @@ module Creq
       directory('promo', Dir.pwd)
     end
 
-    desc "req ID [TITLE] [PARAMS]", "Create a new requirements file"
-    method_option :template, aliases: "-t", type: :string,
-      desc: "Template file"
+    desc "req ID [TITLE] [OPTIONS]", "Create a new requirements file"
+    method_option :template, aliases: "-t", type: :string, desc: "Template file"
     def req(id, title = '')
-      title = id if title.empty?
-      create_req(options.merge({id: id, title: title}))
-    end
-
-    desc "doc", "Create a new requirements document."
-    def doc
-      create_doc
-      puts "'#{DOC}/requirements.md' created!"
-    end
-
-    desc "pandoc FORMAT [OPTIONS]", "Buid the final document by pandoc"
-    def pandoc(format = 'html', options = '')
-      create_pandoc(format, options)
-      puts "'#{DOC}/requirements.#{format}' created!"
+      result = ReqCommand.(id, title, options[:template])
+      puts "File '#{result}' created successfully."
+    rescue  CreqCmdError => e
+      puts e.message
+    rescue => e
+      raise e
     end
 
     desc "chk", "Check the current requirments repository for errors."
@@ -97,13 +89,31 @@ module Creq
 
       result.each { |k, v| puts "#{CHK_ERR_MSGS[k]}\n#{v.join("\n")}" }
     end
-  end
 
-  CHK_ERR_MSGS  = {
-    duplicate_ids: "\nNon-unique requirements identifiers are found:",
-    wrong_links:   "\nWrong requirements links are found:",
-    wrong_parents: "\nWrong {{parent}} values are found:",
-    wrong_childs:  "\nWrong {{child_order}} values are found:"
-  }
+    desc "toc [REQ]", "Output Table of contents"
+    def toc(req = '')
+      create_toc(req)
+    end
+
+
+    desc "doc [REQ]", "Create the requirements document."
+    def doc(req='')
+      create_doc(req)
+    end
+
+    desc "publish [REQ]", "Publish the requirement document by Pandoc"
+    method_option :format, alias: "-f", type: :string, desc: "Pandoc output format", default: 'html'
+    method_option :pandoc, alias: "-o", type: :string, desc: "Pandoc options", default: ''
+    def publish(req = '')
+      pandoc(req, options[:format], options[:pandoc])
+    end
+
+    CHK_ERR_MSGS  = {
+      duplicate_ids: "\nNon-unique requirements identifiers are found:",
+      wrong_links:   "\nWrong requirements links are found:",
+      wrong_parents: "\nWrong {{parent}} values are found:",
+      wrong_childs:  "\nWrong {{child_order}} values are found:"
+    }
+  end
 
 end

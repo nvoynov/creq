@@ -1,26 +1,17 @@
-# Promo based Tracing
-
-* functional requirements attribute `derived_by` and reference to user story;
-* GraphViz of two subgraph - user stories and functional requirements with traces by `derived_by` attribute;
-* think about other [trace types](lib/assets/other/taceability.md):
-  * Creq source file *satisfy* functional requirement;
-  * Creq spec file *validate* functional requirement.
-
 # Creq
 
-* Add tests for `pandoc`.
-* `creq serve` command or an example for Promo?
+* The `derived_by` system attribute and CLI command for tracing.
+* Default order for attributes table, `id->status->derived_by`.
+* Make markdown links working in `GitLab`.
+* Add tests for `doc` and `publish`.
+* Add version of `creq` and `pandoc` to published documents.
+* To think about `release` command with `git tag`.
+* To think about `ERB` templates.
+* To think about `req package` command that creates requirement and folder with the same name, sth. like recommended gem structure.
 
 # Promo
 
-## Content
-
-* Add readme section with few examples with adding requirements with errors (duplicate id, wrong links, wrong child order and wrong parents).
-
-## Library
-
-* Provide examples for EARS, User Story, Use Case, entity and REST/CRUD.
-
-## promo.thor
-
-* traces, pert, fpa, graphviz
+* Add tracing by `derived_by` attribute to promo.thor.
+* To think about GraphViz, PERT, FPA.
+* To think about diagrams like https://mermaidjs.github.io/
+* Add few examples with adding requirements with errors (duplicate id, wrong links, wrong child order and wrong parents).

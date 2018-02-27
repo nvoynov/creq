@@ -4,18 +4,19 @@
 
 [![Gem Version](https://badge.fury.io/rb/creq.svg)](https://badge.fury.io/rb/creq) [![Build Status](https://travis-ci.org/nvoynov/creq.svg?branch=master)](https://travis-ci.org/nvoynov/creq) [![Code Climate](https://codeclimate.com/github/nvoynov/creq/badges/gpa.svg)](https://codeclimate.com/github/nvoynov/creq)
 
-The CReq is a simple and customizable tool for requirements management. It provides ability of writing requirements in isolated markdown files and combining those files into a single and consistent requirements specification document.
+The CReq is a simple and customizable tool for requirements management. It provides the ability of writing requirements in discrete markdown files and combining those files into a single and consistent requirements specification.
 
-The CReq is simple enough in itself, but when you combine it with Ruby, a modern text editor and Git, this combination will bring you unprecedented power and flexibility in requirements management.
+The CReq is simple enough in itself, but when you joint it with Ruby, a modern text editor, and Git, it gives you exceptional power and flexibility of requirements management process.
 
 ![Promo](lib/assets/promo/doc/assets/promo.png)
 
 ## Purpose
 
-Develop a simple and efficient approach for requirements management practice (gathering and writing; prioritizing and efforts estimation; tracing to other project artifacts) through exploring:
-* a sufficient and custom format to describe requirement by analysts and consume those by project members team (unique requirement identification; requirement attributes suitable to certain project);
-* a consistent requirements repository format that will be easy understandable for both human and machine;
-* a minimum set of required tools with the possibility of rapid adoption to a certain project needs, that are free and ready to use.
+The project was created for the purpose to find a simple and efficient approach to requirements management practice (gathering, eliciting, writing, approval, prioritizing, efforts estimation; tracing to other project artifacts) by exploring:
+
+* a simple but sufficient format of requirements format that is easy to use by a project team;
+* a consistent requirements repository format that will be easy to use for both human and machine;
+* a minimum set of required tools with the possibility of rapid adjusting to needs of certain projects, that are free and ready to use.
 
 ## Installation
 
@@ -23,7 +24,7 @@ Install the creq gem:
 
     $ gem install creq
 
-Of course you can choose the other standard way through cloning repository and installing the gem by hand (you must also have [Bundler](http://bundler.io/) installed):
+You can also choose another way through repository cloning and install the gem by hand (check if you have [Bundler](http://bundler.io/) installed):
 
     $ git clone https://github.com/nvoynov/creq.git
     $ cd creq    
@@ -32,9 +33,7 @@ Of course you can choose the other standard way through cloning repository and i
 
 ## Promo
 
-CReq is supplied by Creq Promo Project. This project contains software requirements for Creq.
-
-You can copy Creq Promo Project content into the current directory by `creq promo` command. When promo project is copied, you can simply create Creq Requirements Document by `creq doc` command.
+The CReq is supported by a promo project that is a CReq project that contains software requirements of the gem. And you can copy the promo content into the current directory by `creq promo` command. When the promo content is copied, you can create CReq Requirements by `creq doc` command.
 
 ## Usage
 
@@ -74,20 +73,20 @@ The System shall provide `Command 1`. When `Command 1` is received, the System s
 The System shall provide `Command 2`. When `Command 2` is received, the System shall do something other than `Command 1` (see [[f2.cmd1]] for details).
 ```
 
-Every requirement starts with markdown header. All the text between headers is a requirement body. The body can contain an excerpt with requirement attributes.
+Every requirement starts with markdown header. All the text between headers is a requirement body. The body can contain an excerpt with requirements attributes.
 
 #### Identifiers
 
-Each requirement must have its unique identifier so that you can reference to this requirement in any part of the requirements document and in any further work related to the requirement. That's why a recommended way is to put requirement_id straight into requirements header like this `# [requirement_id] requirement title`.
+Each requirement must have its unique identifier so that you can refer to the requirement in any part of the requirements document or for further work related to the requirement. That's why a recommended way is to put requirement_id straight into requirements header like this `# [requirement_id] requirement title`.
 
-Requirements identifier can start with dot like `[.suffix]`. In that case Creq will be create full identifier by adding parent requirements identifier before the dot. For the followed example, for `[.featre1]` Creq will generate full identifier as `[req.id.feature1]`.
+Requirements identifier can start with one dot like `[.suffix]`. When an identifier starts with dot, CReq will add parent requirement identifier before the dot. For the followed example,  `[.featre1]` will be `[req.id.feature1]`.
 
 ```markdown
 # [req.id] Parent requirement
 ## [.feature1] Feature requirement
 ```
 
-Creq also provide requirements author with ability of auto generated IDs and you can mix requirements with id and requirements without id. For the followed example, `First feature` will become `[req.id.01] First feature` and `Second feature` will become `[req.id.02] Second feature`.
+When requirement identifier is not provided, CReq will generate it automatically. And you can also combine all these features together. For the followed example, `First feature` will be `[req.id.01] First feature` and `Second feature` will become `[req.id.02] Second feature`.
 
 ```markdown
 # [req.id] Parent requirement
@@ -97,25 +96,26 @@ Creq also provide requirements author with ability of auto generated IDs and you
 
 #### Attributes
 
-The excerpt, the text in brackets `{{ }}`, contains attributes. You can place here anything you need, like requirement status, source, risk, priority, etc.
+The excerpt, the text in brackets `{{ }}`, contains requirement attributes. You can place here anything you need, like requirement status, source, author, priority, etc.
 
-The next three attributes are **system attributes** and they influence to Creq behavior. So that:
-* `requirement: false` will suppress of output attributes table for items that are not requirements (headers for other parts of requirements document);
-* `suppress_id: true` will suppress requirement [id] in header of the requirements document;
+The next three attributes are **system attributes** and these influence to Creq behavior:
+
+* `requirement: false` will suppress output table of requirement attributes (it might be helpful for headers or other parts of requirements document that is not a requirement);
+* `suppress_id: true` will suppress output [id] in the header of the requirement;
 * `child_order: feature1 feature2` will sort child requirements in provided order;
-* `parent: f` will place `[f1]` requirements subtree as a child requirement into `[f]` requirement.
+* `parent: f` will place `[f1]` requirements subtree as a child of the `[f]` requirement.
 
-All other attributes (`status`, `source`) are **user attributes** and do not influence to Creq behavior. These attributes are just held in requirements attributes hash.
+All other attributes (`status`, `source`, etc.) are **user attributes** and do not influence CReq behavior. These attributes are holding in requirements attributes hash.
 
 #### Link macro
 
-You can place link to another requirement in requirements body by writing macros `[[requirement.id]]`. This macro will produce full-fledged markdown link `[[<id>] <title>](#<id>)` in output document produced by `doc` command. If requirement with `id` does not exist, Creq will produce something like `[id](#unknown)`.
+You can place a link to another requirement in requirements body by writing macros `[[requirement.id]]`. This macro will produce full-fledged markdown link `[[<id>] <title>](#<id>)` in output document produced by `doc` command. If requirement with `id` does not exist, CReq will produce something like `[id](#unknown)`.
 
-There is a "feature" in current release than Creq will make a replacement for all occurrences of macro `[[id]]`, even if the occurrence is in markdown quotes.
+There is a "feature" in current release than CReq will make a replacement for all occurrences of macro `[[id]]`, even if the occurrence is in markdown quotes.
 
 #### Requirements tree
 
-The Creq will parse two files displayed above and build the next requirements tree:
+The CReq will parse two files displayed above and build the next requirements tree:
 
 ```
 [f] Functional requirements
@@ -130,7 +130,7 @@ The Creq will parse two files displayed above and build the next requirements tr
 
 #### Check errors
 
-Creq can check requirements repository for duplicate requirement ids; wrong links, parents and child_order attribute errors. To quickly see this feature in action, run the next commands (I hope you already have `content.md` and `feature.md` files) and see the output.
+CReq can check requirements repository for duplicate requirement ids; wrong links, errors in `parent` and `child_order` attributes. To see the feature in action, run the next commands (I hope you already have `content.md` and `feature.md` files) and see the output.
 
     $ cp req/feature1.md req/feature2.md
     $ creq chk
@@ -141,15 +141,17 @@ Fix the errors by providing unique ids in `req/feature.2md`, then run `creq doc`
 
 ### CLI
 
-Creq provide five essential commands:
-* new - create new creq project in the current directory;
-* promo - copy promo project content to the current creq project directory;
-* req - create a new requirement file;
-* chk - check requirement repository consistence;
-* doc - combine all requirements into single document;
-* pandoc - create requirements document in any format supported by pandoc (you must have [pandoc](https://pandoc.org/) installed).
+CReq provides the followed commands:
 
-You can see all available commands through `creq help` command, and you can get help by certain command by `creq help <command>` command.
+* `new` - creates new CReq project in the current directory;
+* `req` - creates a new requirement file;
+* `chk` - checks the project repository consistence;
+* `toc` - outputs table of contents of requirement repository;
+* `doc` - combines requirements into single document;
+* `publish` - creates requirements document in any format supported by 'pandoc' ([pandoc](https://pandoc.org/) must be installed).
+* `promo` - copies promo project content to the current CReq project directory;
+
+You can see all available commands through `creq help` command, and you can get help for the command by `creq help <command>`.
 
 To start using creq just create a new project:
 
@@ -162,9 +164,7 @@ Try creq commands on Promo project:
     $ creq req
     $ creq chk
     $ creq doc
-    $ creq pandoc
-
-If parameters `[FORMAT] [OPTIONS]` is not specified, `pandoc` command will generate requirements document in html format with table of contents.
+    $ creq publish
 
 #### Extend it yourself!
 

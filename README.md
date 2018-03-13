@@ -243,7 +243,7 @@ If you have not seen help for `req` command, to create a requirement by template
 
     $ creq req REQ_ID -t TEMPLATE
 
-### Checking repo for errors
+### Checking for errors
 
 Because there is a lots of hand writing and all the files must meet structures compliances, the CReq provides `chk` command. The command will check the requirements repository for errors. The most usual ones are:
 

@@ -1,6 +1,7 @@
 # Creq
 
-* The `skippub: true` system attribute to skip requirement from `doc` and `pub`.
+* Write tests for `--skipid` option of publishing CLI
+* The `publish: false` system attribute to skip requirement from `doc` and `pub`.
 * The `derived_by` system attribute and CLI command for tracing.
 * Default order for attributes table, `id->status->derived_by`.
 * Make markdown links working in `GitLab`.

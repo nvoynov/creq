@@ -91,21 +91,24 @@ module Creq
     end
 
     desc "toc [REQ]", "Output Table of contents"
+    method_option :skipid, alias: "-s", type: :string, desc: "Skip requirement ids", default: ''
     def toc(req = '')
       create_toc(req)
     end
 
 
-    desc "doc [REQ]", "Create the requirements document."
+    desc "doc [REQ]", "Create a requirements document"
+    method_option :skipid, alias: "-s", type: :string, desc: "Skip requirement ids", default: ''
     def doc(req='')
-      create_doc(req)
+      create_doc(req, options[:skipid])
     end
 
-    desc "publish [REQ]", "Publish the requirement document by Pandoc"
+    desc "pub [REQ]", "Publish the requirement document by Pandoc"
+    method_option :skipid, alias: "-s", type: :string, desc: "Skip requirement ids", default: ''
     method_option :format, alias: "-f", type: :string, desc: "Pandoc output format", default: 'html'
     method_option :pandoc, alias: "-o", type: :string, desc: "Pandoc options", default: ''
-    def publish(req = '')
-      pandoc(req, options[:format], options[:pandoc] || '')
+    def pub(req = '')
+      pandoc(req, options[:skipid], options[:format], options[:pandoc])
     end
 
     CHK_ERR_MSGS  = {

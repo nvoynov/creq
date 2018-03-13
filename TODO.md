@@ -1,6 +1,8 @@
 # Creq
 
-* Requirement extensions in build_repo process like LinkExpander.
+* Provide tests for `--skipid` option of `doc`, `doc`, and `pub` commands.
+* Provide `publish: false` system attribute that will suppress the requirements output.
+* Provide extensions to build_repo process like LinkExpander.
 * The `derived_by` system attribute and CLI command for tracing.
 * Default order for attributes table, `id->status->derived_by`.
 * Make markdown links working in `GitLab`.

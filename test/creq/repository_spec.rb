@@ -114,6 +114,7 @@ component items:
 * [[.e]].
 
 ### [.f] functions
+{{child_order: .f2 .f1}}
 
 component functions:
 
@@ -146,6 +147,10 @@ Accroding to [[*f]]
       body.must_match Regexp.escape('* Call [[f.c1.f.f2]]')
     end
 
+    repo.find('f.c1.f') do |req|
+      req.first.id.must_equal "f.c1.f.f2"
+      req.last.id.must_equal  "f.c1.f.f1"
+    end
   end
 
   describe '#wrong_parents' do

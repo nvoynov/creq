@@ -25,13 +25,43 @@ module Creq
       Dir.chdir(Settings::DOC, &block)
     end
 
-    def requirements_repository
-      inside_req { Repository.() }
+    # @param repo [Requirement] - requirements repository
+    # @param skip [String] - string of req ids delimited by space
+    def remove_reqs(repo, skip)
+      rmid = skip.split(/ /)
+      todo = {}
+      repo.each do |r|
+        if rmid.include? r.id
+          parent = r.root? ? 'root' : r.parent.id
+          todo[parent].nil? ? todo[parent] = [r.id] : todo[parent] << r.id
+        end
+      end
+
+      todo.each do |from, what|
+        pp from
+        pp what
+        source = from == 'root' ? repo : repo.find(from)
+        what.each do |r|
+          item = source.find(r)
+          source.items.delete(item)
+        end
+      end
+
+      repo
+    end
+
+    # @param id [String] retrive requirements tree for id
+    # @param skip [String] skip requirements with id delimited by space
+    def requirements_repository(id = '', skip = '')
+      repo = inside_req { Repository.() }
+      repo = repo.find(req) unless id.empty?
+      repo = remove_reqs(repo, skip) unless skip.empty?
+      repo
     end
 
     def check_repo
       {}.tap do |err|
-        repo = inside_req { Repository.() }
+        repo = requirements_repository
         err[:duplicate_ids] = repo.duplicate_ids
         err[:wrong_parents] = repo.wrong_parents
         err[:wrong_links] = repo.wrong_links
@@ -50,11 +80,10 @@ module Creq
       nil
     end
 
-    def create_toc(req = '')
-      repo = requirements_repository
-      repo = repo.find(req) if req != ''
-      if repo.nil?
-        puts "Requirement [#{req}] not found. Operation aborted!"
+    def create_toc(req = '', skipid = '')
+      repo = requirements_repository(req, skipid)
+      unless repo
+        puts "Requirements for provided params not found!"
         return
       end
 
@@ -71,11 +100,10 @@ module Creq
       stream.write "% on #{Time.now.strftime('%B %e, %Y at %H:%M')}\n"
     end
 
-    def create_doc(req = '')
-      repo = requirements_repository
-      repo = repo.find(req) if req != ''
-      if repo.nil?
-        puts "Requirement [#{req}] not found. Operation aborted!"
+    def create_doc(req = '', skipid = '')
+      repo = requirements_repository(req, skipid)
+      unless repo
+        puts "Requirements for provided params not found!"
         return
       end
 
@@ -90,18 +118,18 @@ module Creq
       puts "'doc/#{file}.md' created!"
     end
 
-   def pandoc(req, format, options)
+   def pandoc(req, skipid, format, options)
      unless which('pandoc') || which('pandoc.exe')
        puts "Please install 'pandoc' first."
        return
      end
 
-     repo = requirements_repository
-     repo = repo.find(req) if req != ''
-     if repo.nil?
-       puts "Requirement [#{req}] not found. Operation aborted!"
+     repo = requirements_repository(req, skipid)
+     unless repo
+       puts "Requirements for provided params not found!"
        return
      end
+
      title = repo.title
      title = 'requirements' if title == ''
      tmp = '~tmp.md'

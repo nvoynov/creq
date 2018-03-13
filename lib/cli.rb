@@ -52,6 +52,8 @@ module Creq
 
     no_commands {
       def git_init
+        return unless which('git') || which('git.exe')
+
         say "Initializing git repository..."
         `git init`
         `git add .`

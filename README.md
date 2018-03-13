@@ -1,16 +1,38 @@
-# Creq
 
 [![Join the chat at https://gitter.im/nvoynov-creq/Lobby](https://badges.gitter.im/nvoynov-creq/Lobby.svg)](https://gitter.im/nvoynov-creq/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [![Gem Version](https://badge.fury.io/rb/creq.svg)](https://badge.fury.io/rb/creq) [![Build Status](https://travis-ci.org/nvoynov/creq.svg?branch=master)](https://travis-ci.org/nvoynov/creq) [![Code Climate](https://codeclimate.com/github/nvoynov/creq/badges/gpa.svg)](https://codeclimate.com/github/nvoynov/creq)
 
-The CReq is a simple and customizable tool for requirements management. It provides the ability of writing requirements in discrete markdown files and combining those files into a single and consistent requirements specification.
-
-The CReq is simple enough in itself, but when you joint it with Ruby, a modern text editor, and Git, it gives you exceptional power and flexibility of requirements management process.
-
 ![Promo](lib/assets/promo/doc/assets/promo.png)
 
-## Purpose
+* [What is CReq?](#what-is-creq)
+* [Installation](#installation)
+* [Format](#format)
+  * [Project](#project)
+  * [Repository](#repository)
+  * [Requirement](#requirement)
+    * [Identifies](#identifiers)
+    * [Attributes](#attributes)
+    * [Links](#links)
+    * [Relative links](#relative-links)
+* [Usage](#usage)
+  * [Creating new project](#creating-new-project)
+  * [Creating requirement](#creating-requirement)
+  * [Using templates](#using-templates)
+  * [Checking for errors](#checking-for-errors)
+  * [Publishing](#publishing)
+  * [Using Git](#using-git)
+  * [Automating](#automating)
+  * [Promo](#promo)
+* [Development](#development)
+* [Contributing](#contributing)
+* [License](#license)
+
+## What is CReq?
+
+The CReq is a simple and customizable CLI for requirements management. It provides the ability of writing requirements in discrete markdown files and combining those files into a single and consistent requirements specification.
+
+The CReq is simple enough in itself, but when you joint it with Ruby, a modern text editor, and Git, it gives you exceptional power and flexibility of requirements management process.
 
 The project was created for the purpose to find a simple and efficient approach to requirements management practice (gathering, eliciting, writing, approval, prioritizing, efforts estimation; tracing to other project artifacts) by exploring:
 
@@ -140,6 +162,7 @@ component items:
 * [[.f]];
 * [[.e]].
 ### [.f] functions
+{{child_order: .f2 .f1}}
 component functions:
 * [[.f1]];
 * [[.f2]].
@@ -154,7 +177,7 @@ According to [[\*f]]
 ## [.c2] component 2
 ```
 
-In the case CReq will replace relative links as following:
+In the case CReq will replace relative links and change order of [f.c1.f] as following:
 
 ```markdown
 # [f] functional
@@ -166,11 +189,11 @@ component items:
 component functions:
 * [[f.c1.f.f1]];
 * [[f.c1.f.f2]].
+#### [f.c1.f.f2] func 2
 #### [f.c1.f.f1] func 1
 According to [[f]]
 * Create [[f.c1.e.e1]].
 * Call [[f.c1.f.f2]].
-#### [f.c1.f.f2] func 2
 ### [f.c1.e] entities
 #### [f.c1.e.e1] entity 1
 #### [f.c1.e.e2] entity 2
@@ -247,7 +270,7 @@ One of the usual requirements author's task is publishing. And CReq provides two
 
 `creq doc` command creates `doc/requirements.md` well-formed markdown file that contains all the requirements from the repository. You can read plaint markdown files hosted on [GitHub](), [GitLab](), etc. and see changes through commits.
 
-* `creq pub` command creates `doc/requirements.html` file by default. Actually CReq use [pandoc](https://pandoc.org/) (and you need to have it installed) for the purpose and you can specify preferred output format through the command parameters.
+`creq pub` command creates `doc/requirements.html` file by default. Actually CReq use [pandoc](https://pandoc.org/) (and you need to have it installed) for the purpose and you can specify preferred output format through the command parameters.
 
 For the two examples provided in [### Requirement] section, CReq will combine all the requirements from two files as following
 
@@ -275,9 +298,17 @@ When `Command 2` is received, the System shall ...
 # [c] Design constraints
 ```
 
+### Using Git
+
+At the last step of new project creation, CReq tries to find `git`. It will create a new git repository and make the initial commit if `git` is found.
+
+Git gives a good start point for simultaneous work on the same project by few requirements authors or reviewers.
+
 ### Automating
 
 You can and should extend the standard CReq CLI by your own commands. See `<project>.thor` file as an example and call for action. It is all the Ruby code and the main point is to get requirements collection by `requirement_repository` function.
+
+The first candidate for automation is the `creq pub` command. And I hope provide some more advanced examples in the future. Some kind of risk/effort/priority, FPA and PERT estimations based on requirement repository are considered.
 
 ### Promo
 

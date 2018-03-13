@@ -1,5 +1,6 @@
 # Creq
 
+* Requirement extensions in build_repo process like LinkExpander.
 * The `derived_by` system attribute and CLI command for tracing.
 * Default order for attributes table, `id->status->derived_by`.
 * Make markdown links working in `GitLab`.

@@ -104,6 +104,50 @@ describe Repository do
     end
   end
 
+  describe '#expand_links' do
+    content = StringIO.new %(# [f] functional
+## [.c1] component 1
+
+component items:
+
+* [[.f]];
+* [[.e]].
+
+### [.f] functions
+
+component functions:
+
+* [[.f1]];
+* [[.f2]].
+
+#### [.f1] func 1
+
+Accroding to [[*f]]
+
+* Create [[*e1]].
+* Call [[f2]].
+
+#### [.f2] func 2
+### [.e] entities
+#### [.e1] entity 1
+#### [.e2] entity 2
+## [.c2] component 2
+)
+    repo = Repository.({'content.md' => SpecReader.(content.each_line)})
+
+    repo.find('f.c1').body do |body|
+      body.must_match Regexp.escape('Accroding to [[f]]')
+      body.must_match Regexp.escape('* [[f.c1.f]]')
+      body.must_match Regexp.escape('* [[f.c1.e]]')
+    end
+
+    repo.find('f.c1.f.f1').body do |body|
+      body.must_match Regexp.escape('* Create [[f.c1.e.e1]]')
+      body.must_match Regexp.escape('* Call [[f.c1.f.f2]]')
+    end
+
+  end
+
   describe '#wrong_parents' do
 
     it 'must return [] if errors does not found' do

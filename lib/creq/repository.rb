@@ -47,6 +47,7 @@ module Creq
         store_links(flat)
       end
       subordinate!
+      expand_links!
       generate_missing_ids
     end
 
@@ -72,6 +73,35 @@ module Creq
         parent << r
         @items.delete(r)
       }
+    end
+
+    # TODO: separate out an extension like a LinkExtender, Subordinator, Checker, etc. provide an extension order setting?
+    def expand_links!
+      reqa = map(&:id).inject([], :<<)
+      each do |req|
+        req.links.each do |lnk|
+          next if reqa.include?(lnk)
+
+          # Requirement item(id) vs find(id) .. add .
+          exp = req.item(lnk) if lnk.start_with? '.'
+          req.body.gsub!("[[#{lnk}]]", "[[#{exp}.id]]") if exp
+
+          if lnk.start_with?('*') # find in hierarchy
+            par = req.parent
+            top = req.root
+            exp = nil
+            until exp || par == top
+              exp = par.item(lnk)
+              req.body.gsub!("[[#{lnk}]]", "[[#{exp.id}]]") if exp
+              par = par.parent unless exp
+            end
+          end
+
+          # find at the same level of hierarhy
+          exp = req.parent.item(lnk)
+          req.body.gsub!("[[#{lnk}]]", "[[#{exp}]]") if exp
+        end
+      end
     end
 
     def store_files(reqary, file)

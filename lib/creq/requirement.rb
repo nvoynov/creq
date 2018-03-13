@@ -43,13 +43,19 @@ module Creq
       @attributes[:parent]
     end
 
-    def item(item_id)
-      @items.each{|i| return i if i.id.eql? item_id}
+    # @param [String] requirement id; if the parameter contains the `.` prefix, it will search requirement.id.end_with?(id)
+    # @return [Requirement] when id found or nil if did not
+    def item(id)
+      @items.each{|r| return r if r.id.end_with? id[1..-1]} if id.start_with? '.'
+      @items.each{|r| return r if r.id.eql? id}
       nil
     end
 
-    def find(node_id)
-      each{|n| return n if n.id.eql? node_id}
+    # @param [String] requirement id; if the parameter contains the `*` prefix, it will search requirement.id.end_with?(id)
+    # @return [Requirement] when id found or nil if did not
+    def find(id)
+      each{|r| return r if r.id.end_with? id[1..-1]} if id.start_with? '*'
+      each{|r| return r if r.id.eql? id}
       nil
     end
 

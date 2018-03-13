@@ -98,7 +98,7 @@ module Creq
           end
 
           # find at the same level of hierarhy
-          exp = req.parent.item(lnk)
+          exp = req.parent.item(lnk) if req.parent
           req.body.gsub!("[[#{lnk}]]", "[[#{exp}]]") if exp
         end
       end

@@ -1,34 +1,67 @@
 # <%=config[:project].capitalize%>
 
-TODO: Delete this paragraph body, and describe the <%=config[:project].capitalize%> project (stakeholders and users contacts, project servers, databases, etc.)
+TODO: Delete this paragraph and describe the project (stakeholders, team, contacts, servers, databases, etc.)
 
-Welcome to your new Creq project "<%=config[:project]%>"!
+Welcome to new [CReq](https://github.com/nvoynov/creq) project "<%=config[:project]%>"!
 
-Typical Creq project has the following directory structure:
-* doc/ - output documents folder;
-* doc/assets/ - output documents assets folder;
-* req/ - requirements folder;
-* lib/ - library folder;
-* tt/ - templates folder;
-* <%=config[:project]%>.thor - file with custom Thor tasks for your special needs;
-* README.md - this file.
+The project repository has the following structure:
 
-# Promo
+* [doc/](doc/) - output documents folder;
+* [doc/assets/](doc/assets/) - output documents assets folder;
+* [req/](req/) - requirements folder;
+* [mod/](mod/) - modeling folder;
+* [lib/](lib/) - library folder;
+* [tt/](tt/) - templates folder;
+* [<%=config[:project]%>.thor](<%=config[:project]%>.thor) - file with custom Thor tasks for your special needs (more about automation [here](https://github.com/nvoynov/creq/blob/master/README.md#automating
+));
+* [README.md](README.md) - this file.
 
-Creq is supplied by a promo project. This project contains software requirements to Creq itself, and You can copy it the current project directory by `Creq promo` command.
+## How to start
 
-When promo project is copied you can play with it through CLI. Just type few commands and see result.
+To start work with the project just clone the repository
 
-    $ creq chk
-    $ creq doc
-    $ creq req
+    git clone <repository>.git
 
-You can see all standard Creq commands list by `Creq help`.
+or add remote if the folder exist
 
-# Extend it yourself!
+    git remote add origin <repository>.git
 
-Creq CLI s based on the Thor library and you can extend it according to your project specific needs. For this purpose the project provide file `<%=config[:project]%>.thor`.
+## Git workflow
 
-You can see all available thor commands by `thor list`; the specific commands to <%=config[:project]%> project by `thor list <%=config[:project]%>`; and help by specific command by `thor help <%=config[:project]%>:<command>`.
+[Git How To](https://githowto.com/)
 
-Writing custom CLI for requirements repository is a work that simple enough. Creq provide one simple way to obtain the requirements repository tree by `requirements_repository` function. The function returns requirement tree through root Requirement object that provides Enumerable interface.
+Incorporates changes from a remote repository:
+
+    git pull
+
+Create a new branch to start any activity with the repository:
+
+    git branch <branch_name>
+
+Make changes and commit your work:
+
+    git add .
+    git commit -m "branch_name - commit description"
+
+When your changes finished, incorporate changes from the remote repository and merge the `master` branch to your `branch_name`:
+
+    git checkout master
+    git pull
+    git checkout <branch_name>
+    git merge master
+
+Resolve all conflicts and commit changes:
+
+    git add .
+    git commit -m "branch_name conflicts resolved"
+
+Merge your changes to the `master` branch:
+
+    git checkout master
+    git merge <branch_name>
+
+Push your changes to remote repository:
+
+    git push
+
+Create merge request if you are not allowed to push to the `master` branch.

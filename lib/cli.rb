@@ -79,7 +79,7 @@ module Creq
       raise e
     end
 
-    desc "chk", "Check the current requirments repository for errors."
+    desc "chk", "Check the repository for errors."
     def chk
       say "Checking repository for error..."
 
@@ -92,20 +92,20 @@ module Creq
       result.each { |k, v| puts "#{CHK_ERR_MSGS[k]}\n#{v.join("\n")}" }
     end
 
-    desc "toc [REQ]", "Output Table of contents"
+    desc "toc [REQ] [OPTIONS]", "Print Table of contents"
     method_option :skipid, alias: "-s", type: :string, desc: "Skip requirement ids", default: ''
     def toc(req = '')
       create_toc(req, options[:skipid])
     end
 
 
-    desc "doc [REQ]", "Create a requirements document"
+    desc "doc [REQ] [OPTIONS]", "Create a requirements document"
     method_option :skipid, alias: "-s", type: :string, desc: "Skip requirement ids", default: ''
     def doc(req='')
       create_doc(req, options[:skipid])
     end
 
-    desc "pub [REQ]", "Publish the requirement document by Pandoc"
+    desc "pub [REQ] [OPTIONS]", "Publish the requirement document by Pandoc"
     method_option :skipid, alias: "-s", type: :string, desc: "Skip requirement ids", default: ''
     method_option :format, alias: "-f", type: :string, desc: "Pandoc output format", default: 'html'
     method_option :pandoc, alias: "-o", type: :string, desc: "Pandoc options", default: ''

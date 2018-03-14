@@ -93,7 +93,7 @@ module Creq
     desc "toc [REQ]", "Output Table of contents"
     method_option :skipid, alias: "-s", type: :string, desc: "Skip requirement ids", default: ''
     def toc(req = '')
-      create_toc(req)
+      create_toc(req, options[:skipid])
     end
 
 

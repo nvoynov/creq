@@ -72,7 +72,8 @@ module Creq
     # @return [String] full path to the command or nil if command was not found
     def which(cmd)
       ENV['PATH'].split(File::PATH_SEPARATOR).each do |path|
-        tmp = File.join(path, cmd).gsub(File::ALT_SEPARATOR, File::SEPARATOR)
+        tmp = File.join(path, cmd).gsub(
+          Regexp.escape(File::ALT_SEPARATOR), File::SEPARATOR)
         return tmp if File.exists?(tmp) && File.executable?(tmp)
       end
       nil

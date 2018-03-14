@@ -1,5 +1,6 @@
 # Creq
 
+* Clean writer.rb
 * Write tests for `--skipid` option of publishing CLI
 * The `publish: false` system attribute to skip requirement from `doc` and `pub`.
 * The `derived_by` system attribute and CLI command for tracing.

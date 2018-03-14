@@ -38,8 +38,6 @@ module Creq
       end
 
       todo.each do |from, what|
-        pp from
-        pp what
         source = from == 'root' ? repo : repo.find(from)
         what.each do |r|
           item = source.find(r)
@@ -54,7 +52,7 @@ module Creq
     # @param skip [String] skip requirements with id delimited by space
     def requirements_repository(id = '', skip = '')
       repo = inside_req { Repository.() }
-      repo = repo.find(req) unless id.empty?
+      repo = repo.find(id) unless id.empty?
       repo = remove_reqs(repo, skip) unless skip.empty?
       repo
     end

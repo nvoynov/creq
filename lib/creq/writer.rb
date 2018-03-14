@@ -47,7 +47,6 @@ module Creq
     end
   end
 
-  # TODO write in order according to attributes[:child_order]
   class FinalWriter < Writer
 
     def self.write(req, stream = $stdout)
@@ -112,7 +111,15 @@ module Creq
   class PandocWriter < Creq::FinalDocWriter
 
     def write(req, stream)
-      req.collect {|x| x.attributes[:id] = x.id unless x[:suppress_id] }
+      # req.collect {|x| x.attributes[:id] = x.id unless x[:suppress_id] }
+      # insert id attribute to first position
+      req.collect {|x|
+        unless x[:suppress_id]
+          attributes = {id: x.id}.merge(x.attributes)
+          x.attributes.clear
+          attributes.each{|k, v| x[k] = v}
+        end
+      }
       super(req, stream)
     end
 

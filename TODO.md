@@ -1,8 +1,8 @@
 # Creq
 
-* Provide tests for `--skipid` option of `doc`, `doc`, and `pub` commands.
-* Provide `publish: false` system attribute that will suppress the requirements output.
-* Provide extensions to build_repo process like LinkExpander.
+* Clean writer.rb
+* Write tests for `--skipid` option of publishing CLI
+* The `publish: false` system attribute to skip requirement from `doc` and `pub`.
 * The `derived_by` system attribute and CLI command for tracing.
 * Default order for attributes table, `id->status->derived_by`.
 * Make markdown links working in `GitLab`.

@@ -64,7 +64,7 @@ module Creq
     end
 
     def subordinate!
-      # clear parent for root.items
+      # clear parent for root.items, BUT WHY?
       @items.each{|r| r.parent = nil}
 
       @items.select{|r| r[:parent] && r.parent.nil?}.each{|r|
@@ -82,24 +82,27 @@ module Creq
         req.links.each do |lnk|
           next if reqa.include?(lnk)
 
-          # Requirement item(id) vs find(id) .. add .
-          exp = req.item(lnk) if lnk.start_with? '.'
-          req.body.gsub!("[[#{lnk}]]", "[[#{exp}.id]]") if exp
-
-          if lnk.start_with?('*') # find in hierarchy
+          if lnk.start_with?('..') # find in hierarchy
             par = req.parent
-            top = req.root
             exp = nil
-            until exp || par == top
-              exp = par.item(lnk)
+            until exp || par.nil?
+              exp = par.find(lnk)
               req.body.gsub!("[[#{lnk}]]", "[[#{exp.id}]]") if exp
               par = par.parent unless exp
             end
+            # parent of root.items is nil, see #subordinate!, PUBLISHING?
+            # that is why it needs search in root
+            exp = find(lnk) unless exp
+            req.body.gsub!("[[#{lnk}]]", "[[#{exp.id}]]") if exp
           end
 
+          # Requirement item(id) vs find(id) .. add .
+          exp = req.item(lnk) if lnk.start_with? '.'
+          req.body.gsub!("[[#{lnk}]]", "[[#{exp.id}]]") if exp
+
           # find at the same level of hierarhy
-          exp = req.parent.item(lnk) if req.parent
-          req.body.gsub!("[[#{lnk}]]", "[[#{exp}]]") if exp
+          exp = req.parent.item('.' + lnk) if req.parent
+          req.body.gsub!("[[#{lnk}]]", "[[#{exp.id}]]") if exp
         end
       end
     end

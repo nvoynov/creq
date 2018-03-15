@@ -105,7 +105,10 @@ describe Repository do
   end
 
   describe '#expand_links' do
-    content = StringIO.new %(# [f] functional
+
+    it 'must expand links in single file' do
+
+      content = StringIO.new %(# [f] functional
 ## [.c1] component 1
 
 component items:
@@ -123,9 +126,9 @@ component functions:
 
 #### [.f1] func 1
 
-Accroding to [[*f]]
+Accroding to [[..f]]
 
-* Create [[*e1]].
+* Create [[..e1]].
 * Call [[f2]].
 
 #### [.f2] func 2
@@ -134,23 +137,51 @@ Accroding to [[*f]]
 #### [.e2] entity 2
 ## [.c2] component 2
 )
-    repo = Repository.({'content.md' => SpecReader.(content.each_line)})
+      repo = Repository.({'content.md' => SpecReader.(content.each_line)})
 
-    repo.find('f.c1').body do |body|
-      body.must_match Regexp.escape('Accroding to [[f]]')
-      body.must_match Regexp.escape('* [[f.c1.f]]')
-      body.must_match Regexp.escape('* [[f.c1.e]]')
+      body = repo.find('f.c1').body
+      body.must_match "* [[f.c1.f]]"
+      body.must_match "* [[f.c1.f]]"
+      body.must_match "* [[f.c1.e]]"
+
+      body = repo.find('f.c1.f.f1').body
+      body.must_match "Accroding to [[f.c1.f]]"
+      body.must_match "* Create [[f.c1.e.e1]]"
+      body.must_match "* Call [[f.c1.f.f2]]"
+
+      req = repo.find('f.c1.f')
+      req.items.first.id.must_equal "f.c1.f.f2"
+      req.items.last.id.must_equal  "f.c1.f.f1"
     end
 
-    repo.find('f.c1.f.f1').body do |body|
-      body.must_match Regexp.escape('* Create [[f.c1.e.e1]]')
-      body.must_match Regexp.escape('* Call [[f.c1.f.f2]]')
+    it 'must expand links betweed two files' do
+
+f1 = StringIO.new %(# [c1] c1
+## [.f1] c1 f1
+Call [[f2]]
+Call [[..f3]]
+## [.f2] c1 f2
+)
+
+f2 = StringIO.new %(# [c2] c2
+## [.f3] c2 f3
+## [.f4] c2 f4
+Call [[f3]]
+Call [[..f1]]
+)
+      repo = Repository.({
+        'f1.md' => SpecReader.(f1.each_line),
+        'f2.md' => SpecReader.(f2.each_line)})
+
+      body = repo.find('c1.f1').body
+      body.must_match "Call [[c1.f2]]"
+      body.must_match "Call [[c2.f3]]"
+
+      body = repo.find('c2.f4').body
+      body.must_match "Call [[c2.f3]]"
+      body.must_match "Call [[c1.f1]]"
     end
 
-    repo.find('f.c1.f') do |req|
-      req.first.id.must_equal "f.c1.f.f2"
-      req.last.id.must_equal  "f.c1.f.f1"
-    end
   end
 
   describe '#wrong_parents' do

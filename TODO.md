@@ -1,5 +1,6 @@
 # Creq
 
+* [[\*link]] spoils markdown format in editors.
 * Clean writer.rb
 * Write tests for `--skipid` option of publishing CLI
 * The `publish: false` system attribute to skip requirement from `doc` and `pub`.

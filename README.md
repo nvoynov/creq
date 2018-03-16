@@ -60,11 +60,11 @@ You can also choose another way through repository cloning and install the gem b
 The CReq project has the following folders structure (that will be created by `creq new <project>`):
 
 * `doc/` - for output documents;
-   * `doc/assets` - for additional assets provided by the documents;
+* `doc/assets` - for additional assets provided by the documents;
 * `lib/` - for any helpful artifacts and other input sources;
 * `req/` - requirements repository;
 * `tt/` - templates;
-* `<project>.thor` - `.thor` file with automated tasks;
+* `<project>.thor` - `.thor` file with automated tasks (see more in [Automating](#automating));
 * `README.md`.
 
 ### Repository
@@ -150,8 +150,9 @@ You can place a link to another requirement in requirements body by writing macr
 
 Instead of writing full requirement id in links, you can user relative links. There are two different prefixes in relative macro can be used:
 
-* `.link.id` finds a child requirement whose id ends with `link.id`;
- * `..link.id` climbs up by requirements hierarchy and tries to finds `link.id` among all the descendants.
+1. `[[.link.id]]` finds a child requirement whose id ends with `link.id`. This kind of relatіve link can also be used in `{{child_order: .link.id}}`.
+2. `[[..link.id]]` climbs up by requirements hierarchy and tries to finds `link.id` among all the descendants.
+3. `[[link.id]]` looks like a regular link, but if `link.id` requirement not found, the CReq tries to find like `[[.link.id]]` in the parent requirement.
 
 Suppose you have the following requirements structure:
 

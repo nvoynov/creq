@@ -1,5 +1,7 @@
 # Creq
 
+* Fix travisCLI `build failed`
+* Remove `test/integration.cli_spec.rb`
 * Clean writer.rb
 * Write tests for `--skipid` option of publishing CLI
 * The `publish: false` system attribute to skip requirement from `doc` and `pub`.

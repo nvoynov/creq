@@ -1,11 +1,10 @@
 # Creq
 
-<<<<<<< HEAD
-* [[\*link]] spoils markdown format in editors.
-=======
+* Pandoc ext abbreviations
+  \*[HTML]: Hypertext Markup Language
+* Markdown comments and publishing
 * Fix travisCLI `build failed`
 * Remove `test/integration.cli_spec.rb`
->>>>>>> 048400ef92abbdcb74ce8a1a6586065c1b2e2ffa
 * Clean writer.rb
 * Write tests for `--skipid` option of publishing CLI
 * The `publish: false` system attribute to skip requirement from `doc` and `pub`.

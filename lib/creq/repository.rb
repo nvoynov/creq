@@ -36,7 +36,6 @@ module Creq
     def initialize
       super({id: 'root'})
       @reqfs = {} # requirements file map {req_id, [file_name]}
-      @links = {} # link requirements map {link, [req_id]}
     end
 
     def load(repo)
@@ -44,7 +43,6 @@ module Creq
         req.items.each{|r| self << r}
         flat = req.inject([], :<<).tap{|r| r.delete_at(0)}.flatten
         store_files(flat, file)
-        store_links(flat)
       end
       subordinate!
       expand_links!
@@ -113,14 +111,6 @@ module Creq
       }
     end
 
-    def store_links(reqary)
-      reqary.each{|r|
-        r.links.each{|lnk|
-          @links[lnk]? @links[lnk] << r.id : @links[lnk] = [r.id]
-        }
-      }
-    end
-
     def duplicate_ids
       dup = []
       inject([], :<<)
@@ -134,11 +124,32 @@ module Creq
     end
 
     def wrong_links
-      idents = inject([], :<<).tap{|r| r.delete_at(0)}.map(&:id).uniq
-      @links.each_with_object([]) do |(lnk, req), err|
-        next if idents.include?(lnk)
-        err << "[[#{lnk}]] in #{req.map{|r| "[#{r}]"}.join(', ')}"
-      end
+      [].tap {|err|
+        repo_links
+          .select{|k, _| !repo_identifiers.include?(k)}
+          .each{|k, v| err << "[[#{k}]] in #{v.map{|r| "[#{r}]"}.join(', ')}"}
+      }
+    end
+
+    # @return Hash[Link, Array<Req>] hash of unique links in requirements body where the key is a link and value is array of requirements ids
+    def repo_links
+      @links ||= {}.tap { |lnk|
+        repo_requirements.each { |r|
+          r.links.each{|l| lnk[l] ? lnk[l] << r.id : lnk[l] = [r.id]}
+        }
+      }
+      @links
+    end
+
+    # @return Array[Requirements] array of requirements
+    def repo_requirements
+      inject([], :<<)
+    end
+
+    # @return Array<String> unique array of requirements identifiers
+    def repo_identifiers
+      @identifiers ||= map(&:id).tap{|i| i.delete_at(0)}.uniq
+      @identifiers
     end
 
     def wrong_parents

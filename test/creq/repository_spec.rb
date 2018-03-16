@@ -232,7 +232,7 @@ I also have a [[fa]] - wrong link
 )
       req = SpecReader.(with_errors.each_line)
       payload['errors.md'] = req
-      repo = Repository.(payload)
+      repo = Repository.(payload)      
       repo.wrong_links.must_equal  [
         "[[fm]] in [fr.2.1]",
         "[[fa]] in [fr.2.2]",

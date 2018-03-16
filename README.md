@@ -60,11 +60,11 @@ You can also choose another way through repository cloning and install the gem b
 The CReq project has the following folders structure (that will be created by `creq new <project>`):
 
 * `doc/` - for output documents;
-   * `doc/assets` - for additional assets provided by the documents;
+* `doc/assets` - for additional assets provided by the documents;
 * `lib/` - for any helpful artifacts and other input sources;
 * `req/` - requirements repository;
 * `tt/` - templates;
-* `<project>.thor` - `.thor` file with automated tasks;
+* `<project>.thor` - `.thor` file with automated tasks (see more in [Automating](#automating));
 * `README.md`.
 
 ### Repository
@@ -150,8 +150,9 @@ You can place a link to another requirement in requirements body by writing macr
 
 Instead of writing full requirement id in links, you can user relative links. There are two different prefixes in relative macro can be used:
 
- * `*link.id` will climb up through requirements hierarchy and find a requirement whose id ends with `link.id`;
- * `.link.id` will find a child requirement whose id ends with `link.id`.
+1. `[[.link.id]]` finds a child requirement whose id ends with `link.id`. This kind of relatіve link can also be used in `{{child_order: .link.id}}`.
+2. `[[..link.id]]` climbs up by requirements hierarchy and tries to finds `link.id` among all the descendants.
+3. `[[link.id]]` looks like a regular link, but if `link.id` requirement not found, the CReq tries to find like `[[.link.id]]` in the parent requirement.
 
 Suppose you have the following requirements structure:
 
@@ -167,8 +168,8 @@ component functions:
 * [[.f1]];
 * [[.f2]].
 #### [.f1] func 1
-According to [[\*f]]
-* Create [[\*e1]].
+According to [[..f]]
+* Create [[..e1]].
 * Call [[f2]].
 #### [.f2] func 2
 ### [.e] entities
@@ -272,7 +273,7 @@ One of the usual requirements author's task is publishing. And CReq provides two
 
 `creq pub` command creates `doc/requirements.html` file by default. Actually CReq use [pandoc](https://pandoc.org/) (and you need to have it installed) for the purpose and you can specify preferred output format through the command parameters.
 
-For the two examples provided in [### Requirement] section, CReq will combine all the requirements from two files as following
+For the two examples provided in [Requirement](#requirement) section, CReq will combine all the requirements from two files as following
 
 ```markdown
 # [o] Overview
@@ -297,6 +298,16 @@ When `Command 2` is received, the System shall ...
 # [n] Non-functional requirements
 # [c] Design constraints
 ```
+
+#### [REQ_ID] --skipid
+
+Publishing CLI (`toc`, `doc`, and `pub`) provides ability to select a certain requirements subtree to publish by specifying `REQ_ID` parameter. Those also have `--skipid` option that gives the ability to skip some requirements from publishing. There are some specifics of `thor` gem and to use the option you need to specify the option as `creq toc/doc/pub --skipid "id1 id2"`. The next example will hide `f1.cmd2`:
+
+    $ creq doc --skipid "f1.cmd"
+
+The following example will publish only `f` subtree:
+
+    $ creq doc f
 
 ### Using Git
 

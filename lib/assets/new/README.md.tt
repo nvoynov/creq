@@ -12,7 +12,7 @@ The project repository has the following structure:
 * [mod/](mod/) - modeling folder;
 * [lib/](lib/) - library folder;
 * [tt/](tt/) - templates folder;
-* [<%=config[:project]%>.thor](<%=config[:project]%>.thor) - file with custom Thor tasks for your special needs (more about automation [here](https://github.com/nvoynov/creq/blob/master/README.md#automating
+* [<%=config[:project]%>.thor](<%=config[:project]%>.thor) - custom Thor tasks for your special needs (more about automation [here](https://github.com/nvoynov/creq/blob/master/README.md#automating
 ));
 * [README.md](README.md) - this file.
 

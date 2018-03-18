@@ -1,5 +1,7 @@
 # Creq
 
+* New cli param `--query "<ruby code>"` like yardoc
+* New `skip-meta` attribute will suppress id and attribute table, suitable for non-requirements section; `skip-meta-tree` for all the descendants.
 * Pandoc ext abbreviations
   \*[HTML]: Hypertext Markup Language
 * Markdown comments and publishing

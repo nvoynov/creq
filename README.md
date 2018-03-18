@@ -15,6 +15,8 @@
     * [Attributes](#attributes)
     * [Links](#links)
     * [Relative links](#relative-links)
+    * [External assets](#external-assets)
+    * [Comments](#comments)
 * [Usage](#usage)
   * [Creating new project](#creating-new-project)
   * [Creating requirement](#creating-requirement)
@@ -200,6 +202,33 @@ According to [[f]]
 #### [f.c1.e.e2] entity 2
 ## [f.c2] component 2
 ```
+
+#### External assets
+
+If you need to add an image, or some other material into a requirements body, put it in the `doc/assets` folder and specify the link
+
+```markdown
+# [id] Title
+
+... the following diagram illustrates something (see [the full specification](assets/i/something-api.pdf)
+
+![Image](assets/image.png)
+```
+
+#### Comments
+
+This subject is under consideration at the moment. If you need to comment requirements and you do not want the comment to appear in the published output, you can use the html comments `<!-- -->` or the following pandoc trick (it not for comments but side effect).
+
+```markdown
+# [id] Title
+The system shall does something
+
+[//] # (but I'm not sure actually)
+```
+
+`creq doc` command does nothing with those comments, it just combines all the requirements sources to single markdown file and replaces relative links to its full version.
+
+`creq pub` command get the output from `creq doc` and uses the output as an input to `pandoc` which converts it to nothing.
 
 ## Usage
 

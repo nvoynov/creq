@@ -51,24 +51,23 @@ describe Requirement do
 
   describe '#attributes' do
 
-    before do
-      @req = Requirement.new(source: "nvoynov", parent: "f", suppress_id: true, child_order: "1 2")
-    end
+    let(:req) {Requirement.new(
+      source: "nvoynov", parent: "f", skip_meta: true, child_order: "1 2")}
 
     it 'must access to all attributes' do
-      @req.attributes.size.must_equal 4
-      @req[:source].must_equal "nvoynov"
-      @req[:parent].must_equal "f"
-      @req[:suppress_id].must_equal true
-      @req[:child_order].must_equal "1 2"
+      req.attributes.size.must_equal 4
+      req[:source].must_equal "nvoynov"
+      req[:parent].must_equal "f"
+      req[:skip_meta].must_equal true
+      req[:child_order].must_equal "1 2"
     end
 
     it 'must provide seprated #system_attributes' do
-      @req.system_attributes.size.must_equal 3
+      req.system_attributes.size.must_equal 3
     end
 
     it 'must provide seprated #user_attributes' do
-      @req.user_attributes.size.must_equal 1
+      req.user_attributes.size.must_equal 1
     end
 
   end

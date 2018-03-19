@@ -1,11 +1,10 @@
 # encoding: UTF-8
-require_relative 'requirement'
 
 module Creq
 
   class Writer
 
-    def self.write(req, stream = $stdout)
+    def self.call(req, stream = $stdout)
       writer = new(req.root)
       writer.write(req, stream)
     end
@@ -26,11 +25,7 @@ module Creq
     end
 
     def title(r)
-      t = []
-      t << '#' * r.level
-      t << "[#{r.id}]" unless r[:suppress_id]
-      t << r.title
-      t.join(' ')
+      "#{'#' * r.level} [#{r.id}] #{r.title}"
     end
 
     def attributes(r)
@@ -45,101 +40,6 @@ module Creq
       return "\n" << r.body unless r.body.empty?
       r.body
     end
-  end
-
-  class FinalWriter < Writer
-
-    def self.write(req, stream = $stdout)
-      writer = new(req.root)
-      writer.write(req.inject([], :<<), stream)
-    end
-
-    def text(r)
-      [title(r), attributes(r), body(r)]
-        .select{|i| !i.empty?}.join("\n\n")
-    end
-
-    protected
-
-    def attributes(r)
-      return "" if r.user_attributes.empty?
-      t = ["Attribute | Value", "--------- | -----"]
-      r.user_attributes.inject(t){|s, (k, v)| s << "#{k} | #{v}"}
-      t.join("\n")
-    end
-
-    def body(r)
-      bodycp = String.new(r.body)
-      return "" if bodycp.empty?
-      r.links.each{|l| bodycp.gsub!("[[#{l}]]", link(l))}
-      bodycp
-    end
-
-    def link(id)
-      r = @root.find(id)
-      return "[#{id}](unknown)" unless r
-      "[[#{r.id}] #{r.title}](##{url(id)})"
-    end
-
-    def url(id)
-      id.downcase
-        .gsub(/[^A-Za-z0-9\s]/, ' ')
-        .strip
-        .gsub(/(\s){2,}/, ' ')
-        .gsub(/\s/, '-')
-    end
-  end
-
-  class FinalDocWriter < FinalWriter
-
-    def write(req, stream)
-      req.delete_at(0)
-      super(req, stream)
-    end
-
-    protected
-
-      def title(r)
-        t = []
-        t << '#' * r.level
-        t << "[#{r.id}]" unless r[:suppress_id]
-        t << r.title
-        t.join(' ')
-      end
-  end
-
-  class PandocWriter < Creq::FinalDocWriter
-
-    def write(req, stream)
-      # req.collect {|x| x.attributes[:id] = x.id unless x[:suppress_id] }
-      # insert id attribute to first position
-      req.collect {|x|
-        unless x[:suppress_id]
-          attributes = {id: x.id}.merge(x.attributes)
-          x.attributes.clear
-          attributes.each{|k, v| x[k] = v}
-        end
-      }
-      super(req, stream)
-    end
-
-    protected
-
-      def attributes(r)
-        return "" if r[:requirement] && r[:requirement].strip == 'false'
-        super(r)
-      end
-
-      def link(id)
-        r = @root.find(id)
-        return "[#{id}](unknown)" unless r
-        "[#{r.title}](##{url(id)})"
-      end
-
-      def title(r)
-        "#{'#' * r.level} #{r.title} {##{url(r.id)}}"
-      end
-
   end
 
 end

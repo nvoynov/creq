@@ -131,16 +131,30 @@ When identifier is not provided, CReq will generate it automatically, and you ca
 
 #### Attributes
 
-The excerpt, the text in brackets `{{ }}` that follows by header, contains requirement attributes. You can place here anything you need to provide additional information, like status, source, author, priority, etc.
+The excerpt, the text in brackets `{{ }}` that follows by header, contains requirement attributes. You can place here anything you need to provide additional information, like status, source, author, priority, etc. All the following examples are correct.
+
+```
+# [r.1]
+{{parent: r; skip_meta: true}}
+
+# [r.2]
+{{parent: r
+skip_meta: true}}
+
+# [r.3]
+{{
+parent: r
+skip_meta: true
+}}
+```
 
 The next attributes are **system attributes** and these influence to CReq behavior:
 
-* `requirement: false` will suppress output table of requirement attributes (it might be helpful for headers or other parts of requirements document that are not requirements by their nature but must be included to requirement document);
-* `suppress_id: true` will suppress output [id] in the header of the requirement;
 * `child_order: feature1 feature2` will sort child requirements in provided order;
-* `parent: f` will place the requirement to parent requirement collection with id `f`.requirement collection.
+* `parent: f` will place the requirement as a child of parent requirement `[f]`.
+* `skip_meta: true` will skip output `[id]` in requirements' headers and attributes table (it might be helpful for some items of repository that are not requirements by their nature but must be included to requirements document);
 
-All other attributes (`status`, `source`, etc.) are **user attributes** and do not influence CReq behavior. These attributes are holding in requirement's attributes hash and can be used for publishing or automation purpose.
+All other attributes (`status`, `source`, etc.) are **user attributes** and do not influence CReq behavior. These attributes are holding in requirement's attributes and can be used for publishing or automation purpose.
 
 #### Links
 

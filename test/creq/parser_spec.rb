@@ -9,19 +9,29 @@ describe Parser do
     end
 
     it 'must split attributes by \n or ","' do
-      text = "source: creq, parent: id\nstatus: approved"
+      text = "source: creq; parent: id\nstatus: approved"
       Parser.parse_attributes(text).must_equal(
         {source: "creq", parent: "id", status: "approved"})
     end
 
+    it 'must split attributes by \n or ","' do
+      text = "parent: id; skip_meta: true\nstatus: approved"
+      Parser.parse_attributes(text).must_equal(
+        {parent: "id", skip_meta: "true", status: "approved"})
+
+      text = "  parent: id;   skip_meta: true\n   status: approved"
+      Parser.parse_attributes(text).must_equal(
+        {parent: "id", skip_meta: "true", status: "approved"})
+    end
+
     it 'must strip spaces in attributes name and value' do
-      text = "source:     creq,      parent:    id"
+      text = "source:     creq;      parent:    id"
       Parser.parse_attributes(text).must_equal(
         {source: "creq", parent: "id"})
     end
 
     it 'must strip forward \n' do
-      text = "\nsource: creq, parent: id"
+      text = "\nsource: creq; parent: id"
       Parser.parse_attributes(text).must_equal(
         {source: "creq", parent: "id"})
     end

@@ -20,7 +20,7 @@ module Creq
       end
 
       req = Requirement.new(id: id, title: title, body: body)
-      File.open(file_name, 'w') { |f| Writer.write(req, f) }
+      File.open(file_name, 'w') { |f| Writer.(req, f) }
       return file_name
     end
 

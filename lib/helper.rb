@@ -2,6 +2,8 @@
 
 require_relative 'creq/reader'
 require_relative 'creq/writer'
+require_relative 'creq/doc_writer'
+require_relative 'creq/pub_writer'
 require_relative 'creq/requirement'
 require_relative 'creq/repository'
 require_relative 'creq/settings'
@@ -111,7 +113,7 @@ module Creq
       inside_doc {
         open("#{file}.md", 'w') {|f|
           write_doc_title(file, f)
-          FinalDocWriter.write(repo, f)
+          DocWriter.(repo, f)
         }
       }
       puts "'doc/#{file}.md' created!"
@@ -136,7 +138,7 @@ module Creq
      inside_doc {
        open(tmp, 'w') {|f|
          write_doc_title(title, f)
-         PandocWriter.write(repo, f)
+         PubWriter.(repo, f)
        }
        `pandoc -s --toc #{options} -o "#{doc}" #{tmp}`
        File.delete(tmp)

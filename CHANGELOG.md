@@ -1,3 +1,10 @@
+## v0.2.X (2018-03-18)
+* Deleted system attributes `requirement: false` and `suppress_id: true`.
+* Added new system attribute `skip_meta: true` that skip output `[[id]]` in headers and attributes table for `doc` and `pub` commands.
+* Added specs for writers.
+* `DocWriter` and `PubWriter` classes for `doc` and `pub` commands respectively.
+* Started new promo content
+
 ## v0.2.0 (2018-03-16)
 * Added [relative links](/README.md#relative-links).
 * Fixed position of `id` attribute for publishing; now it always goes first.

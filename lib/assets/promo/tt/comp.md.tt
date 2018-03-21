@@ -1,0 +1,23 @@
+{{
+parent: f
+order_index: .f .e .p .m
+}}
+
+The system shall provide a `@@cmp` component. The component shall provide the following items:
+
+@@toc
+
+## [.f] Functions
+
+The component shall provide the following functions:
+
+@@toc
+
+## [.e] Storage
+
+The component shall provide storage for the following entities:
+
+@@toc
+
+## [.p] Parameters
+## [.m] Messages

@@ -1,34 +1,21 @@
-# [r] CReq Requirements Specification
-{{suppress_id: true}}
+# [i0] 1 Introduction
+{{skip_meta: true}}
 
-![Creq Promo Image](assets/promo.png)
+![Promo](assets/promo.png)
 
-# [u] User requirements
-{{suppress_id: true}}
+# [ur] 2 User requirements
+{{skip_meta: true}}
 
-## [us] User stories
-{{
-suppress_id: true
-child_order: guest writer dev
-}}
+## [us] 2.1 User stories
+{{skip_meta: true
+order_index: .writer .reader}}
 
-# [f] Functional requirements
-{{
-suppress_id: true
-child_order: f.req f.repo f.doc
-}}
+# [fr] 3 Functional requirements
+{{skip_meta: true}}
 
-# [i] Interface requirements
-{{suppress_id: true}}
+## [f] 3.1 System components
+{{skip_meta: true
+order_index: f.req f.rpo f.prj}}
 
-## [cli] Command line interface
-{{
-suppress_id: true
-child_order: cli.req cli.doc cli.chk cli.new cli.promo
-}}
-
-# [n] Non-functional requirements
-{{suppress_id: true}}
-
-# [c] Design constraints
-{{suppress_id: true}}
+## [i] 3.2 System interfaces
+{{skip_meta: true}}

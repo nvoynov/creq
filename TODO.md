@@ -1,5 +1,9 @@
 # Creq
 
+* New promo by `promo` command
+* Provide publicator .. to readme
+* Provide examples of `query`, `prioritizer`, .. to readme
+* Replace `child_order` to `order_index` (tests, readme)
 * New cli param `--query "<ruby code>"` like yardoc
 * New `skip-meta` attribute will suppress id and attribute table, suitable for non-requirements section; `skip-meta-tree` for all the descendants.
 * Pandoc ext abbreviations

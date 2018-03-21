@@ -1,0 +1,38 @@
+{{parent: f}}
+
+The system shall provide the `@@fuction` function
+
+__Inputs__
+
+* `param 1`, String, required, description;
+* `param 2`, String, optional, description.
+
+__Outputs__
+
+* `success`,
+* OR `failure`.
+
+__Validity checks on the inputs__
+
+* When one or more input parameters is not provided or empty OR have incorrect type, return `input parameters error` error.
+
+__Sequence__
+
+* Find [[]].
+* Return `failure` When not found.
+* Call [[]].
+* When [[]].
+* Return `success`.
+
+```
+a) Validity checks on the inputs
+b) Exact sequence of operations
+c) Responses to abnormal situations, including
+   1) Overflow
+   2) Communication facilities
+   3) Error handling and recovery
+d) Effect of parameters
+e) Relationship of outputs to inputs, including
+   1) Input/output sequences
+   2) Formulas for input to output conversion
+```

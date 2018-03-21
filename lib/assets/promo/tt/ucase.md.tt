@@ -1,0 +1,39 @@
+
+__Stakeholders and Interests__
+
+* Role 1
+* Role 2
+
+__Preconditions__
+
+* NO
+
+__Guarantees__
+
+* one
+* OR another
+
+__Extension scenarios__
+
+* NO
+
+__Inclusion scenarios__
+
+* NO
+
+__Trigger__
+
+* NO
+
+__Main Success Scenario__
+
+1. step 1
+
+__Extensions__
+
+__1а__ something goes wrong:
+
+* step 1
+* step 2
+
+__Technology & Data Variations List__

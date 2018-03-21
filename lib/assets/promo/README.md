@@ -1,28 +1,41 @@
-# Promo
+# CReq Promo
 
-This project contains software requirements to Creq, and was created there by `creq promo` command to demonstrate Creq features.
+The purpose of this project is the CReq promotion by the example of writing the `CReq requirements specification` using the CReq. The project also plays as the testing laboratory of new features.
 
-The project repository has the following directories structure:
-* doc/ - output documents folder;
-* doc/assets/ - output documents assets folder;
-* req/ - requirements folder;
-* lib/ - library folder;
-* tt/ - templates folder;
-* creq.thor - file with custom Thor tasks for your special needs;
-* README.md - this file.
+* [Repository](#repository)
+* [CLI](#cli)
+* [Promo CLI](#promo-cli)
 
-# CLI
+## Repository
 
-Play with this project through CLI. Just type few commands and see results.
+The project has the following folders structure:
 
+* `doc/` - for output documents;
+* `doc/assets` - for any assets provided by the documents;
+* `kbd/` - knowledge base for any helpful information;
+* `lib/` - place for Ruby extensions;
+* `req/` - requirements repository;
+* `tt/` - templates;
+* `promo.thor` - the project automating tasks;
+* `README.md` - this file.
+
+## CLI
+
+You can see list of all the CReq commands by `creq help` and get help of a certain command by `creq help <commmand>`.
+
+Play with CLI, type some commands and see results.
+
+    $ creq help
+    $ creq help chk
     $ creq chk
+    $ creq toc
     $ creq doc
-    $ creq req
+    $ creq pub
 
-You can see all standard Creq commands list by `creq help`.
+## Promo CLI
 
-# Extend it yourself!
+CReq CLI s based on the `Thor` gem and you can extend it according to your project specific needs. For this purpose `promo.thor` is used. To see all the Promo automating tasks type `thor list promo` or `thor help promo`.
 
-Creq CLI s based on the Thor library and you can extend it according to your project specific needs. For this purpose the project provide `creq.thor` file.
+## Extensions
 
-You can see all available thor commands by `thor list`; the specific to Promo Project commands by `thor list promo`; and help by specific command by `thor help promo:<command>`.
+When you want to make some specific project automated task, place your Ruby sources to the `lib` folder and use it from `promo.thor` file.

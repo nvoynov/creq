@@ -7,7 +7,7 @@ describe ReqCommand do
   let(:title) {'title'}
   let(:content_id) {"# [id] id\n"}
   let(:content_id_title) {"# [id] title\n"}
-  let(:file_name) { "#{Settings::REQ}/#{id}.md"}
+  let(:file_name) { "#{Settings.src}/#{id}.md"}
 
   it 'must create file by id' do
     inside_sandbox do
@@ -70,7 +70,7 @@ System shall provide the next functions:
 
   it 'must create file by template' do
     inside_sandbox do
-      File.write("#{Settings::TT}/tt.id.md.tt", template_body)
+      File.write("#{Settings.tt}/tt.id.md.tt", template_body)
       ReqCommand.(id, title, 'tt.id').must_equal file_name
       File.read(file_name).must_equal final_body
     end

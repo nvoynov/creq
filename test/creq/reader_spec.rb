@@ -64,7 +64,7 @@ There is another requirement body
   # describe 'self#read_repo' do
   #   it 'must print progress information' do
   #     inside_sandbox do
-  #       inside_req do
+  #       inside_src do
   #         File.write('req.1.md', "# [req.1] req 1")
   #         File.write('req.2.md', "# [req.2] req 2")
   #         File.write('req.e.md', "# [req.e] req err\n{{source}}\n")

@@ -37,7 +37,7 @@ module Publicator
     repo = requirements_repository
     repo = repo.query(query) unless query.empty?
     source = "#{title}.md"
-    inside_doc do
+    inside_bin do
       open(source, 'w') {|f|
         f.write "% #{release_title}\n"
         f.write "  (query: #{query})\n" unless query.empty?

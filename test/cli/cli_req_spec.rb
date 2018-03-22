@@ -5,7 +5,7 @@ require_relative '../test_helper'
 describe "creq req" do
   let(:id) {'id'}
   let(:cmd) {'req'}
-  let(:file) {"#{Settings::REQ}/id.md"}
+  let(:file) {"#{Settings.src}/id.md"}
   let(:title) {'title'}
   let(:template) {'tt.id'}
   let(:success_msg) {"File '#{file}' created successfully"}
@@ -21,7 +21,7 @@ describe "creq req" do
     inside_sandbox do
       proc { Cli.start [cmd, id] }.must_output(/created/)
       proc { Cli.start([cmd, id])
-      }.must_output(/File 'req\/id\.md' already exists/)
+      }.must_output(/already exists/)
     end
   end
 
@@ -41,7 +41,7 @@ describe "creq req" do
 
   it 'must execute CREQ REQ -T' do
     inside_sandbox do
-      File.write("#{Settings::TT}/tt.id.md.tt", "template_body")
+      File.write("#{Settings.tt}/tt.id.md.tt", "template_body")
       proc { Cli.start [cmd, id, title, '-t', template] }.must_output(/created/)
     end
   end

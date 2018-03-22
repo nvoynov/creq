@@ -6,10 +6,9 @@ Welcome to new [CReq](https://github.com/nvoynov/creq) project "<%=config[:proje
 
 The project repository has the following structure:
 
-* [doc/](doc/) - output documents folder;
-* [doc/assets/](doc/assets/) - output documents assets folder;
-* [req/](req/) - requirements folder;
-* [mod/](mod/) - modeling folder;
+* [bin/](bin/) - output documents folder;
+* [bin/assets/](bin/assets/) - output documents assets folder;
+* [src/](src/) - requirements folder;
 * [lib/](lib/) - library folder;
 * [tt/](tt/) - templates folder;
 * [<%=config[:project]%>.thor](<%=config[:project]%>.thor) - custom Thor tasks for your special needs (more about automation [here](https://github.com/nvoynov/creq/blob/master/README.md#automating

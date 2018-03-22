@@ -32,39 +32,30 @@ module Creq
 
       Dir.mkdir(project)
       Dir.chdir(project) do
-        initialize_project
+        init_project
         config = {project: project}
 
-        say "Creating project files..."
-        copy_file('new/contents.md', File.join(Dir.pwd, 'req/contents.md'))
-        copy_file('new/ears.md.tt',  File.join(Dir.pwd, 'tt/ears.md.tt'))
-        copy_file('new/story.md.tt', File.join(Dir.pwd, 'tt/story.md.tt'))
-        copy_file('new/ucase.md.tt', File.join(Dir.pwd, 'tt/ucase.md.tt'))
-        copy_file('new/minutes.md.tt', File.join(Dir.pwd, 'tt/minutes.md.tt'))
+        say "Creating README ..."
         template('new/README.md.tt', File.join(Dir.pwd, 'README.md'), config)
+
+        say "Creating #{project}.thor ..."
         template('new/creq.thor.tt', File.join(Dir.pwd, "#{project}.thor"), config)
 
+        say "Copying content ..."
+        copy_file('new/contents.md', File.join(Dir.pwd, "#{Settings.src}/contents.md"))
+
+        say "Copying templates ..."
+        directory('tt', File.join(Dir.pwd, 'tt'))
+
+        say "Project '#{project}' created!"
         git_init
       end
 
-      say "Project '#{project}' successfully created!"
     end
-
-    no_commands {
-      def git_init
-        return unless which('git') || which('git.exe')
-
-        say "Initializing git repository..."
-        `git init`
-        `git add .`
-        `git commit -m "Initial commit"`
-      end
-    }
 
     desc "promo", "Copy promo project to the current working directory"
     def promo
       say "Copying promo project..."
-      # promo = File.join(Creq.root, 'lib/promo')
       directory('promo', Dir.pwd)
     end
 
@@ -92,25 +83,25 @@ module Creq
       result.each { |k, v| puts "#{CHK_ERR_MSGS[k]}\n#{v.join("\n")}" }
     end
 
-    desc "toc [REQ] [OPTIONS]", "Print Table of contents"
-    method_option :skipid, alias: "-s", type: :string, desc: "Skip requirement ids", default: ''
-    def toc(req = '')
-      create_toc(req, options[:skipid])
+    desc "toc [OPTIONS]", "Print Table of contents"
+    method_option :query, alias: "-q", type: :string, desc: "Query", default: ''
+    def toc
+      create_toc(options[:query])
     end
 
 
-    desc "doc [REQ] [OPTIONS]", "Create a requirements document"
-    method_option :skipid, alias: "-s", type: :string, desc: "Skip requirement ids", default: ''
-    def doc(req='')
-      create_doc(req, options[:skipid])
+    desc "doc [OPTIONS]", "Create a requirements document"
+    method_option :query, alias: "-q", type: :string, desc: "Query", default: ''
+    def doc
+      create_doc(options[:query])
     end
 
-    desc "pub [REQ] [OPTIONS]", "Publish the requirement document by Pandoc"
-    method_option :skipid, alias: "-s", type: :string, desc: "Skip requirement ids", default: ''
+    desc "pub [OPTIONS]", "Publish the requirement document by Pandoc"
+    method_option :query, alias: "-q", type: :string, desc: "Query", default: ''
     method_option :format, alias: "-f", type: :string, desc: "Pandoc output format", default: 'html'
     method_option :pandoc, alias: "-o", type: :string, desc: "Pandoc options", default: ''
     def pub(req = '')
-      pandoc(req, options[:skipid], options[:format], options[:pandoc])
+      pandoc(options[:query], options[:format], options[:pandoc])
     end
 
     CHK_ERR_MSGS  = {

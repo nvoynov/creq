@@ -11,7 +11,7 @@ SANDBOX = "tmp"
 def inside_sandbox
   Dir.mkdir(SANDBOX) unless Dir.exist?(SANDBOX)
   Dir.chdir(SANDBOX) do
-    Settings::PROJECT_FOLDERS.each do |fld|
+    Project.folders.each do |fld|
       FileUtils.rm_rf(Dir.glob("#{fld}/*")) if Dir.exist?(fld)
       Dir.mkdir(fld) unless Dir.exist?(fld)
     end
@@ -22,9 +22,4 @@ end
 def inside_tmp
   Dir.mkdir(SANDBOX) unless Dir.exist?(SANDBOX)
   Dir.chdir(SANDBOX){ yield if block_given? }
-end
-
-def pp_requirement(req)
-  req.inject([], :<<)
-    .each{|r| puts "#{'  ' * (r.level - 1)}[#{r.id}] #{r.title}"}
 end

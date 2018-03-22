@@ -10,11 +10,11 @@ The purpose of this project is the CReq promotion by the example of writing the 
 
 The project has the following folders structure:
 
-* `doc/` - for output documents;
-* `doc/assets` - for any assets provided by the documents;
+* `bin/` - for output documents;
+* `bin/assets` - for any assets provided by the documents;
 * `kbd/` - knowledge base for any helpful information;
 * `lib/` - place for Ruby extensions;
-* `req/` - requirements repository;
+* `src/` - requirements repository;
 * `tt/` - templates;
 * `promo.thor` - the project automating tasks;
 * `README.md` - this file.

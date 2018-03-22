@@ -1,13 +1,27 @@
 # encoding: UTF-8
 
+require_relative 'param_holder'
+
 module Creq
   module Settings
-    DOC = 'doc'
-    LIB = 'lib'
-    REQ = 'req'
-    TT = 'tt'
-    DOC_ASSETS = 'doc/assets'
+    extend ParamHolder
+    extend self
 
-    PROJECT_FOLDERS = [DOC, LIB, REQ, TT, DOC_ASSETS]
+    parameter :bin, default: 'bin'
+    parameter :assets, default: 'bin/assets'
+    parameter :src, default: 'scr'
+    parameter :lib, default: 'lib'
+    parameter :kbd, default: 'kbd'
+    parameter :tt, default: 'tt'
+    parameter :output, default: 'requirements'
+    parameter :author, default: '[CReq](https://github.com/nvoynov/creq)'
+
+    def storage
+      'creq.yml'
+    end
+
   end
 end
+
+Creq::Settings.save unless File.exist?(Creq::Settings.storage)
+Creq::Settings.load

@@ -11,7 +11,7 @@ module Creq
       title = id if title.empty?
       body = ''
 
-      file_name = "#{Settings::REQ}/#{id}.md"
+      file_name = "#{Settings.src}/#{id}.md"
       raise CreqCmdError, FILE_EXISTS % file_name if File.exist?(file_name)
 
       if template
@@ -27,7 +27,7 @@ module Creq
     protected
 
     def self.read_template_body(template)
-      template_file = "#{Settings::TT}/#{template}"
+      template_file = "#{Settings.tt}/#{template}"
       template_file += '.md.tt' unless File.exist?(template_file)
       raise CreqCmdError, TT_NOT_FOUND % template unless File.exist?(template_file)
 

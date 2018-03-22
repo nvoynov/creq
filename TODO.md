@@ -7,14 +7,9 @@
 * Pandoc ext abbreviations
   \*[HTML]: Hypertext Markup Language
 * Markdown comments and publishing
-* Fix travisCLI `build failed`
-* Write tests for `--skipid` option of publishing CLI
-* The `derived_by` system attribute and CLI command for tracing.
 * Default order for attributes table, `id->status->derived_by`.
+* The `derived_by` system attribute and CLI command for tracing.
 * Make markdown links working in `GitLab`.
-* Add tests for `doc` and `publish`.
-* Add version of `creq` and `pandoc` to published documents.
-* To think about `release` command with `git tag`.
 * To think about `ERB` templates.
 * To think about `req package` command that creates requirement and folder with the same name, sth. like recommended gem structure.
 

@@ -1,20 +1,20 @@
 # [u] User requirements
-{{suppress_id: true}}
+{{skip_meta: true}}
 
 # [f] Functional requirements
-{{suppress_id: true}}
+{{skip_meta: true}}
 
 # [i] Interface requirements
-{{suppress_id: true}}
+{{skip_meta: true}}
 
 # [n] Non-functional requirements
-{{suppress_id: true}}
+{{skip_meta: true}}
 
 # [d] Design constraints
-{{suppress_id: true}}
+{{skip_meta: true}}
 
 # [a] Appendices
-{{suppress_id: true}}
+{{skip_meta: true}}
 
 ## [a.1] Appendix 1
-{{suppress_id: true}}
+{{skip_meta: true}}

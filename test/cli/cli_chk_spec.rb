@@ -6,7 +6,7 @@ describe "creq chk" do
 
   it 'must check repo for wrong links' do
     inside_sandbox do
-      inside_req do
+      inside_src do
         File.write('req.1.md', "# [req.1] req 1\n\n Wrong [[req.x]] link\n")
         File.write('req.2.md', "# [req.2] req 2\n\n [[req.x]] Wrong link\n")
         File.write('req.3.md', "# [req.3] req 3\n\n Wrong link [[req.x]]\n")
@@ -23,7 +23,7 @@ describe "creq chk" do
 
   it 'must check repo for wrong parents' do
     inside_sandbox do
-      inside_req do
+      inside_src do
         File.write('req.1.md', "# [req.1] req 1\n")
         File.write('req.2.md', "# [req.2] req 2\n")
         File.write('req.3.md', "# [req.3] req 3\n{{parent: ur}}\n")
@@ -39,7 +39,7 @@ describe "creq chk" do
 
   it 'must check wrong first file header level' do
     inside_sandbox do
-      inside_req { File.write('req.1.md', "## [req.1] req 1\n") }
+      inside_src { File.write('req.1.md', "## [req.1] req 1\n") }
       proc {
         Cli.start [cmd]
       }.tap{|o|
@@ -50,7 +50,7 @@ describe "creq chk" do
 
   it 'must check repo for non-uniq id' do
     inside_sandbox do
-      inside_req do
+      inside_src do
         File.write('req.1.md', "# [req.1] req 1\n")
         File.write('req.2.md', "# [req.2] req 2\n")
         File.write('req.3.md', "# [req.2] req 3\n")
@@ -66,7 +66,7 @@ describe "creq chk" do
 
   it 'must check repo for wrong order_index attribute' do
     inside_sandbox do
-      inside_req do
+      inside_src do
         File.write('req.1.md', "# [r] r\n{{order_index: r1 r2}}")
       end
       proc {

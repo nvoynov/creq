@@ -1,6 +1,11 @@
 ## v0.2.X (2018-03-18)
-* Deleted system attributes `requirement: false` and `suppress_id: true`.
-* Added new system attribute `skip_meta: true` that skip output `[[id]]` in headers and attributes table for `doc` and `pub` commands.
+* Added new templates;
+* Change `promo` project;
+* Added `-q/--query QUERY` option for `toc/doc/pub` (instead of `REQ_ID --skipid`);
+* Added `Repository#query` function, see README;
+* Deleted `REQ_ID --skipid` options in `toc/doc/pub`;
+* Added `skip_meta` system attribute that skip output `[[id]]` in headers and attributes table for `doc` and `pub` commands.
+* Deleted `suppress_id` system attribute;
 * Added specs for writers.
 * `DocWriter` and `PubWriter` classes for `doc` and `pub` commands respectively.
 * Started new promo content

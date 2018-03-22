@@ -13,9 +13,9 @@ describe 'creq new PROJECT' do
       rm_rf(Dir.glob("#{project}/*") << project) if Dir.exist?(project)
       proc {
         Cli.start [command, project]
-      }.must_output /Project '#{project}' successfully created!/
+      }.must_output /Project '#{project}' created!/
       Dir.chdir("#{project}") do
-        Settings::PROJECT_FOLDERS.each{|f| Dir.exist?(f).must_equal true }
+        Project.folders.each{|f| Dir.exist?(f).must_equal true }
         ["#{project}.thor", "README.md"]
           .each{|f| File.exist?(f).must_equal true }
       end

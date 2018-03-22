@@ -141,7 +141,7 @@ component items:
 * [[.e]].
 
 ### [.f] functions
-{{child_order: .f2 .f1}}
+{{order_index: .f2 .f1}}
 
 component functions:
 
@@ -270,34 +270,34 @@ I also have a [[fa]] - wrong link
     Repository.({ 'get_repo_from.md' => req })
   end
 
-  describe '#wrong_child_order' do
+  describe '#wrong_order_index' do
 
     it 'must return [] if errors does not found' do
       content = %(# [w] Func W
-{{child_order: w1 w2}}
-I have right child_order
+{{order_index: w1 w2}}
+I have right order_index
 ## [w1] w1
 ## [w2] w2
 )
       repo = get_repo_from(content)
-      repo.wrong_child_order.must_equal []
+      repo.wrong_order_index.must_equal []
     end
 
     it 'must return [errors] if errors are found' do
       content = %(# [w] Func W
-{{child_order: w1 w2}}
-I have wrong child_order attribute with w1 and w2
+{{order_index: w1 w2}}
+I have wrong order_index attribute with w1 and w2
 )
       repo = get_repo_from(content)
-      repo.wrong_child_order.must_equal ["[w1, w2] for [w]"]
+      repo.wrong_order_index.must_equal ["[w1, w2] for [w]"]
 
       content = %(# [w] Func W
-{{child_order: w1 w2}}
-I have wrong child_order attribute with w1
+{{order_index: w1 w2}}
+I have wrong order_index attribute with w1
 ## [w2] w2
 )
       repo = get_repo_from(content)
-      repo.wrong_child_order.must_equal ["[w1] for [w]"]
+      repo.wrong_order_index.must_equal ["[w1] for [w]"]
     end
   end
 

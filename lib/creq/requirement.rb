@@ -65,12 +65,12 @@ module Creq
       @body.scan(/\[\[([\w\.]*)\]\]/).flatten.uniq
     end
 
-    # @return @items according to order in child_order attribute
+    # @return @items according to order in order_index attribute
     def items
-      return @items if @items.empty? || @attributes[:child_order].nil?
+      return @items if @items.empty? || @attributes[:order_index].nil?
 
       source = Array.new(@items)
-      order = @attributes[:child_order]
+      order = @attributes[:order_index]
       [].tap do |ordered|
         order.split(/ /).each do |o|
           e = source.delete(item(o))
@@ -86,7 +86,7 @@ module Creq
       items.each { |node| node.each(&block) }
     end
 
-    SYSTEM_ATTRS = [:parent, :child_order, :skip_meta]
+    SYSTEM_ATTRS = [:parent, :order_index, :skip_meta]
 
     protected
 

@@ -150,7 +150,7 @@ skip_meta: true
 
 The next attributes are **system attributes** and these influence to CReq behavior:
 
-* `child_order: feature1 feature2` will sort child requirements in provided order;
+* `order_index: feature1 feature2` will sort child requirements in provided order;
 * `parent: f` will place the requirement as a child of parent requirement `[f]`.
 * `skip_meta: true` will skip output `[id]` in requirements' headers and attributes table (it might be helpful for some items of repository that are not requirements by their nature but must be included to requirements document);
 
@@ -166,7 +166,7 @@ You can place a link to another requirement in requirements body by writing macr
 
 Instead of writing full requirement id in links, you can user relative links. There are two different prefixes in relative macro can be used:
 
-1. `[[.link.id]]` finds a child requirement whose id ends with `link.id`. This kind of relatіve link can also be used in `{{child_order: .link.id}}`.
+1. `[[.link.id]]` finds a child requirement whose id ends with `link.id`. This kind of relatіve link can also be used in `{{order_index: .link.id}}`.
 2. `[[..link.id]]` climbs up by requirements hierarchy and tries to finds `link.id` among all the descendants.
 3. `[[link.id]]` looks like a regular link, but if `link.id` requirement not found, the CReq tries to find like `[[.link.id]]` in the parent requirement.
 
@@ -179,7 +179,7 @@ component items:
 * [[.f]];
 * [[.e]].
 ### [.f] functions
-{{child_order: .f2 .f1}}
+{{order_index: .f2 .f1}}
 component functions:
 * [[.f1]];
 * [[.f2]].
@@ -294,7 +294,7 @@ Because there is a lots of hand writing and all the files must meet structures c
 * non-unique requirements identifiers;
 * wrong links to id that does not exist:
    * wrong links for `parent` attribute;
-   * wrong links for `child_order`;
+   * wrong links for `order_index`;
    * wrong links in requirement's `body`.
 
 To check requirements repository for errors:

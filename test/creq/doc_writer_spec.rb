@@ -48,7 +48,7 @@ describe DocWriter do
     writer.attributes(req).must_equal ""
     req.find('ur.a').tap {|r|
       r[:author] = 'nvoynov'
-      r[:child_order] = 'nvoynov' # system_attribute must be ignored
+      r[:order_index] = 'nvoynov' # system_attribute must be ignored
       writer.attributes(r).must_equal %(Attribute | Value
 --------- | -----
 author | nvoynov)
@@ -63,7 +63,7 @@ author | nvoynov)
   end
 
   it 'must replace link macro [[id]]' do
-    StringIO.open do |s| # must write according to child_order
+    StringIO.open do |s| # must write according to order_index
       DocWriter.(req, s)
       s.string.index("[[ur]]").must_be_nil
       s.string.index("[[ur.a]]").must_be_nil

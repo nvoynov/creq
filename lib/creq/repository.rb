@@ -190,11 +190,11 @@ module Creq
     end
 
     # TODO separated Checker class?
-    def wrong_child_order
+    def wrong_order_index
       msg = "[%s] for [%s]"
       err = []
-      @items.select{|r| r[:child_order] }.each do |r|
-        childs = r[:child_order].split(/ /)
+      @items.select{|r| r[:order_index] }.each do |r|
+        childs = r[:order_index].split(/ /)
         wrongs = childs.select{|c| r.item(c).nil? }
         err << msg % [wrongs.join(', '), r.id] unless wrongs.empty?
       end

@@ -65,7 +65,7 @@ module Creq
         err[:duplicate_ids] = repo.duplicate_ids
         err[:wrong_parents] = repo.wrong_parents
         err[:wrong_links] = repo.wrong_links
-        err[:wrong_childs] = repo.wrong_child_order
+        err[:wrong_childs] = repo.wrong_order_index
         err.delete_if {|k, v| v.empty?}
       end
     end

@@ -30,7 +30,7 @@
 * Added new system attribute `requirement: false` that will suppress attributes table output.
 
 ## v0.1.5
-* Added error checking for wrong child_order attribute for `chk` command.
+* Added error checking for wrong order_index attribute for `chk` command.
 * Added section about link macro to README.md.
 
 ## v0.1.4

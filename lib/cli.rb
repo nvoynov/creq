@@ -117,7 +117,7 @@ module Creq
       duplicate_ids: "\nNon-unique requirements identifiers are found:",
       wrong_links:   "\nWrong requirements links are found:",
       wrong_parents: "\nWrong {{parent}} values are found:",
-      wrong_childs:  "\nWrong {{child_order}} values are found:"
+      wrong_childs:  "\nWrong {{order_index}} values are found:"
     }
   end
 

@@ -52,14 +52,14 @@ describe Requirement do
   describe '#attributes' do
 
     let(:req) {Requirement.new(
-      source: "nvoynov", parent: "f", skip_meta: true, child_order: "1 2")}
+      source: "nvoynov", parent: "f", skip_meta: true, order_index: "1 2")}
 
     it 'must access to all attributes' do
       req.attributes.size.must_equal 4
       req[:source].must_equal "nvoynov"
       req[:parent].must_equal "f"
       req[:skip_meta].must_equal true
-      req[:child_order].must_equal "1 2"
+      req[:order_index].must_equal "1 2"
     end
 
     it 'must provide seprated #system_attributes' do
@@ -86,29 +86,29 @@ describe Requirement do
       @req = create_tree
     end
 
-    it 'must return @items unless child_order is not defined' do
+    it 'must return @items unless order_index is not defined' do
       r1, r2, r3 = @req.item("r.1"), @req.item("r.2"), @req.item("r.3")
       @req.items.must_equal [r2, r1, r3]
     end
 
-    it 'must return ordered @item by :child_order attribute' do
+    it 'must return ordered @item by :order_index attribute' do
       r1, r2, r3 = @req.item("r.1"), @req.item("r.2"), @req.item("r.3")
-      @req[:child_order] = "r.1 r.2 r.3"
+      @req[:order_index] = "r.1 r.2 r.3"
       @req.items.must_equal [r1, r2, r3]
 
-      @req[:child_order] = "r.3 r.1 r.2"
+      @req[:order_index] = "r.3 r.1 r.2"
       @req.items.must_equal [r3, r1, r2]
     end
 
-    it 'must return partially ordered @item if child_order < @items' do
+    it 'must return partially ordered @item if order_index < @items' do
       r1, r2, r3 = @req.item("r.1"), @req.item("r.2"), @req.item("r.3")
-      @req[:child_order] = "r.3"
+      @req[:order_index] = "r.3"
       @req.items.must_equal [r3, r2, r1]
     end
 
-    it 'must ingnore wrong child_order ids' do
+    it 'must ingnore wrong order_index ids' do
       r1, r2, r3 = @req.item("r.1"), @req.item("r.2"), @req.item("r.3")
-      @req[:child_order] = "r.3 wrong.1 wrong.2"
+      @req[:order_index] = "r.3 wrong.1 wrong.2"
       @req.items.must_equal [r3, r2, r1]
     end
 
@@ -126,7 +126,7 @@ describe Requirement do
 
     it 'must traverse according to :sort_order' do
       ordered = [@req, @req.item("r.1"), @req.item("r.2"), @req.item("r.3")]
-      @req[:child_order] = "r.1 r.2 r.3"
+      @req[:order_index] = "r.1 r.2 r.3"
       @req.inject([], :<<).must_equal ordered
     end
   end

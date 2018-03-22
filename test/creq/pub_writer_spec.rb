@@ -40,7 +40,7 @@ describe PubWriter do
 id | ur)
     req.find('ur.a').tap {|r|
       r[:author] = 'nvoynov'
-      r[:child_order] = 'nvoynov' # system_attribute must be ignored
+      r[:order_index] = 'nvoynov' # system_attribute must be ignored
       writer.attributes(r).must_equal %(Attribute | Value
 --------- | -----
 id | ur.a

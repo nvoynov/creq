@@ -64,15 +64,15 @@ describe "creq chk" do
     end
   end
 
-  it 'must check repo for wrong child_order attribute' do
+  it 'must check repo for wrong order_index attribute' do
     inside_sandbox do
       inside_req do
-        File.write('req.1.md', "# [r] r\n{{child_order: r1 r2}}")
+        File.write('req.1.md', "# [r] r\n{{order_index: r1 r2}}")
       end
       proc {
         Cli.start [cmd]
       }.tap{|o|
-        o.must_output /Wrong {{child_order}} values are found/
+        o.must_output /Wrong {{order_index}} values are found/
         o.must_output /\[r1, r2\] for \[r\]/
       }
     end

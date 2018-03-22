@@ -3,17 +3,12 @@
 * New promo by `promo` command
 * Provide publicator .. to readme
 * Provide examples of `query`, `prioritizer`, .. to readme
-* Replace `child_order` to `order_index` (tests, readme)
 * New cli param `--query "<ruby code>"` like yardoc
-* New `skip-meta` attribute will suppress id and attribute table, suitable for non-requirements section; `skip-meta-tree` for all the descendants.
 * Pandoc ext abbreviations
   \*[HTML]: Hypertext Markup Language
 * Markdown comments and publishing
 * Fix travisCLI `build failed`
-* Remove `test/integration.cli_spec.rb`
-* Clean writer.rb
 * Write tests for `--skipid` option of publishing CLI
-* The `publish: false` system attribute to skip requirement from `doc` and `pub`.
 * The `derived_by` system attribute and CLI command for tracing.
 * Default order for attributes table, `id->status->derived_by`.
 * Make markdown links working in `GitLab`.

@@ -38,6 +38,34 @@ module Creq
       @reqfs = {} # requirements file map {req_id, [file_name]}
     end
 
+    # The method selects requirements matched to the query parameter.
+    # It evaluates `query_str` parameter as a Ruby proc with the input
+    #   parameter `r` that represents Creq:Requirements class
+    #
+    # Examples of valid queries:
+    #
+    #     r.id == 'req.id'
+    #     ['r1', 'r2'].include?(r.id)
+    #     ['r1', 'r2'].include?(r.id) && r[:author] == 'john doe'
+    #
+    # @param [String] query String
+    # @return [Array<TreeNode>] query result
+    def query(query_str)
+      bck = Proc.new {|r| eval(query_str)}
+      res = select{|n| bck.call(n) }
+      del = select{|n| !bck.call(n)}
+            .inject([]){|ary, n| ary << n.inject([], :<<)}
+            .flatten
+      res.select{|n| !del.include?(n)}
+    rescue => e
+      puts "query error: #{e.message}"
+      puts "valid query examples are:"
+      puts "   r.id == 'req.id'"
+      puts "   ['r1', 'r2'].include?(r.id)"
+      puts "   ['r1', 'r2'].include?(r.id) && r[:author] == 'john doe'"
+      return []
+    end
+
     def load(repo)
       repo.each do |file, req|
         req.items.each{|r| self << r}

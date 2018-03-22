@@ -74,6 +74,30 @@ describe Repository do
     end
   end
 
+
+# Demo repo:
+# [ur] User
+## [us] User Stories
+## [uc] Use Cases
+# [fr] Func
+# [if] Interface
+# [nf] Non-func
+# [us.actor] Actor
+## [us.actor.1] Actor User Storiy 1
+## [us.actor.2] Actor User Storiy 2
+# [fr.1] Func 1
+## [fr.1.1] Func 1 1
+## [fr.1.2] Func 1 2
+
+  describe '#query' do
+    it 'must return requirements according to the query' do
+      repo = Repository.(build_repo)
+      qry1 = repo.query %/['us', 'fr'].include?(r.id) || r.id != 'fr.1.2'/
+      res1 = %w(us us.actor us.actor.1 us.actor.2 fr fr.1 fr.1.1)
+      (res1 - qry1.map(&:id)).must_equal []
+    end
+  end
+
   describe 'self#load' do
     it 'must load all requirements in Repository' do
       repo = Repository.(build_repo)
@@ -232,7 +256,7 @@ I also have a [[fa]] - wrong link
 )
       req = SpecReader.(with_errors.each_line)
       payload['errors.md'] = req
-      repo = Repository.(payload)      
+      repo = Repository.(payload)
       repo.wrong_links.must_equal  [
         "[[fm]] in [fr.2.1]",
         "[[fa]] in [fr.2.2]",

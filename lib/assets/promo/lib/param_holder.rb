@@ -1,7 +1,7 @@
 require 'pp'
 require 'yaml'
 
-module Parameters
+module ParamHolder
   extend self
 
   def parameter(name, options)
@@ -29,21 +29,4 @@ module Parameters
     "#{name.downcase}.creq"
   end
 
-  parameter :title, default: 'SRS'
-  parameter :version, default: '0.1'
 end
-
-module Publicator
-  extend Parameters
-
-  parameter :title, default: 'SRS'
-  parameter :version, default: '0.1'
-  parameter :format, default: 'docx pdf'
-  parameter :pandoc, default: '-s --toc'
-  parameter :query, default: ''
-
-end
-
-# Publicator.save
-Publicator.load
-pp Publicator.version

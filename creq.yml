@@ -1,0 +1,9 @@
+---
+bin: bin
+assets: bin/assets
+src: src
+lib: lib
+kbd: kbd
+tt: tt
+output: requirements
+author: "[CReq](https://github.com/nvoynov/creq)"

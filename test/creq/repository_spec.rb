@@ -92,20 +92,18 @@ describe Repository do
   describe '#query' do
 
     it 'must return requirements according to the query' do
-      # skip
       repo = Repository.(build_repo)
-      qry1 = repo.query %/['us', 'fr'].include?(r.id) || r.id != 'fr.1.2'/
-      res1 = %w(us us.actor us.actor.1 us.actor.2 fr fr.1 fr.1.1)
-      puts "\nquery: #{qry1.map(&:id)}"
-      puts "res1 : #{res1}"
-      qry1.each{|i| res1.include?(i.id).must_equal true}
-      # (res1 - qry1.map(&:id)).must_equal []
+      qry = repo.query "['us', 'fr'].include?(r.id)"
+      ids = %w(us us.actor us.actor.1 us.actor.2 fr fr.1 fr.1.1 fr.1.2)
+      qry.map(&:id).must_equal ids
 
-      # repo = Repository.(build_repo)
-      qry1 = nil
-      qry1 = repo.query("r.id == 'uc'")
-      puts "res2: #{qry1.map(&:id)}"
+      qry = repo.query "r.id == 'not.exists'"
+      qry.must_equal []
 
+      proc {
+        qry = repo.query "r.id == wrong Ruby expression"
+      }.must_output %r/query error/
+      qry.must_equal []
     end
   end
 

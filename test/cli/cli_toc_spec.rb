@@ -22,8 +22,8 @@ describe "creq doc" do
     # skip() # TODO how to check output of Thor Cli.start?
     inside_sandbox do
       inside_src { File.write('req.md', content) }
-      Cli.start(["toc"])
-      Cli.start(["toc", "--query", "r.id == 'uc'"])
+      proc { Cli.start(["toc"]) }.must_output %r/Table of contents/
+      proc { Cli.start(["toc", "--query", "r.id == 'uc'"]) }.must_output %r/Table of contents/
     end
   end
 

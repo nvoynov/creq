@@ -13,6 +13,7 @@ module Creq
     parameter :lib, default: 'lib'
     parameter :kbd, default: 'kbd'
     parameter :tt, default: 'tt'
+    parameter :title, default: 'Software Requirements Specification'
     parameter :output, default: 'requirements'
     parameter :author, default: '[CReq](https://github.com/nvoynov/creq)'
 

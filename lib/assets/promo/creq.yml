@@ -1,0 +1,10 @@
+---
+bin: bin
+assets: bin/assets
+src: src
+lib: lib
+kbd: kbd
+tt: tt
+output: CReq SRS
+title: CReq. Software Requirements Specifiation
+author: "[CReq](https://github.com/nvoynov/creq)"

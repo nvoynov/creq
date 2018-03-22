@@ -76,7 +76,6 @@ module Creq
         return
       end
 
-      puts "toc repo: #{repo.map(&:id)}"
       slev = repo.is_a?(Array) ? repo.first.level : 0
       repo.inject([], :<<)
         .tap{|a| a.delete_at(0); say "-= Table of contents =-"}
@@ -84,7 +83,7 @@ module Creq
     end
 
     def output_doc_title
-      res = "% #{Settings.output}\n"
+      res = "% #{Settings.title}\n"
       res << "% #{Settings.author}\n" unless Settings.author.empty?
       res << "% on #{Time.now.strftime('%B %e, %Y at %H:%M')}\n"
     end

@@ -51,13 +51,23 @@ module Creq
     # @param [String] query String
     # @return [Array<TreeNode>] query result
     def query(query_str)
-      bck = Proc.new {|r| eval(query_str)}
-      res = select{|n| bck.call(n) }
-      del = select{|n| !bck.call(n)}
-            .inject([]){|ary, n| ary << n.inject([], :<<)}
-            .flatten
-      res.select{|n| !del.include?(n)}
-    rescue => e
+      block = Proc.new {|r| eval(query_str)}    
+      [].tap{|a|
+        select{|n| block.call(n)}
+         .each{|n| n.inject(a, :<<)}
+      }.flatten.uniq
+
+      # TODO how to delete some reqs?
+      # res = select{|n| bck.call(n) }
+      # del = select{|n| !bck.call(n)}
+            # .inject([]){|ary, n| ary << n.inject([], :<<)}
+            # .flatten
+            # .uniq
+      # puts "res: #{res.map(&:id)}"
+      # puts "del: #{del.map(&:id)}"
+      # puts "===: #{res.select{|n| !del.include?(n)}.map(&:id)}"
+      # res.select{|n| !del.include?(n)}
+    rescue Exception => e
       puts "query error: #{e.message}"
       puts "valid query examples are:"
       puts "   r.id == 'req.id'"

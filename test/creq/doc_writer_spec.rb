@@ -71,4 +71,37 @@ author | nvoynov)
     end
   end
 
+  let(:root) {
+    Requirement.new(id: '1').tap{|r|
+      r << Requirement.new(id: '1').tap {|r1|
+        r1 << Requirement.new(id: '1.1')
+        r1 << Requirement.new(id: '1.2')
+        r1 << Requirement.new(id: '1.3')
+      }
+      r << Requirement.new(id: '2').tap {|r1|
+        r1 << Requirement.new(id: '2.1')
+        r1 << Requirement.new(id: '2.2')
+        r1 << Requirement.new(id: '2.3')
+      }
+    }
+  }
+
+  it 'must write requirement' do
+    StringIO.open {|s|
+      DocWriter.(root, s)
+      %w(1 1.1 1.2 1.3 2 2.1 2.2 2.3)
+         .map{|i| "[#{i}]"}
+         .each{|i| s.string.must_match i}
+    }
+  end
+
+  it 'must write array<requirement>' do
+    StringIO.open {|s|
+      DocWriter.(root.inject([], :<<), s)
+      %w(1 1.1 1.2 1.3 2 2.1 2.2 2.3)
+         .map{|i| "[#{i}]"}
+         .each{|i| s.string.must_match i}
+    }
+  end
+
 end

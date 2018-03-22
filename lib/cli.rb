@@ -100,7 +100,7 @@ module Creq
     method_option :query, alias: "-q", type: :string, desc: "Query", default: ''
     method_option :format, alias: "-f", type: :string, desc: "Pandoc output format", default: 'html'
     method_option :pandoc, alias: "-o", type: :string, desc: "Pandoc options", default: ''
-    def pub(req = '')
+    def pub
       pandoc(options[:query], options[:format], options[:pandoc])
     end
 

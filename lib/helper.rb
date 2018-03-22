@@ -68,17 +68,16 @@ module Creq
       end
     end
 
-
-
     def create_toc(query_str)
       repo = requirements_repository
       repo = repo.query(query_str) unless query_str.empty?
-      unless repo || repo.empty
+      unless repo || repo.empty?
         puts "Requirements not found!"
         return
       end
 
-      slev = req != '' ? repo.level : 0
+      puts "toc repo: #{repo.map(&:id)}"
+      slev = repo.is_a?(Array) ? repo.first.level : 0
       repo.inject([], :<<)
         .tap{|a| a.delete_at(0); say "-= Table of contents =-"}
         .each{|r| puts "#{'  ' * (r.level - slev - 1)}[#{r.id}] #{r.title}"}
@@ -93,7 +92,7 @@ module Creq
     def create_doc(query_str)
       repo = requirements_repository
       repo = repo.query(query_str) unless query_str.empty?
-      unless repo || repo.empty
+      unless repo || repo.empty?
         puts "Requirements not found!"
         return
       end
@@ -108,11 +107,11 @@ module Creq
       puts "'#{Settings.bin}/#{output}.md' created!"
     end
 
-   def pandoc(query, format, options)
+   def pandoc(query_str, format, options)
      check_pandoc_installed
      repo = requirements_repository
      repo = repo.query(query_str) unless query_str.empty?
-     unless repo || repo.empty
+     unless repo || repo.empty?
        puts "Requirements not found!"
        return
      end

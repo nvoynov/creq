@@ -7,7 +7,7 @@ module Creq
   class DocWriter < Creq::Writer
 
     def self.call(req, stream = $stdout)
-      writer = new(req.root)
+      writer = new(req.is_a?(Array)? req.first.root : req.root)
       writer.write(req.inject([], :<<), stream)
     end
 

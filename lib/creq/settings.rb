@@ -9,7 +9,7 @@ module Creq
 
     parameter :bin, default: 'bin'
     parameter :assets, default: 'bin/assets'
-    parameter :src, default: 'scr'
+    parameter :src, default: 'src'
     parameter :lib, default: 'lib'
     parameter :kbd, default: 'kbd'
     parameter :tt, default: 'tt'

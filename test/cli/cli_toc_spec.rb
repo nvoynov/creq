@@ -19,10 +19,11 @@ describe "creq doc" do
 ) }
 
   it 'must print toc' do
-    skip() # TODO how to check output of Thor Cli.start?
+    # skip() # TODO how to check output of Thor Cli.start?
     inside_sandbox do
       inside_src { File.write('req.md', content) }
-      Cli.start(["toc", "--skipid='cmp1'"])
+      Cli.start(["toc"])
+      Cli.start(["toc", "--query", "r.id == 'uc'"])
     end
   end
 

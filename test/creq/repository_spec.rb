@@ -90,11 +90,22 @@ describe Repository do
 ## [fr.1.2] Func 1 2
 
   describe '#query' do
+
     it 'must return requirements according to the query' do
+      # skip
       repo = Repository.(build_repo)
       qry1 = repo.query %/['us', 'fr'].include?(r.id) || r.id != 'fr.1.2'/
       res1 = %w(us us.actor us.actor.1 us.actor.2 fr fr.1 fr.1.1)
-      (res1 - qry1.map(&:id)).must_equal []
+      puts "\nquery: #{qry1.map(&:id)}"
+      puts "res1 : #{res1}"
+      qry1.each{|i| res1.include?(i.id).must_equal true}
+      # (res1 - qry1.map(&:id)).must_equal []
+
+      # repo = Repository.(build_repo)
+      qry1 = nil
+      qry1 = repo.query("r.id == 'uc'")
+      puts "res2: #{qry1.map(&:id)}"
+
     end
   end
 

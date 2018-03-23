@@ -7,6 +7,7 @@
 
 * [What is CReq?](#what-is-creq)
 * [Installation](#installation)
+* [How to start](#how-to-start)
 * [Format](#format)
   * [Project](#project)
   * [Repository](#repository)
@@ -55,23 +56,39 @@ You can also choose another way through repository cloning and install the gem b
     $ bundle install
     $ bundle exec rake install
 
+## How to start
+
+Actually the best way to start with CReq is to see it in action. Just start from copying [Promo](#promo) and few commands:
+
+    $ creq new promo
+    $ cd promo
+    $ creq promo
+    $ creq chk
+    $ creq pub
+    $ thor promo:release
+    $ thor promo:priorities
+
 ## Format
 
 ### Project
 
-The CReq project has the following folders structure (that will be created by `creq new <project>`):
+The CReq project has the following folders structure by default (that will be created by `creq new <project>`):
 
-* `doc/` - for output documents;
-* `doc/assets` - for additional assets provided by the documents;
-* `lib/` - for any helpful artifacts and other input sources;
-* `req/` - requirements repository;
+* `bin/` - for output documents;
+* `bin/assets` - for additional assets provided by the documents;
+* `lib/` - place for Ruby extensions;
+* `src/` - requirements repository;
+* `kbd/` - knowledge base;
 * `tt/` - templates;
 * `<project>.thor` - `.thor` file with automated tasks (see more in [Automating](#automating));
+* `creq.yml` - project settings;
 * `README.md`.
+
+Project folders structure can be changes through `creq.yml` file.
 
 ### Repository
 
-The `req` folder is the requirements repository. The repository is a set of files that contain requirements. To structure requirements you can create directory structure. The CReq will load all the files of `req` directory including all the child directories at any level of nesting.
+The `src` folder is the requirements repository. The repository is a set of files that contain requirements. To structure requirements you can create directory structure. The CReq will load all the files of `src` directory including all the child directories at any level of nesting.
 
 ### Requirement
 
@@ -219,7 +236,7 @@ According to [[f]]
 
 #### External assets
 
-If you need to add an image, or some other material into a requirements body, put it in the `doc/assets` folder and specify the link
+If you need to add an image, or some other material into a requirements body, put it in the `bin/assets` folder and specify the link
 
 ```markdown
 # [id] Title
@@ -272,24 +289,24 @@ To create a new project run `new` command:
 
 ### Creating requirements
 
-You can create requirements by adding new files to the `req` directory. You can do it manually or by
+You can create requirements by adding new files to the `src` directory. You can do it manually or by
 
     $ creq req REQ_ID
 
 
-> **Assests** If you are using images or other assests, you shold palce it to `doc/assets` directory and write links like `![img](assets/img.png)`
+> **Assests** If you are using images or other assests, you shold palce it to `bin/assets` directory and write links like `![img](assets/img.png)`
 
 ### Using templates
 
 Requirements language is structured, so that it will be more productive to write requirements by templates. All templates stored in `tt` folder. CReq provides some basic templates from the box and you can create your own.
 
-If you have not seen help for `req` command, to create a requirement by template:
+If you have not seen help for `creq req` command, to create a requirement by template:
 
     $ creq req REQ_ID -t TEMPLATE
 
 ### Checking for errors
 
-Because there is a lots of hand writing and all the files must meet structures compliances, the CReq provides `chk` command. The command will check the requirements repository for errors. The most usual ones are:
+Because there is a lots of hand writing and all the files must meet structures compliances, the CReq provides `creq chk` command. The command will check the requirements repository for errors. The most usual ones are:
 
 * non-unique requirements identifiers;
 * wrong links to id that does not exist:
@@ -312,9 +329,11 @@ To see the feature in action just duplicate requirements and see the result:
 
 One of the usual requirements author's task is publishing. And CReq provides two command for the task:
 
-`creq doc` command creates `doc/requirements.md` well-formed markdown file that contains all the requirements from the repository. You can read plaint markdown files hosted on [GitHub](), [GitLab](), etc. and see changes through commits.
+`creq doc` command creates output document in `bin/<output>.md` well-formed markdown file that contains all the requirements from the repository. You can read plaint markdown files hosted on [GitHub](), [GitLab](), etc. and see changes through commits. The default parameter value for `<output>` is `requirements` and it can be changed to any preferred value.
 
-`creq pub` command creates `doc/requirements.html` file by default. Actually CReq use [pandoc](https://pandoc.org/) (and you need to have it installed) for the purpose and you can specify preferred output format through the command parameters.
+`creq pub` command creates `doc/<output>.html` file by default. Actually CReq use [pandoc](https://pandoc.org/) (and you need to have it installed) for the purpose and you can specify preferred output format through the command parameters.
+
+> Looking ahead, it should be noted that these is not the best way to publish your work. See more preferred way in [Automating](#automating) section.
 
 For the two examples provided in [Requirement](#requirement) section, CReq will combine all the requirements from two files as following
 
@@ -342,15 +361,16 @@ When `Command 2` is received, the System shall ...
 # [c] Design constraints
 ```
 
-#### [REQ_ID] --skipid
+#### --query QUERY
 
-Publishing CLI (`toc`, `doc`, and `pub`) provides ability to select a certain requirements subtree to publish by specifying `REQ_ID` parameter. Those also have `--skipid` option that gives the ability to skip some requirements from publishing. There are some specifics of `thor` gem and to use the option you need to specify the option as `creq toc/doc/pub --skipid "id1 id2"`. The next example will hide `f1.cmd2`:
+Publishing the CLI (`toc`,` doc`, and `pub`) makes it possible to select subtree requirements for publication by specifying the QUERY parameter (this is some kind of" early unstable function ", so please, no claims.)
 
-    $ creq doc --skipid "f1.cmd"
+The following example will publish only `u` and `f` subtrees:
 
-The following example will publish only `f` subtree:
+    $ creq doc --query "['u', 'f'].include?(r.id)"
+    $ rem or creq doc --query "%w(u f).include?(r.id)"
 
-    $ creq doc f
+`QUERY` can hold any valid Ruby code actually, and `r` just represents requirements object so that it can be more complex like `r.id == 'f' && r[:status] == 'approved'`.
 
 ### Using Git
 
@@ -362,11 +382,15 @@ Git gives a good start point for simultaneous work on the same project by few re
 
 You can and should extend the standard CReq CLI by your own commands. See `<project>.thor` file as an example and call for action. It is all the Ruby code and the main point is to get requirements collection by `requirement_repository` function.
 
-The first candidate for automation is the `creq pub` command. And I hope provide some more advanced examples in the future. Some kind of risk/effort/priority, FPA and PERT estimations based on requirement repository are considered.
+The first candidate for automation is the `creq pub` command.
+
+[Promo project](#promo) includes two demo automating commands that demonstrate standard way of extending CReq. `Publicator` module provides ability to publish output document in few different formats. `Prioritizer` module makes the simplest priority list based on `User stories` section of [Promo project](#promo).   
+
+I hope to provide some more examples in the future based on FPA and PERT estimation technics.
 
 ### Promo
 
-The CReq also provides the `Promo` project that contains requirements of the gem. You can copy it contents to the current directory by `creq promo` and play with it when it copied.
+The CReq also provides the `Promo` project that contains requirements for the gem. You can copy it contents to the current directory by `creq promo` and play with it when it copied.
 
 ## Development
 

@@ -1,4 +1,5 @@
 require_relative "creq/version"
+require_relative "creq/param_holder"
 require_relative "creq/settings"
 require_relative "creq/tree_node"
 require_relative "creq/requirement"

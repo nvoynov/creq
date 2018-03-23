@@ -1,34 +1,34 @@
 # encoding: UTF-8
 
 require 'creq'
-require_relative 'param_holder'
 
 # The module provides methods to publish requirements documents as releases and drafts.
 # Publicator store settings in `publicator.creq` yml file
 module Publicator
-  extend ParamHolder
-  extend self
   include Creq::Helper
+  extend Creq::ParamHolder
+  extend self
 
-  parameter :title, default: 'SRS'
-  parameter :author, default: 'produced by [CReq](https://github.com/nvoynov/creq)'
+  parameter :output,  default: 'CReq SRS'
+  parameter :title,   default: 'CReq. Software Requirements Specification'
+  parameter :author,  default: 'produced by [CReq](https://github.com/nvoynov/creq)'
   parameter :version, default: '0.1'
-  parameter :format, default: 'docx pdf'
-  parameter :options, default: '-s --toc'
-  parameter :docx_options, default: '-s --toc'
-  parameter :html_options, default: '-s --toc'
-  parameter :pdf_options, default: '-s --toc'
+  parameter :format,  default: 'docx html'
+  parameter :options, default: '-s --toc --highlight-style=pygments'
+  parameter :docx_options, default: ''
+  parameter :html_options, default: ''
   parameter :query, default: ''
 
   def release
     load
     up_verison!
-    publish "#{title} v#{version}"
+    publish "#{output} v#{version}"
   end
 
   def draft
     load
-    publish "#{title} v#{version} draft #{Time.now.strftime('%Y-%b-%d')}"
+    up_version
+    publish "#{output} v#{version} draft #{Time.now.strftime('%Y-%b-%d')}"
   end
 
   protected
@@ -36,23 +36,24 @@ module Publicator
   def publish(release_title)
     repo = requirements_repository
     repo = repo.query(query) unless query.empty?
-    source = "#{title}.md"
+    source = "#{output}.md"
     inside_bin do
       open(source, 'w') {|f|
-        f.write "% #{release_title}\n"
+        f.write "% #{title}\n"
+        f.write "  v#{version}\n"
         f.write "  (query: #{query})\n" unless query.empty?
         f.write "% #{author}\n" unless author.empty?
         f.write "% on #{Time.now.strftime('%B %e, %Y')}\n"
-        PubWriter.(repo, f)
+        Creq::PubWriter.(repo, f)
       }
 
       outputs.each {|fmt, opt|
-        `pandoc #{options} #{opt} -o "#{release_title}.#{fmt}" #{source}`
+        `pandoc #{options} #{opt} -o "#{release_title}.#{fmt}" "#{source}"`
+        puts "'#{Creq::Settings.bin}/#{release_title}.#{fmt}' created."
       }
     end
 
   end
-
 
   def outputs
     {}.tap {|out|
@@ -67,7 +68,6 @@ module Publicator
       major, minor = v[1], v[2]
       "#{major}.#{minor.to_i + 1}"
     end
-    self.version
   end
 
   def up_verison!

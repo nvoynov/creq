@@ -10,8 +10,8 @@ Gem::Specification.new do |spec|
   spec.email         = ["voynov@gmail.com"]
 
   spec.summary       = %q{CReq - Console Requirements Management Gem.}
-  spec.description   = %q{CReq is a simple and customizable tool for requirements management. It provides ability for writing requirements in isolated markdown files and combining these files into a single and consistent requirements specification file.}
-  spec.homepage      = "https://github.com/nvoynov/minireq"
+  spec.description   = %q{The CReq is a simple and customizable CLI for requirements management. It provides the ability of writing requirements in discrete markdown files and combining those files into a single and consistent requirements specification.}
+  spec.homepage      = "https://github.com/nvoynov/creq"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'

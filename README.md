@@ -1,9 +1,6 @@
+[![Gem Version](https://badge.fury.io/rb/creq.svg)](https://badge.fury.io/rb/creq) [![Build Status](https://travis-ci.org/nvoynov/creq.svg?branch=master)](https://travis-ci.org/nvoynov/creq) [![Code Climate](https://codeclimate.com/github/nvoynov/creq/badges/gpa.svg)](https://codeclimate.com/github/nvoynov/creq) [![Join the chat at https://gitter.im/nvoynov-creq/Lobby](https://badges.gitter.im/nvoynov-creq/Lobby.svg)](https://gitter.im/nvoynov-creq/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![Join the chat at https://gitter.im/nvoynov-creq/Lobby](https://badges.gitter.im/nvoynov-creq/Lobby.svg)](https://gitter.im/nvoynov-creq/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-[![Gem Version](https://badge.fury.io/rb/creq.svg)](https://badge.fury.io/rb/creq) [![Build Status](https://travis-ci.org/nvoynov/creq.svg?branch=master)](https://travis-ci.org/nvoynov/creq) [![Code Climate](https://codeclimate.com/github/nvoynov/creq/badges/gpa.svg)](https://codeclimate.com/github/nvoynov/creq)
-
-![Promo](lib/assets/promo/doc/assets/promo.png)
+![Promo](lib/assets/promo/bin/assets/promo_light.png)
 
 * [What is CReq?](#what-is-creq)
 * [Installation](#installation)
@@ -24,6 +21,7 @@
   * [Using templates](#using-templates)
   * [Checking for errors](#checking-for-errors)
   * [Publishing](#publishing)
+  * [Query option](#query-option)
   * [Using Git](#using-git)
   * [Automating](#automating)
   * [Promo](#promo)
@@ -361,7 +359,7 @@ When `Command 2` is received, the System shall ...
 # [c] Design constraints
 ```
 
-#### --query QUERY
+### Query option
 
 Publishing the CLI (`toc`,` doc`, and `pub`) makes it possible to select subtree requirements for publication by specifying the QUERY parameter (this is some kind of" early unstable function ", so please, no claims.)
 

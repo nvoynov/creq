@@ -29,6 +29,10 @@ module Creq
       @@para[name.to_s] = options[:default]
 
       define_method("#{name}") do
+        @@loaded ||= begin
+          load
+          true
+        end
         @@para.send :[], name.to_s
       end
 
@@ -52,18 +56,3 @@ module Creq
   end
 
 end
-# module Demo
-#   extend ParamHolder
-#   extend self
-#
-#   parameter :doc, default: 'srs'
-#
-#   def storage
-#     'creq.yml'
-#   end
-# end
-#
-# Demo.doc = 'requirements'
-# Demo.save
-# Demo.load
-# puts Demo.doc

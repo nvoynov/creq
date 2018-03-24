@@ -35,19 +35,6 @@ module Creq
       nil
     end
 
-    def check_git_installed
-      installed = which('git') || which('git.exe')
-      raise CreqCmdError.new("Install Git!") unless installed
-    end
-
-    def git_init
-      check_git_installed
-      puts "Initializing git repository..."
-      `git init`
-      `git add .`
-      `git commit -m "Initial commit"`
-    end
-
     def check_pandoc_installed
       installed = which('pandoc') || which('pandoc.exe')
       raise CreqCmdError.new("Install Pandoc!") unless installed
@@ -106,7 +93,7 @@ module Creq
       puts "'#{Settings.bin}/#{output}.md' created!"
     end
 
-   def pandoc(query_str, format, options)
+   def pandoc(query_str)
      check_pandoc_installed
      repo = requirements_repository
      repo = repo.query(query_str) unless query_str.empty?
@@ -115,18 +102,17 @@ module Creq
        return
      end
 
-     output = Settings.output
      tmp = '~tmp.md'
-     doc = "#{output}.#{format}"
+     doc = "#{Settings.output}.#{Settings.format}"
      inside_bin {
        open(tmp, 'w') {|f|
          f.write(output_doc_title)
          PubWriter.(repo, f)
        }
-       `pandoc -s --toc #{options} -o "#{doc}" #{tmp}`
+       `pandoc #{Settings.options} -o "#{doc}" #{tmp}`
        File.delete(tmp)
      }
-     puts "File 'doc/#{doc}' created."
+     puts "File '#{Settings.bin}/#{doc}' created."
    end
 
   end

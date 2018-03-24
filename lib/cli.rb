@@ -48,9 +48,7 @@ module Creq
         directory('tt', File.join(Dir.pwd, 'tt'))
 
         say "Project '#{project}' created!"
-        git_init
       end
-
     end
 
     desc "promo", "Copy promo project to the current working directory"
@@ -98,10 +96,9 @@ module Creq
 
     desc "pub [OPTIONS]", "Publish the requirement document by Pandoc"
     method_option :query, alias: "-q", type: :string, desc: "Query", default: ''
-    method_option :format, alias: "-f", type: :string, desc: "Pandoc output format", default: 'html'
-    method_option :pandoc, alias: "-o", type: :string, desc: "Pandoc options", default: ''
     def pub
-      pandoc(options[:query], options[:format], options[:pandoc])
+      puts "Format and options of output specified in `creq.yml`"
+      pandoc(options[:query])
     end
 
     CHK_ERR_MSGS  = {

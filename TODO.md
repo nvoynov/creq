@@ -6,8 +6,6 @@
 * To provide `comment` macro for `body` that will be included in drafts but excluded from releases (to think of `tbd` and `todo` comments).
 * To provide `toc` macro for `body` that will output `table of contents` of child items.
 * To provide right markdown links for `GitLab`.
-* To clean gem code from `pandoc` and `git` (move to `.thor`).
-* To fix side effect when `creq.yml` appeared in gem during tests. 
 
 # Promo
 

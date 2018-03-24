@@ -26,5 +26,5 @@ module Creq
   end
 end
 
-Creq::Settings.save unless File.exist?(Creq::Settings.storage)
-Creq::Settings.load
+# Creq::Settings.save unless File.exist?(Creq::Settings.storage)
+# Creq::Settings.load

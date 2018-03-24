@@ -3,7 +3,7 @@ bin: bin
 assets: bin/assets
 src: src
 lib: lib
-kbd: kbd
+knb: knb
 tt: tt
 output: CReq SRS
 title: CReq. Software Requirements Specifiation

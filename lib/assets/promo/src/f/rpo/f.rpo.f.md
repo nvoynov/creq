@@ -21,7 +21,7 @@ __Outputs__:
 
 __Sequence__
 
-* Load all the [[f.req.e.f]] from [[..s]].
+* Load all the [[f.req.e.f]] from [[..e]].
 * Build hierarchy according to `parent` and `order_index` metadata attributes (see [[f.req.e.f.met]] for details).
 * Return [[f.req.e.e]].
 

@@ -18,7 +18,7 @@ module Creq
        Settings.assets,
        Settings.src,
        Settings.lib,
-       Settings.kbd,
+       Settings.knb,
        Settings.tt]
     end
   end

@@ -12,7 +12,7 @@ The project has the following folders structure:
 
 * `bin/` - for output documents;
 * `bin/assets` - for any assets provided by the documents;
-* `kbd/` - knowledge base for any helpful information;
+* `knb/` - knowledge base for any helpful information;
 * `lib/` - place for Ruby extensions;
 * `src/` - requirements repository;
 * `tt/` - templates;

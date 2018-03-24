@@ -3,10 +3,10 @@ require_relative '../test_helper'
 
 describe "creq doc" do
   let(:cmd) { "doc" }
-  let(:doc) { "#{Settings.bin}/#{Settings.output}.md" }
 
-  it 'must write doc/requirements.md' do
+  it 'must write bin/requirements.md' do
     inside_sandbox do
+      doc = "#{Settings.bin}/#{Settings.output}.md"
       inside_src do
         File.write('req.1.md', "# [req.1] req 1\n")
         File.write('req.2.md', "# [req.2] req 2\n")
@@ -18,8 +18,9 @@ describe "creq doc" do
     end
   end
 
-  it 'must replace doc/requirements.md' do
+  it 'must replace bin/requirements.md' do
     inside_sandbox do
+      doc = "#{Settings.bin}/#{Settings.output}.md"
       inside_src do
         File.write('req.1.md', "# [req.1] req 1\n")
         File.write('req.2.md', "# [req.2] req 2\n")

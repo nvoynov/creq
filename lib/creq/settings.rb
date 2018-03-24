@@ -11,11 +11,13 @@ module Creq
     parameter :assets, default: 'bin/assets'
     parameter :src, default: 'src'
     parameter :lib, default: 'lib'
-    parameter :kbd, default: 'kbd'
+    parameter :knb, default: 'knb'
     parameter :tt, default: 'tt'
     parameter :title, default: 'Software Requirements Specification'
-    parameter :output, default: 'requirements'
     parameter :author, default: '[CReq](https://github.com/nvoynov/creq)'
+    parameter :output, default: 'requirements'
+    parameter :format, default: 'html'
+    parameter :options, default: '-s --toc'
 
     def storage
       'creq.yml'

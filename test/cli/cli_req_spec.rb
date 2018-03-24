@@ -5,13 +5,13 @@ require_relative '../test_helper'
 describe "creq req" do
   let(:id) {'id'}
   let(:cmd) {'req'}
-  let(:file) {"#{Settings.src}/id.md"}
   let(:title) {'title'}
   let(:template) {'tt.id'}
-  let(:success_msg) {"File '#{file}' created successfully"}
 
   it 'must create file and notify about success' do
     inside_sandbox do
+      file = "#{Settings.src}/id.md"
+      success_msg = "File '#{file}' created successfully"
       proc { Cli.start([cmd, id]) }.must_output Regexp.new(success_msg)
       File.exist?(file).must_equal true
     end
@@ -27,6 +27,7 @@ describe "creq req" do
 
   it 'must execute CREQ REQ ID' do
     inside_sandbox do
+      file = "#{Settings.src}/id.md"
       proc { Cli.start [cmd, id] }.must_output(/created/)
       File.exists?(file).must_equal true
     end
@@ -34,6 +35,7 @@ describe "creq req" do
 
   it 'must execute CREQ REQ TITLE' do
     inside_sandbox do
+      file = "#{Settings.src}/id.md"
       proc { Cli.start [cmd, id, title] }.must_output(/created/)
       File.exists?(file).must_equal true
     end

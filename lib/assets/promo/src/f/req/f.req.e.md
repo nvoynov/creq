@@ -23,7 +23,7 @@ Body       | Text       |   |
 
 ## [.f] Requirement file
 
-The system shall use the following file format of requirements:
+The system shall use the following requirements file format:
 
 ```markdown
 # [<id>] <title>

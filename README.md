@@ -78,7 +78,7 @@ The CReq project has the following folders structure by default (that will be cr
 * `bin/assets` - for additional assets provided by the documents;
 * `lib/` - place for Ruby extensions;
 * `src/` - requirements repository;
-* `kbd/` - knowledge base;
+* `knb/` - knowledge base;
 * `tt/` - templates;
 * `<project>.thor` - `.thor` file with automated tasks (see more in [Automating](#automating));
 * `creq.yml` - project settings;

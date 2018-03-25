@@ -1,3 +1,9 @@
+## v0.2.10, 2018-03-24
+
+* Fixed knowledge base folder `kbd` -> `knb`.
+* Fixed settings, now it read `creq.yml` once before return any parameter value.
+* Deleted creation of git repository from `creq new`.
+
 ## v0.2.9, 2018-03-23
 
 * Updated content of [README](README.md) and [CReq Promo](lib/assets/promo) according to the all new features.

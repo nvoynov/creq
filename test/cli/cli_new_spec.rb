@@ -16,7 +16,7 @@ describe 'creq new PROJECT' do
       }.must_output /Project '#{project}' created!/
       Dir.chdir("#{project}") do
         Project.folders.each{|f| Dir.exist?(f).must_equal true }
-        ["#{project}.thor", "README.md"]
+        ["#{project}.thor", 'README.md', 'creq.yml']
           .each{|f| File.exist?(f).must_equal true }
       end
     end

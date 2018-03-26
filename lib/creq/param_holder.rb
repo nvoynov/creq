@@ -21,32 +21,37 @@ module Creq
   #     pp Settings.param2
   #
   module ParamHolder
-    extend self
 
     # parameter to hold
     def parameter(name, options)
-      @@para ||= {}
-      @@para[name.to_s] = options[:default]
-
       define_method("#{name}") do
-        @@loaded ||= begin
+        @loaded ||= begin
           load
           true
         end
-        @@para.send :[], name.to_s
+        self.instance_variable_get("@#{name.to_s}")
       end
 
       define_method("#{name}=") do |value|
-        @@para.send :[]=, name.to_s, value
+        self.instance_variable_set("@#{name.to_s}", value)
       end
+
+      self.instance_variable_set("@#{name.to_s}", options[:default])
     end
 
     def load
-      @@para = YAML.load(File.read(storage)) if File.exist?(storage)
+      return unless File.exist?(storage)
+      prop = YAML.load(File.read(storage))
+      prop.each{|k, v|
+        self.instance_variable_set("@#{k}", v)
+      }
     end
 
     def save
-      File.write(storage, YAML.dump(@@para))
+      {}.tap {|prop|
+        self.instance_variables.each{|v| prop[v.to_s[1..-1]] = self.instance_variable_get("#{v}")}
+        File.write(storage, YAML.dump(prop))
+      }
     end
 
     def storage

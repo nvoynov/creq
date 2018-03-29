@@ -1,3 +1,8 @@
+## v0.2.11, 2018-03-29
+
+* Fixed errors of `toc/doc/pub --query` when query returns `[]`.
+* Added tests for `toc`.
+
 ## v0.2.10, 2018-03-24
 
 * Fixed knowledge base folder `kbd` -> `knb`.

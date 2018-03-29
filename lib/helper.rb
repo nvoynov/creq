@@ -35,6 +35,15 @@ module Creq
       nil
     end
 
+    def capture_stdout &block
+      old_stdout = $stdout
+      $stdout = StringIO.new
+      block.call
+      $stdout.string
+    ensure
+      $stdout = old_stdout
+    end
+
     def check_pandoc_installed
       installed = which('pandoc') || which('pandoc.exe')
       raise CreqCmdError.new("Install Pandoc!") unless installed
@@ -55,17 +64,17 @@ module Creq
       end
     end
 
-    def create_toc(query_str)
+    def create_toc(query_str = '')
       repo = requirements_repository
       repo = repo.query(query_str) unless query_str.empty?
-      unless repo || repo.empty?
+      if repo.nil? || repo.empty?
         puts "Requirements not found!"
         return
       end
 
       slev = repo.is_a?(Array) ? repo.first.level : 0
       repo.inject([], :<<)
-        .tap{|a| a.delete_at(0); say "-= Table of contents =-"}
+        .tap{|a| a.delete_at(0); puts "-= Table of contents =-"}
         .each{|r| puts "#{'  ' * (r.level - slev - 1)}[#{r.id}] #{r.title}"}
     end
 
@@ -78,7 +87,7 @@ module Creq
     def create_doc(query_str)
       repo = requirements_repository
       repo = repo.query(query_str) unless query_str.empty?
-      unless repo || repo.empty?
+      if repo.nil? || repo.empty?
         puts "Requirements not found!"
         return
       end
@@ -97,7 +106,7 @@ module Creq
      check_pandoc_installed
      repo = requirements_repository
      repo = repo.query(query_str) unless query_str.empty?
-     unless repo || repo.empty?
+     if repo.nil? || repo.empty?
        puts "Requirements not found!"
        return
      end

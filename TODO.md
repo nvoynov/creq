@@ -1,5 +1,6 @@
 # CReq
 
+* To fix bug with wrong relative link `[[..id]]`.
 * To derive a new creature `Xtree` from `TreeNode`, `Node`, and `Repo`?
 * To investigate to advanced abilities of formatting in releases and drafts.
 * To investigate to `query` and provide the ability of items subtrees exclusion.

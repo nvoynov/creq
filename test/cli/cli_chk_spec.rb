@@ -10,6 +10,7 @@ describe "creq chk" do
         File.write('req.1.md', "# [req.1] req 1\n\n Wrong [[req.x]] link\n")
         File.write('req.2.md', "# [req.2] req 2\n\n [[req.x]] Wrong link\n")
         File.write('req.3.md', "# [req.3] req 3\n\n Wrong link [[req.x]]\n")
+        File.write('req.4.md', "# [req.4] req 3\n\n Wrong link [[..x]]\n")
       end
       proc {
         Cli.start [cmd]
@@ -17,6 +18,7 @@ describe "creq chk" do
         o.must_output /Wrong requirements links are found/
         o.must_output /\[\[req.x\]\]/
         o.must_output /in \[req.1\], \[req.2\], \[req.3\]/
+        o.must_output /\[\[..x\]\] in \[req.4\]/
       }
     end
   end

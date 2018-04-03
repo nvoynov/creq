@@ -139,4 +139,19 @@ describe Requirement do
     end
   end
 
+  describe '#find' do
+    it 'must not fail with ..' do
+      r = create_tree
+      r.find('r.1').wont_be_nil
+      r.find('r.2').wont_be_nil
+      r.find('r.3').wont_be_nil
+      r.find('not.exsist').must_be_nil
+      r.find('..not.exsist').must_be_nil
+      r.find('..1').wont_be_nil
+      r.find('..2').wont_be_nil
+      r.find('..3').wont_be_nil
+      r.find('r.1').find('..2').must_be_nil
+    end
+  end
+
 end

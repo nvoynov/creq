@@ -14,6 +14,7 @@ end
 module Creq
 
   class Repository < Requirement
+    attr_reader :file_quantity
 
     def self.call(repo = read_repo)
       r = new
@@ -51,7 +52,7 @@ module Creq
     # @param [String] query String
     # @return [Array<TreeNode>] query result
     def query(query_str)
-      block = Proc.new {|r| eval(query_str)}    
+      block = Proc.new {|r| eval(query_str)}
       [].tap{|a|
         select{|n| block.call(n)}
          .each{|n| n.inject(a, :<<)}
@@ -77,6 +78,7 @@ module Creq
     end
 
     def load(repo)
+      @file_quantity = repo.keys.count
       repo.each do |file, req|
         req.items.each{|r| self << r}
         flat = req.inject([], :<<).tap{|r| r.delete_at(0)}.flatten

@@ -46,16 +46,38 @@ module Creq
     # @param [String] requirement id; if the parameter contains the `.` prefix, it will search requirement.id.end_with?(id)
     # @return [Requirement] when id found or nil if did not
     def item(id)
-      @items.each{|r| return r if r.id.end_with? id[1..-1]} if id.start_with? '.'
-      @items.each{|r| return r if r.id.eql? id}
+      if id.start_with? '.'
+        @items.each do |r|
+          next unless r.id
+          return r if r.id.end_with? id[1..-1]
+        end
+        return nil
+      end
+      @items.each do |r|
+        next unless r.id
+        return r if r.id.eql? id
+      end
+      # @items.each{|r| return r if r.id.end_with? id[1..-1]} if id.start_with? '.'
+      # @items.each{|r| return r if r.id.eql? id}
       nil
     end
 
     # @param [String] requirement id; if the parameter contains the `*` prefix, it will search requirement.id.end_with?(id)
     # @return [Requirement] when id found or nil if did not
     def find(id)
-      each{|r| return r if r.id.end_with? id[2..-1]} if id.start_with? '..'
-      each{|r| return r if r.id.eql? id}
+      if id.start_with? '..'
+        each do |r|
+          next unless r.id
+          return r if r.id.end_with? id[2..-1]
+        end
+        return nil
+      end
+      each do |r|
+        next unless r.id
+        return r if r.id.eql? id
+      end
+      # each{|r| return r if r.id.end_with? id[2..-1]}
+      # each{|r| return r if r.id.eql? id}
       nil
     end
 
